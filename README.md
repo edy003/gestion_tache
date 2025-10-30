@@ -50,6 +50,8 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 - 📅 **Historique des performances** : Suivi de l’évolution dans le temps.
 
 > *Idéal pour les entretiens, primes ou plans de développement.*
+> > ![Dashboard Preview](workprogramm/d3.png)
+> > ![Dashboard Preview](workprogramm/d5.png)
 
 ---
 
