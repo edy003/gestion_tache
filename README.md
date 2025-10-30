@@ -71,7 +71,7 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 - **Frontend** : owl + Tailwind CSS  + aggrid
 - **Backend** : odoo 
 - **Base de données** : PostgreSQL  
-- **Graphiques** : plotly 
+- **Graphiques** : plotly career@creativgroup.net
 
 
 ---
