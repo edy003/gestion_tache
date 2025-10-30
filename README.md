@@ -72,7 +72,7 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 - **Backend** : odoo 
 - **Base de données** : PostgreSQL  
 - **Graphiques** : plotly 
--
+
 
 ---
 
