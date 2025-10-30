@@ -23,7 +23,7 @@ Créez, assignez et suivez vos tâches de manière simple et efficace.
 
 
 > *Exemple Formulaire & Kanban*  
-> ![Exemple Kanban](assets/kanban.png)  
+> ![Exemple Kanban](workprogramm/w2.png)  
 > ![Exemple Formulaire](assets/form.png)
 
 ---
