@@ -37,6 +37,7 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 - 📈 **Indicateurs clés** : Productivité, taux de complétion, temps moyen par tâche.
 
 > ![Dashboard Preview](workprogramm/d1.png)
+> > ![Dashboard Preview](workprogramm/d3.png)
 > > ![Dashboard Preview](workprogramm/d2.png)
 
 ---
@@ -50,7 +51,7 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 - 📅 **Historique des performances** : Suivi de l’évolution dans le temps.
 
 > *Idéal pour les entretiens, primes ou plans de développement.*
-> > ![Dashboard Preview](workprogramm/d3.png)
+> > ![Dashboard Preview](workprogramm/d4.png)
 > > ![Dashboard Preview](workprogramm/d5.png)
 
 ---
