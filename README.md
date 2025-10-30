@@ -18,9 +18,9 @@ Créez, assignez et suivez vos tâches de manière simple et efficace.
 
 | Vue | Description |
 |-----|------------|
-| 📝 **Formulaire** | Création et modification intuitive des tâches avec champs personnalisables (priorité, deadlines, assignation, commentaires, pièces jointes). |
+| 📝 **Formulaire** | Création et modification intuitive des tâches avec champs personnalisables (priorité, deadlines, assignation, commentaires). |
 | 🗂️ **Kanban** | Vue drag-and-drop par colonnes (À faire, En cours, Terminé), offrant une visualisation claire de l’avancement. |
-| 🖼️ **Images & Fichiers** | Joignez captures, documents ou schémas directement aux tâches pour plus de contexte. |
+
 
 > *Exemple Formulaire & Kanban*  
 > ![Exemple Kanban](assets/kanban.png)  
@@ -74,5 +74,4 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 
 
 
-# Lancer en mode développement
-npm run dev
+
