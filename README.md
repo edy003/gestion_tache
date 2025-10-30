@@ -36,7 +36,8 @@ Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 - 👥 **Charge de travail** : Répartition équilibrée des tâches par membre de l’équipe.  
 - 📈 **Indicateurs clés** : Productivité, taux de complétion, temps moyen par tâche.
 
-> ![Dashboard Preview](assets/dashboard-preview.png)
+> ![Dashboard Preview](workprogramm/d1.png)
+> > ![Dashboard Preview](workprogramm/d2.png)
 
 ---
 
