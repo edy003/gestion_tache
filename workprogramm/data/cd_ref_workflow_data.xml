@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Cadre de Référence COMPLET: Fusion des données SI (PS) et Processus Opérationnels (PR).
+    noupdate="1" empêche la suppression de ces données lors des mises à jour ultérieures du module. -->
+    <data noupdate="1">
+
+        <!-- ========================================================= -->
+        <!-- DOMAINES (Départements/Projets) -->
+        <!-- ========================================================= -->
+
+        <!-- Domaine PS: SUPPORT (Cadre SI - Existant) -->
+        <record id="dom_ps_support" model="workflow.domain"><field name="name">PS: SUPPORT</field><field name="dpt_type">internal</field></record>
+
+        <!-- Nouveau Domaine PR: OPERATION PROCESS (Cadre Processus Opérationnels) -->
+        <record id="dom_pr_op_process" model="workflow.domain"><field name="name">PR: OPERATION PROCESS</field><field name="dpt_type">external</field></record>
+
+
+        <!-- ========================================================= -->
+        <!-- PROCESSUS (Liés au Domaine) -->
+        <!-- ========================================================= -->
+
+        <!-- Processus PS (Cadre SI - Existant) -->
+        <record id="proc_ps4_gestion_du_systeme_din" model="workflow.process"><field name="name">PS4. Gestion du système d’information</field><field name="domain_id" ref="dom_ps_support"/></record>
+
+        <!-- Nouveaux Processus PR (Cadre Processus Opérationnels) -->
+        <record id="proc_pr1_make_proposals" model="workflow.process"><field name="name">PR1. Make proposals</field><field name="domain_id" ref="dom_pr_op_process"/></record>
+        <record id="proc_pr8_prep_dev_know_how" model="workflow.process"><field name="name">PR8. Preparation and Development of Know-How (R&amp;D)</field><field name="domain_id" ref="dom_pr_op_process"/></record>
+
+
+        <!-- ========================================================= -->
+        <!-- SOUS-PROCESSUS (Liés au Processus) -->
+        <!-- ========================================================= -->
+
+        <!-- Sous-Processus PS (Cadre SI - Existant) -->
+        <record id="sub_ps4_1_gerer_le_parc_informati" model="workflow.subprocess"><field name="name">PS4.1: Gérer le parc informatique et bureautique</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+        <record id="sub_ps4_2_gerer_la_securite_de_l_" model="workflow.subprocess"><field name="name">PS4.2: Gérer la sécurité de l’information</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+        <record id="sub_ps4_3_gerer_linfrastructure_si" model="workflow.subprocess"><field name="name">PS4.3: Gérer l’infrastructure SI</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+        <record id="sub_ps4_4_gerer_la_continuit_des_s" model="workflow.subprocess"><field name="name">PS4.4: Gérer la continuité des services SI</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+        <record id="sub_ps4_10_assurer_la_resolutio" model="workflow.subprocess"><field name="name">PS4.10: Assurer la résolution des problèmes SI</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+        <record id="sub_ps4_11_assurer_le_contr_le_des" model="workflow.subprocess"><field name="name">PS4.11: Assurer le contrôle des produits et services développés au niveau SI</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+        <record id="sub_ps4_12_assurer_la_gestion_des" model="workflow.subprocess"><field name="name">PS4.12: Assurer la gestion des bases de données</field><field name="process_id" ref="proc_ps4_gestion_du_systeme_din"/></record>
+
+        <!-- Nouveaux Sous-Processus PR (Cadre Processus Opérationnels) -->
+        <record id="sub_pr1_1_manage_consultants_repo" model="workflow.subprocess"><field name="name">PR1.1: Manage the consultants' repository</field><field name="process_id" ref="proc_pr1_make_proposals"/></record>
+        <record id="sub_pr8_2_contribution_business_toolbox" model="workflow.subprocess"><field name="name">PR8.2 : Contribution on Business ToolBox</field><field name="process_id" ref="proc_pr8_prep_dev_know_how"/></record>
+
+
+        <!-- ========================================================= -->
+        <!-- ACTIVITÉS (Liées au Sous-Processus) -->
+        <!-- ========================================================= -->
+
+        <!-- Activités PS (Cadre SI - Existant) -->
+        <record id="act_ps4_1_a1_gerer_les_entr_es_s" model="workflow.activity"><field name="name">PS4.1_A1: Gérer les entrées / sorties d’équipements informatiques</field><field name="sub_process_id" ref="sub_ps4_1_gerer_le_parc_informati"/></record>
+        <record id="act_ps4_1_a2_gerer_linventaire_d" model="workflow.activity"><field name="name">PS4.1_A2: Gérer l’inventaire du parc informatique et bureautique</field><field name="sub_process_id" ref="sub_ps4_1_gerer_le_parc_informati"/></record>
+        <record id="act_ps4_1_a3_gerer_la_maintenanc" model="workflow.activity"><field name="name">PS4.1_A3: Gérer la maintenance du parc informatique et bureautique</field><field name="sub_process_id" ref="sub_ps4_1_gerer_le_parc_informati"/></record>
+        <record id="act_ps4_1_a4_gerer_les_licences_" model="workflow.activity"><field name="name">PS4.1_A4: Gérer les licences et les accès aux systèmes et aux données</field><field name="sub_process_id" ref="sub_ps4_1_gerer_le_parc_informati"/></record>
+        <record id="act_ps4_2_a1_maintenir_la_politi" model="workflow.activity"><field name="name">PS4.2_A1: Maintenir la politique et les procédures de sécurité de l’information</field><field name="sub_process_id" ref="sub_ps4_2_gerer_la_securite_de_l_"/></record>
+        <record id="act_ps4_2_a2_maintenir_linfrastru" model="workflow.activity"><field name="name">PS4.2_A2: Maintenir l’infrastructure de sécurité de l’information</field><field name="sub_process_id" ref="sub_ps4_2_gerer_la_securite_de_l_"/></record>
+        <record id="act_ps4_2_a3_maintenir_les_tests_" model="workflow.activity"><field name="name">PS4.2_A3: Maintenir les tests de sécurité</field><field name="sub_process_id" ref="sub_ps4_2_gerer_la_securite_de_l_"/></record>
+        <record id="act_ps4_2_a4_gerer_les_incidents_" model="workflow.activity"><field name="name">PS4.2_A4: Gérer les incidents de sécurité</field><field name="sub_process_id" ref="sub_ps4_2_gerer_la_securite_de_l_"/></record>
+        <record id="act_ps4_3_a1_gerer_le_r_seau_si" model="workflow.activity"><field name="name">PS4.3_A1: Gérer le réseau SI</field><field name="sub_process_id" ref="sub_ps4_3_gerer_linfrastructure_si"/></record>
+        <record id="act_ps4_3_a2_gerer_les_serveurs_e" model="workflow.activity"><field name="name">PS4.3_A2: Gérer les serveurs et le stockage</field><field name="sub_process_id" ref="sub_ps4_3_gerer_linfrastructure_si"/></record>
+        <record id="act_ps4_3_a3_gerer_les_syst_mes_d" model="workflow.activity"><field name="name">PS4.3_A3: Gérer les systèmes d’exploitation et les logiciels de base</field><field name="sub_process_id" ref="sub_ps4_3_gerer_linfrastructure_si"/></record>
+        <record id="act_ps4_3_a4_gerer_les_solutions_" model="workflow.activity"><field name="name">PS4.3_A4: Gérer les solutions de communication et de collaboration</field><field name="sub_process_id" ref="sub_ps4_3_gerer_linfrastructure_si"/></record>
+        <record id="act_ps4_4_a1_gerer_la_sauvegarde_" model="workflow.activity"><field name="name">PS4.4_A1: Gérer la sauvegarde et la restauration des données</field><field name="sub_process_id" ref="sub_ps4_4_gerer_la_continuit_des_s"/></record>
+        <record id="act_ps4_4_a2_gerer_le_plan_de_rep" model="workflow.activity"><field name="name">PS4.4_A2: Gérer le plan de reprise d’activité (PRA)</field><field name="sub_process_id" ref="sub_ps4_4_gerer_la_continuit_des_s"/></record>
+        <record id="act_ps4_4_a3_gerer_le_plan_de_con" model="workflow.activity"><field name="name">PS4.4_A3: Gérer le plan de continuité des activités (PCA)</field><field name="sub_process_id" ref="sub_ps4_4_gerer_la_continuit_des_s"/></record>
+        <record id="act_ps4_10__a1_gestion_des_incide" model="workflow.activity"><field name="name">PS4.10:_A1: Gestion des incidents et des demandes de service SI</field><field name="sub_process_id" ref="sub_ps4_10_assurer_la_resolutio"/></record>
+        <record id="act_ps4_10__a2_gestion_des_probl_" model="workflow.activity"><field name="name">PS4.10:_A2: Gestion des problèmes SI</field><field name="sub_process_id" ref="sub_ps4_10_assurer_la_resolutio"/></record>
+        <record id="act_ps4_11__a1_gestion_de_la_conf" model="workflow.activity"><field name="name">PS4.11:_A1: Gestion de la configuration</field><field name="sub_process_id" ref="sub_ps4_11_assurer_le_contr_le_des"/></record>
+        <record id="act_ps4_11__a2_gestion_des_change" model="workflow.activity"><field name="name">PS4.11:_A2: Gestion des Changements</field><field name="sub_process_id" ref="sub_ps4_11_assurer_le_contr_le_des"/></record>
+        <record id="act_ps4_11__a3_gestion_des_tests_" model="workflow.activity"><field name="name">PS4.11:_A3: Gestion des tests d’acceptance</field><field name="sub_process_id" ref="sub_ps4_11_assurer_le_contr_le_des"/></record>
+        <record id="act_ps4_11__a4_gestion_de_la_qual" model="workflow.activity"><field name="name">PS4.11:_A4: Gestion de la qualité des données</field><field name="sub_process_id" ref="sub_ps4_11_assurer_le_contr_le_des"/></record>
+        <record id="act_ps4_11__a5_gestion_de_la_docu" model="workflow.activity"><field name="name">PS4.11:_A5: Gestion de la documentation des systèmes</field><field name="sub_process_id" ref="sub_ps4_11_assurer_le_contr_le_des"/></record>
+        <record id="act_ps4_12__a1_gestion_de_la_perf" model="workflow.activity"><field name="name">PS4.12:_A1: Gestion de la performance des bases de données</field><field name="sub_process_id" ref="sub_ps4_12_assurer_la_gestion_des"/></record>
+        <record id="act_ps4_12__a2_gestion_de_la_secu" model="workflow.activity"><field name="name">PS4.12:_A2: Gestion de la sécurité des bases de données</field><field name="sub_process_id" ref="sub_ps4_12_assurer_la_gestion_des"/></record>
+        <record id="act_ps4_12__a3_gestion_de_lint_gr" model="workflow.activity"><field name="name">PS4.12:_A3: Gestion de l’intégrité des données</field><field name="sub_process_id" ref="sub_ps4_12_assurer_la_gestion_des"/></record>
+        <record id="act_ps4_12__a4_gestion_de_la_sauv" model="workflow.activity"><field name="name">PS4.12:_A4: Gestion de la sauvegarde et de la restauration des bases de données</field><field name="sub_process_id" ref="sub_ps4_12_assurer_la_gestion_des"/></record>
+
+        <!-- Nouvelles Activités PR (Cadre Processus Opérationnels) -->
+        <record id="act_pr1_1_a1_manage_book_cv" model="workflow.activity"><field name="name">PR1.1_A1: Manage BOOK CV</field><field name="sub_process_id" ref="sub_pr1_1_manage_consultants_repo"/></record>
+        <record id="act_pr8_2_a1_contribute_service_sheet" model="workflow.activity"><field name="name">PR8.2_A1: Contribute to prepare Service/product sheet</field><field name="sub_process_id" ref="sub_pr8_2_contribution_business_toolbox"/></record>
+        <record id="act_pr8_2_a2_contribute_methodology_sheet" model="workflow.activity"><field name="name">PR8.2_A2: Contribute to the preparation of a methodology sheet related to the submission of a proposal for a given service</field><field name="sub_process_id" ref="sub_pr8_2_contribution_business_toolbox"/></record>
+
+
+        <!-- ========================================================= -->
+        <!-- PROCÉDURES (Liées à l'Activité) -->
+        <!-- ========================================================= -->
+
+        <!-- Procédures PS (Cadre SI - Existant) -->
+        <record id="proced_ps4_1_a1_p1_identifier_le" model="workflow.procedure"><field name="name">PS4.1_A1_P1: Identifier les besoins en equipement TIC et les references appropires pour les satisfaire</field><field name="activity_id" ref="act_ps4_1_a1_gerer_les_entr_es_s"/></record>
+        <record id="proced_ps4_1_a1_p2_valider_trans" model="workflow.procedure"><field name="name">PS4.1_A1_P2: Valider, transmettre le besoin en equipement TIC</field><field name="activity_id" ref="act_ps4_1_a1_gerer_les_entr_es_s"/></record>
+        <record id="proced_ps4_1_a1_p3_acquerir_les_" model="workflow.procedure"><field name="name">PS4.1_A1_P3: Acquerir les equipements TIC</field><field name="activity_id" ref="act_ps4_1_a1_gerer_les_entr_es_s"/></record>
+        <record id="proced_ps4_1_a2_p1_maintenir_jou" model="workflow.procedure"><field name="name">PS4.1_A2_P1: Maintenir à jour l’inventaire du parc informatique et bureautique</field><field name="activity_id" ref="act_ps4_1_a2_gerer_linventaire_d"/></record>
+        <record id="proced_ps4_1_a3_p1_assurer_la_ma" model="workflow.procedure"><field name="name">PS4.1_A3_P1: Assurer la maintenance du parc informatique et bureautique</field><field name="activity_id" ref="act_ps4_1_a3_gerer_la_maintenanc"/></record>
+        <record id="proced_ps4_1_a4_p1_maintenir_jou" model="workflow.procedure"><field name="name">PS4.1_A4_P1: Maintenir à jour les licences des logiciels et les acces aux systèmes et aux données</field><field name="activity_id" ref="act_ps4_1_a4_gerer_les_licences_"/></record>
+        <record id="proced_ps4_2_a1_p1_tablir_la_pol" model="workflow.procedure"><field name="name">PS4.2_A1_P1: Établir la politique de sécurité de l’information</field><field name="activity_id" ref="act_ps4_2_a1_maintenir_la_politi"/></record>
+        <record id="proced_ps4_2_a1_p2_tablir_les_pro" model="workflow.procedure"><field name="name">PS4.2_A1_P2: Établir les procédures de sécurité de l’information</field><field name="activity_id" ref="act_ps4_2_a1_maintenir_la_politi"/></record>
+        <record id="proced_ps4_2_a2_p1_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.2_A2_P1: Assurer la gestion des droits d’accès et des mots de passe</field><field name="activity_id" ref="act_ps4_2_a2_maintenir_linfrastru"/></record>
+        <record id="proced_ps4_2_a2_p2_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.2_A2_P2: Assurer la gestion des systèmes de contrôle d’accès</field><field name="activity_id" ref="act_ps4_2_a2_maintenir_linfrastru"/></record>
+        <record id="proced_ps4_2_a2_p3_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.2_A2_P3: Assurer la gestion des systèmes de détection et de prévention des intrusions</field><field name="activity_id" ref="act_ps4_2_a2_maintenir_linfrastru"/></record>
+        <record id="proced_ps4_2_a3_p1_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.2_A3_P1: Assurer la gestion des tests de sécurité</field><field name="activity_id" ref="act_ps4_2_a3_maintenir_les_tests_"/></record>
+        <record id="proced_ps4_2_a4_p1_tablir_le_plan" model="workflow.procedure"><field name="name">PS4.2_A4_P1: Établir le plan de réponse aux incidents de sécurité</field><field name="activity_id" ref="act_ps4_2_a4_gerer_les_incidents_"/></record>
+        <record id="proced_ps4_3_a1_p1_maintenir_la_d" model="workflow.procedure"><field name="name">PS4.3_A1_P1: Maintenir la documentation du réseau SI</field><field name="activity_id" ref="act_ps4_3_a1_gerer_le_r_seau_si"/></record>
+        <record id="proced_ps4_3_a1_p2_assurer_le_fon" model="workflow.procedure"><field name="name">PS4.3_A1_P2: Assurer le fonctionnement du réseau SI</field><field name="activity_id" ref="act_ps4_3_a1_gerer_le_r_seau_si"/></record>
+        <record id="proced_ps4_3_a1_p3_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.3_A1_P3: Assurer la gestion de la performance du réseau SI</field><field name="activity_id" ref="act_ps4_3_a1_gerer_le_r_seau_si"/></record>
+        <record id="proced_ps4_3_a2_p1_maintenir_la_d" model="workflow.procedure"><field name="name">PS4.3_A2_P1: Maintenir la documentation des serveurs et du stockage</field><field name="activity_id" ref="act_ps4_3_a2_gerer_les_serveurs_e"/></record>
+        <record id="proced_ps4_3_a2_p2_assurer_le_fon" model="workflow.procedure"><field name="name">PS4.3_A2_P2: Assurer le fonctionnement des serveurs et du stockage</field><field name="activity_id" ref="act_ps4_3_a2_gerer_les_serveurs_e"/></record>
+        <record id="proced_ps4_3_a2_p3_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.3_A2_P3: Assurer la gestion de la performance des serveurs et du stockage</field><field name="activity_id" ref="act_ps4_3_a2_gerer_les_serveurs_e"/></record>
+        <record id="proced_ps4_3_a3_p1_maintenir_la_d" model="workflow.procedure"><field name="name">PS4.3_A3_P1: Maintenir la documentation des systèmes d’exploitation et des logiciels de base</field><field name="activity_id" ref="act_ps4_3_a3_gerer_les_syst_mes_d"/></record>
+        <record id="proced_ps4_3_a3_p2_assurer_le_fon" model="workflow.procedure"><field name="name">PS4.3_A3_P2: Assurer le fonctionnement des systèmes d’exploitation et des logiciels de base</field><field name="activity_id" ref="act_ps4_3_a3_gerer_les_syst_mes_d"/></record>
+        <record id="proced_ps4_3_a3_p3_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.3_A3_P3: Assurer la gestion de la performance des systèmes d’exploitation et des logiciels de base</field><field name="activity_id" ref="act_ps4_3_a3_gerer_les_syst_mes_d"/></record>
+        <record id="proced_ps4_3_a4_p1_maintenir_la_d" model="workflow.procedure"><field name="name">PS4.3_A4_P1: Maintenir la documentation des solutions de communication et de collaboration</field><field name="activity_id" ref="act_ps4_3_a4_gerer_les_solutions_"/></record>
+        <record id="proced_ps4_3_a4_p2_assurer_le_fon" model="workflow.procedure"><field name="name">PS4.3_A4_P2: Assurer le fonctionnement des solutions de communication et de collaboration</field><field name="activity_id" ref="act_ps4_3_a4_gerer_les_solutions_"/></record>
+        <record id="proced_ps4_3_a4_p3_assurer_la_ge" model="workflow.procedure"><field name="name">PS4.3_A4_P3: Assurer la gestion de la performance des solutions de communication et de collaboration</field><field name="activity_id" ref="act_ps4_3_a4_gerer_les_solutions_"/></record>
+        <record id="proced_ps4_4_a1_p1_maintenir_le_p" model="workflow.procedure"><field name="name">PS4.4_A1_P1: Maintenir le plan de sauvegarde et de restauration des données</field><field name="activity_id" ref="act_ps4_4_a1_gerer_la_sauvegarde_"/></record>
+        <record id="proced_ps4_4_a2_p1_maintenir_le_p" model="workflow.procedure"><field name="name">PS4.4_A2_P1: Maintenir le plan de reprise d’activité (PRA)</field><field name="activity_id" ref="act_ps4_4_a2_gerer_le_plan_de_rep"/></record>
+        <record id="proced_ps4_4_a3_p1_maintenir_le_p" model="workflow.procedure"><field name="name">PS4.4_A3_P1: Maintenir le plan de continuité des activités (PCA)</field><field name="activity_id" ref="act_ps4_4_a3_gerer_le_plan_de_con"/></record>
+        <record id="proced_ps4_10__a1_p1_assurer_la_g" model="workflow.procedure"><field name="name">PS4.10:_A1_P1: Assurer la gestion des incidents et des demandes de service SI</field><field name="activity_id" ref="act_ps4_10__a1_gestion_des_incide"/></record>
+        <record id="proced_ps4_10__a2_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.10:_A2_P1: Établir les étapes de la gestion des problèmes SI</field><field name="activity_id" ref="act_ps4_10__a2_gestion_des_probl_"/></record>
+        <record id="proced_ps4_11__a1_p1_assurer_la_g" model="workflow.procedure"><field name="name">PS4.11:_A1_P1 : Assurer la gestion de la configuration</field><field name="activity_id" ref="act_ps4_11__a1_gestion_de_la_conf"/></record>
+        <record id="proced_ps4_11__a2_p1_assurer_la_g" model="workflow.procedure"><field name="name">PS4.11:_A2_P1: Assurer la gestion des changement</field><field name="activity_id" ref="act_ps4_11__a2_gestion_des_change"/></record>
+        <record id="proced_ps4_11__a3_p1_assurer_la_g" model="workflow.procedure"><field name="name">PS4.11:_A3_P1: Assurer la gestion des tests d’acceptance</field><field name="activity_id" ref="act_ps4_11__a3_gestion_des_tests_"/></record>
+        <record id="proced_ps4_11__a4_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.11:_A4_P1: Établir les étapes de la gestion de la qualité des données</field><field name="activity_id" ref="act_ps4_11__a4_gestion_de_la_qual"/></record>
+        <record id="proced_ps4_11__a5_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.11:_A5_P1: Établir les étapes de la gestion de la documentation des systèmes</field><field name="activity_id" ref="act_ps4_11__a5_gestion_de_la_docu"/></record>
+        <record id="proced_ps4_12__a1_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.12:_A1_P1: Établir les étapes de la gestion de la performance des bases de données</field><field name="activity_id" ref="act_ps4_12__a1_gestion_de_la_perf"/></record>
+        <record id="proced_ps4_12__a2_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.12:_A2_P1: Établir les étapes de la gestion de la sécurité des bases de données</field><field name="activity_id" ref="act_ps4_12__a2_gestion_de_la_secu"/></record>
+        <record id="proced_ps4_12__a3_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.12:_A3_P1: Établir les étapes de la gestion de l’intégrité des données</field><field name="activity_id" ref="act_ps4_12__a3_gestion_de_lint_gr"/></record>
+        <record id="proced_ps4_12__a4_p1_tablir_les_" model="workflow.procedure"><field name="name">PS4.12:_A4_P1: Établir les étapes de la gestion de la sauvegarde et de la restauration des bases de données</field><field name="activity_id" ref="act_ps4_12__a4_gestion_de_la_sauv"/></record>
+
+        <!-- Nouvelles Procédures PR (Cadre Processus Opérationnels) -->
+        <record id="proced_pr1_1_a1_p1_cv_collection" model="workflow.procedure"><field name="name">PR1.1_A1_P1: CV collection</field><field name="activity_id" ref="act_pr1_1_a1_manage_book_cv"/></record>
+        <record id="proced_pr1_1_a1_p2_instructions_update" model="workflow.procedure"><field name="name">PR1.1_A1_P2: Instructions for updating the CV Book</field><field name="activity_id" ref="act_pr1_1_a1_manage_book_cv"/></record>
+        <record id="proced_pr1_1_a1_p3_updating_cv_book" model="workflow.procedure"><field name="name">PR1.1_A1_P3: Updating the CV Book (Insert, Edit, Delete)</field><field name="activity_id" ref="act_pr1_1_a1_manage_book_cv"/></record>
+        <record id="proced_pr1_1_a1_p4_review_validation_cv_book" model="workflow.procedure"><field name="name">PR1.1_A1_P4: Review and Validation of the CV Book</field><field name="activity_id" ref="act_pr1_1_a1_manage_book_cv"/></record>
+        <record id="proced_pr8_2_a1_p1_prepare_service_sheet" model="workflow.procedure"><field name="name">PR8.2_A1_P1: Prepare Service/product sheet according to instructions</field><field name="activity_id" ref="act_pr8_2_a1_contribute_service_sheet"/></record>
+        <record id="proced_pr8_2_a1_p2_review_validate_service_sheet" model="workflow.procedure"><field name="name">PR8.2_A1_P2: Review and validate Service/product sheet</field><field name="activity_id" ref="act_pr8_2_a1_contribute_service_sheet"/></record>
+        <record id="proced_pr8_2_a2_p1_preparation_methodology_sheet" model="workflow.procedure"><field name="name">PR8.2_A2_P1: Preparation of the methodology sheet related to the proposal for a service</field><field name="activity_id" ref="act_pr8_2_a2_contribute_methodology_sheet"/></record>
+
+
+        <!-- ========================================================= -->
+        <!-- LIVRABLES (Liés à l'Activité) -->
+        <!-- ========================================================= -->
+
+        <!-- Livrables PS (Cadre SI - Existant) -->
+        <record id="deliv_ps4_1_a1_l1_registre_des_a" model="workflow.deliverable"><field name="name">PS4.1_A1_L1: Registre des actifs informatiques</field><field name="activity_id" ref="act_ps4_1_a1_gerer_les_entr_es_s"/></record>
+        <record id="deliv_ps4_1_a2_l1_base_de_donne" model="workflow.deliverable"><field name="name">PS4.1_A2_L1: Base de données d’inventaire du parc informatique et bureautique</field><field name="activity_id" ref="act_ps4_1_a2_gerer_linventaire_d"/></record>
+        <record id="deliv_ps4_1_a3_l1_registre_des_f" model="workflow.deliverable"><field name="name">PS4.1_A3_L1: Registre des fiches de maintenance</field><field name="activity_id" ref="act_ps4_1_a3_gerer_la_maintenanc"/></record>
+        <record id="deliv_ps4_1_a4_l1_tableau_de_sui" model="workflow.deliverable"><field name="name">PS4.1_A4_L1: Tableau de suivi des licences et des accès</field><field name="activity_id" ref="act_ps4_1_a4_gerer_les_licences_"/></record>
+        <record id="deliv_ps4_2_a1_l1_politique_de_s" model="workflow.deliverable"><field name="name">PS4.2_A1_L1: Politique de sécurité de l’information</field><field name="activity_id" ref="act_ps4_2_a1_maintenir_la_politi"/></record>
+        <record id="deliv_ps4_2_a1_l1_proc_dures_de_s" model="workflow.deliverable"><field name="name">PS4.2_A1_L1: Procédures de sécurité de l’information</field><field name="activity_id" ref="act_ps4_2_a1_maintenir_la_politi"/></record>
+        <record id="deliv_ps4_2_a2_l1_formulaire_des" model="workflow.deliverable"><field name="name">PS4.2_A2_L1: Formulaire des droits d’accès et des mots de passe</field><field name="activity_id" ref="act_ps4_2_a2_maintenir_linfrastru"/></record>
+        <record id="deliv_ps4_2_a2_l1_formulaire_des_0" model="workflow.deliverable"><field name="name">PS4.2_A2_L1: Formulaire des systèmes de contrôle d’accès</field><field name="activity_id" ref="act_ps4_2_a2_maintenir_linfrastru"/></record>
+        <record id="deliv_ps4_2_a2_l1_registre_des_s" model="workflow.deliverable"><field name="name">PS4.2_A2_L1: Registre des systèmes de détection et de prévention des intrusions</field><field name="activity_id" ref="act_ps4_2_a2_maintenir_linfrastru"/></record>
+        <record id="deliv_ps4_2_a3_l1_rapport_des_tes" model="workflow.deliverable"><field name="name">PS4.2_A3_L1: Rapport des tests de sécurité</field><field name="activity_id" ref="act_ps4_2_a3_maintenir_les_tests_"/></record>
+        <record id="deliv_ps4_2_a4_l1_plan_de_r_pons" model="workflow.deliverable"><field name="name">PS4.2_A4_L1: Plan de réponse aux incidents de sécurité</field><field name="activity_id" ref="act_ps4_2_a4_gerer_les_incidents_"/></record>
+        <record id="deliv_ps4_3_a1_l1_documentation_d" model="workflow.deliverable"><field name="name">PS4.3_A1_L1: Documentation du réseau SI</field><field name="activity_id" ref="act_ps4_3_a1_gerer_le_r_seau_si"/></record>
+        <record id="deliv_ps4_3_a1_l1_tableau_de_sui" model="workflow.deliverable"><field name="name">PS4.3_A1_L1: Tableau de suivi de l’état de fonctionnement du réseau SI</field><field name="activity_id" ref="act_ps4_3_a1_gerer_le_r_seau_si"/></record>
+        <record id="deliv_ps4_3_a1_l1_rapport_de_per" model="workflow.deliverable"><field name="name">PS4.3_A1_L1: Rapport de performance du réseau SI</field><field name="activity_id" ref="act_ps4_3_a1_gerer_le_r_seau_si"/></record>
+        <record id="deliv_ps4_3_a2_l1_documentation_d" model="workflow.deliverable"><field name="name">PS4.3_A2_L1: Documentation des serveurs et du stockage</field><field name="activity_id" ref="act_ps4_3_a2_gerer_les_serveurs_e"/></record>
+        <record id="deliv_ps4_3_a2_l1_tableau_de_sui_0" model="workflow.deliverable"><field name="name">PS4.3_A2_L1: Tableau de suivi de l’état de fonctionnement des serveurs et du stockage</field><field name="activity_id" ref="act_ps4_3_a2_gerer_les_serveurs_e"/></record>
+        <record id="deliv_ps4_3_a2_l1_rapport_de_per_0" model="workflow.deliverable"><field name="name">PS4.3_A2_L1: Rapport de performance des serveurs et du stockage</field><field name="activity_id" ref="act_ps4_3_a2_gerer_les_serveurs_e"/></record>
+        <record id="deliv_ps4_3_a3_l1_documentation_d" model="workflow.deliverable"><field name="name">PS4.3_A3_L1: Documentation des systèmes d’exploitation et des logiciels de base</field><field name="activity_id" ref="act_ps4_3_a3_gerer_les_syst_mes_d"/></record>
+        <record id="deliv_ps4_3_a3_l1_tableau_de_sui_1" model="workflow.deliverable"><field name="name">PS4.3_A3_L1: Tableau de suivi de l’état de fonctionnement des systèmes d’exploitation et des logiciels de base</field><field name="activity_id" ref="act_ps4_3_a3_gerer_les_syst_mes_d"/></record>
+        <record id="deliv_ps4_3_a3_l1_rapport_de_per_1" model="workflow.deliverable"><field name="name">PS4.3_A3_L1: Rapport de performance des systèmes d’exploitation et des logiciels de base</field><field name="activity_id" ref="act_ps4_3_a3_gerer_les_syst_mes_d"/></record>
+        <record id="deliv_ps4_3_a4_l1_documentation_d" model="workflow.deliverable"><field name="name">PS4.3_A4_L1: Documentation des solutions de communication et de collaboration</field><field name="activity_id" ref="act_ps4_3_a4_gerer_les_solutions_"/></record>
+        <record id="deliv_ps4_3_a4_l1_tableau_de_sui_2" model="workflow.deliverable"><field name="name">PS4.3_A4_L1: Tableau de suivi de l’état de fonctionnement des solutions de communication et de collaboration</field><field name="activity_id" ref="act_ps4_3_a4_gerer_les_solutions_"/></record>
+        <record id="deliv_ps4_3_a4_l1_rapport_de_per_2" model="workflow.deliverable"><field name="name">PS4.3_A4_L1: Rapport de performance des solutions de communication et de collaboration</field><field name="activity_id" ref="act_ps4_3_a4_gerer_les_solutions_"/></record>
+        <record id="deliv_ps4_4_a1_l1_plan_de_sauveg" model="workflow.deliverable"><field name="name">PS4.4_A1_L1: Plan de sauvegarde et de restauration des données</field><field name="activity_id" ref="act_ps4_4_a1_gerer_la_sauvegarde_"/></record>
+        <record id="deliv_ps4_4_a2_l1_plan_de_reprise" model="workflow.deliverable"><field name="name">PS4.4_A2_L1: Plan de reprise d’activité (PRA)</field><field name="activity_id" ref="act_ps4_4_a2_gerer_le_plan_de_rep"/></record>
+        <record id="deliv_ps4_4_a3_l1_plan_de_contin" model="workflow.deliverable"><field name="name">PS4.4_A3_L1: Plan de continuité des activités (PCA)</field><field name="activity_id" ref="act_ps4_4_a3_gerer_le_plan_de_con"/></record>
+        <record id="deliv_ps4_10__a1_l1_formulaire_de" model="workflow.deliverable"><field name="name">PS4.10:_A1_L1: Formulaire de Gestion des incidents et des demandes de service SI</field><field name="activity_id" ref="act_ps4_10__a1_gestion_des_incide"/></record>
+        <record id="deliv_ps4_10__a2_l1_formulaire_des" model="workflow.deliverable"><field name="name">PS4.10:_A2_L1: Formulaire des gestion des problèmes SI</field><field name="activity_id" ref="act_ps4_10__a2_gestion_des_probl_"/></record>
+        <record id="deliv_ps4_11__a1_l1_formulaire_de" model="workflow.deliverable"><field name="name">PS4.11:_A1_L1: Formulaire de gestion de la Configuration</field><field name="activity_id" ref="act_ps4_11__a1_gestion_de_la_conf"/></record>
+        <record id="deliv_ps4_11__a2_l1_formulaire_de_0" model="workflow.deliverable"><field name="name">PS4.11:_A2_L1: Formulaire de gestion des Changement</field><field name="activity_id" ref="act_ps4_11__a2_gestion_des_change"/></record>
+        <record id="deliv_ps4_11__a3_l1_rapport_de_ge" model="workflow.deliverable"><field name="name">PS4.11:_A3_L1: Rapport de gestion des tests d’acceptance</field><field name="activity_id" ref="act_ps4_11__a3_gestion_des_tests_"/></record>
+        <record id="deliv_ps4_11__a4_l1_formulaire_de_1" model="workflow.deliverable"><field name="name">PS4.11:_A4_L1: Formulaire de gestion de la qualité des données</field><field name="activity_id" ref="act_ps4_11__a4_gestion_de_la_qual"/></record>
+        <record id="deliv_ps4_11__a5_l1_base_de_donn_0" model="workflow.deliverable"><field name="name">PS4.11:_A5_L1: Base de données de gestion de la documentation des systèmes</field><field name="activity_id" ref="act_ps4_11__a5_gestion_de_la_docu"/></record>
+        <record id="deliv_ps4_12__a1_l1_rapport_de_pe" model="workflow.deliverable"><field name="name">PS4.12:_A1_L1: Rapport de performance des bases de données</field><field name="activity_id" ref="act_ps4_12__a1_gestion_de_la_perf"/></record>
+        <record id="deliv_ps4_12__a2_l1_formulaire_de_2" model="workflow.deliverable"><field name="name">PS4.12:_A2_L1: Formulaire de gestion de la sécurité des bases de données</field><field name="activity_id" ref="act_ps4_12__a2_gestion_de_la_secu"/></record>
+        <record id="deliv_ps4_12__a3_l1_formulaire_de_3" model="workflow.deliverable"><field name="name">PS4.12:_A3_L1: Formulaire de gestion de l’intégrité des données</field><field name="activity_id" ref="act_ps4_12__a3_gestion_de_lint_gr"/></record>
+        <record id="deliv_ps4_12__a4_l1_plan_de_gest" model="workflow.deliverable"><field name="name">PS4.12:_A4_L1: Plan de gestion de la sauvegarde et de la restauration des bases de données</field><field name="activity_id" ref="act_ps4_12__a4_gestion_de_la_sauv"/></record>
+
+        <!-- Nouveaux Livrables PR (Cadre Processus Opérationnels) -->
+        <record id="deliv_pr1_1_a1_l1_cv_templates_instructions" model="workflow.deliverable"><field name="name">PR.1_A1_L1: CV templates and instructions (French and English) according to type (QC, WB, ADB, EU, UN)</field><field name="activity_id" ref="act_pr1_1_a1_manage_book_cv"/></record>
+        <record id="deliv_pr1_1_a1_l2_book_cvs" model="workflow.deliverable"><field name="name">PR.1_A1_L2: BOOK CVs (French and English) according to different models: QC, WB, ADB, EU, UN</field><field name="activity_id" ref="act_pr1_1_a1_manage_book_cv"/></record>
+        <record id="deliv_pr8_2_a1_l1_service_product_sheet" model="workflow.deliverable"><field name="name">PR8.2_A1_L1:Service/product Sheet</field><field name="activity_id" ref="act_pr8_2_a1_contribute_service_sheet"/></record>
+        <record id="deliv_pr8_2_a1_l1_service_product_sheet_validated" model="workflow.deliverable"><field name="name">PR8.2_A1_L1:Service/product Sheet validated</field><field name="activity_id" ref="act_pr8_2_a1_contribute_service_sheet"/></record>
+        <record id="deliv_pr8_2_a2_l1_methodological_sheet" model="workflow.deliverable"><field name="name">PR8.2_A2_L1:Methodological sheet related to the proposal for a service</field><field name="activity_id" ref="act_pr8_2_a2_contribute_methodology_sheet"/></record>
+
+
+        <!-- ========================================================= -->
+        <!-- FORMULATION DES TÂCHES (Liées à la Procédure) -->
+        <!-- ========================================================= -->
+
+        <!-- Tâches PS (Cadre SI - Existant) -->
+        <record id="task_f_identifier_les_besoins_en" model="workflow.task.formulation"><field name="name">Identifier les besoins en equipement TIC et les references appropires pour les satisfaire</field><field name="procedure_id" ref="proced_ps4_1_a1_p1_identifier_le"/></record>
+        <record id="task_f_valider_transmettre_le_be" model="workflow.task.formulation"><field name="name">Valider, transmettre le besoin en equipement TIC</field><field name="procedure_id" ref="proced_ps4_1_a1_p2_valider_trans"/></record>
+        <record id="task_f_acquerir_les_equipements_" model="workflow.task.formulation"><field name="name">Acquerir les equipements TIC</field><field name="procedure_id" ref="proced_ps4_1_a1_p3_acquerir_les_"/></record>
+        <record id="task_f_maintenir_jour_linventai" model="workflow.task.formulation"><field name="name">Maintenir à jour l’inventaire du parc informatique et bureautique</field><field name="procedure_id" ref="proced_ps4_1_a2_p1_maintenir_jou"/></record>
+        <record id="task_f_assurer_la_maintenance_du" model="workflow.task.formulation"><field name="name">Assurer la maintenance du parc informatique et bureautique</field><field name="procedure_id" ref="proced_ps4_1_a3_p1_assurer_la_ma"/></record>
+        <record id="task_f_maintenir_jour_les_licen" model="workflow.task.formulation"><field name="name">Maintenir à jour les licences des logiciels et les acces aux systèmes et aux données</field><field name="procedure_id" ref="proced_ps4_1_a4_p1_maintenir_jou"/></record>
+        <record id="task_f_tablir_la_politique_de_s" model="workflow.task.formulation"><field name="name">Établir la politique de sécurité de l’information</field><field name="procedure_id" ref="proced_ps4_2_a1_p1_tablir_la_pol"/></record>
+        <record id="task_f_tablir_les_proc_dures_de" model="workflow.task.formulation"><field name="name">Établir les procédures de sécurité de l’information</field><field name="procedure_id" ref="proced_ps4_2_a1_p2_tablir_les_pro"/></record>
+        <record id="task_f_assurer_la_gestion_des_dr" model="workflow.task.formulation"><field name="name">Assurer la gestion des droits d’accès et des mots de passe</field><field name="procedure_id" ref="proced_ps4_2_a2_p1_assurer_la_ge"/></record>
+        <record id="task_f_assurer_la_gestion_des_sy" model="workflow.task.formulation"><field name="name">Assurer la gestion des systèmes de contrôle d’accès</field><field name="procedure_id" ref="proced_ps4_2_a2_p2_assurer_la_ge"/></record>
+        <record id="task_f_assurer_la_gestion_des_sy_0" model="workflow.task.formulation"><field name="name">Assurer la gestion des systèmes de détection et de prévention des intrusions</field><field name="procedure_id" ref="proced_ps4_2_a2_p3_assurer_la_ge"/></record>
+        <record id="task_f_assurer_la_gestion_des_te" model="workflow.task.formulation"><field name="name">Assurer la gestion des tests de sécurité</field><field name="procedure_id" ref="proced_ps4_2_a3_p1_assurer_la_ge"/></record>
+        <record id="task_f_tablir_le_plan_de_r_pon" model="workflow.task.formulation"><field name="name">Établir le plan de réponse aux incidents de sécurité</field><field name="procedure_id" ref="proced_ps4_2_a4_p1_tablir_le_plan"/></record>
+        <record id="task_f_maintenir_la_documentation" model="workflow.task.formulation"><field name="name">Maintenir la documentation du réseau SI</field><field name="procedure_id" ref="proced_ps4_3_a1_p1_maintenir_la_d"/></record>
+        <record id="task_f_assurer_le_fonctionnement" model="workflow.task.formulation"><field name="name">Assurer le fonctionnement du réseau SI</field><field name="procedure_id" ref="proced_ps4_3_a1_p2_assurer_le_fon"/></record>
+        <record id="task_f_assurer_la_gestion_de_la" model="workflow.task.formulation"><field name="name">Assurer la gestion de la performance du réseau SI</field><field name="procedure_id" ref="proced_ps4_3_a1_p3_assurer_la_ge"/></record>
+        <record id="task_f_maintenir_la_documentation_0" model="workflow.task.formulation"><field name="name">Maintenir la documentation des serveurs et du stockage</field><field name="procedure_id" ref="proced_ps4_3_a2_p1_maintenir_la_d"/></record>
+        <record id="task_f_assurer_le_fonctionnement_0" model="workflow.task.formulation"><field name="name">Assurer le fonctionnement des serveurs et du stockage</field><field name="procedure_id" ref="proced_ps4_3_a2_p2_assurer_le_fon"/></record>
+        <record id="task_f_assurer_la_gestion_de_la_0" model="workflow.task.formulation"><field name="name">Assurer la gestion de la performance des serveurs et du stockage</field><field name="procedure_id" ref="proced_ps4_3_a2_p3_assurer_la_ge"/></record>
+        <record id="task_f_maintenir_la_documentation_1" model="workflow.task.formulation"><field name="name">Maintenir la documentation des systèmes d’exploitation et des logiciels de base</field><field name="procedure_id" ref="proced_ps4_3_a3_p1_maintenir_la_d"/></record>
+        <record id="task_f_assurer_le_fonctionnement_1" model="workflow.task.formulation"><field name="name">Assurer le fonctionnement des systèmes d’exploitation et des logiciels de base</field><field name="procedure_id" ref="proced_ps4_3_a3_p2_assurer_le_fon"/></record>
+        <record id="task_f_assurer_la_gestion_de_la_1" model="workflow.task.formulation"><field name="name">Assurer la gestion de la performance des systèmes d’exploitation et des logiciels de base</field><field name="procedure_id" ref="proced_ps4_3_a3_p3_assurer_la_ge"/></record>
+        <record id="task_f_maintenir_la_documentation_2" model="workflow.task.formulation"><field name="name">Maintenir la documentation des solutions de communication et de collaboration</field><field name="procedure_id" ref="proced_ps4_3_a4_p1_maintenir_la_d"/></record>
+        <record id="task_f_assurer_le_fonctionnement_2" model="workflow.task.formulation"><field name="name">Assurer le fonctionnement des solutions de communication et de collaboration</field><field name="procedure_id" ref="proced_ps4_3_a4_p2_assurer_le_fon"/></record>
+        <record id="task_f_assurer_la_gestion_de_la_2" model="workflow.task.formulation"><field name="name">Assurer la gestion de la performance des solutions de communication et de collaboration</field><field name="procedure_id" ref="proced_ps4_3_a4_p3_assurer_la_ge"/></record>
+        <record id="task_f_maintenir_le_plan_de_sauv" model="workflow.task.formulation"><field name="name">Maintenir le plan de sauvegarde et de restauration des données</field><field name="procedure_id" ref="proced_ps4_4_a1_p1_maintenir_le_p"/></record>
+        <record id="task_f_maintenir_le_plan_de_repri" model="workflow.task.formulation"><field name="name">Maintenir le plan de reprise d’activité (PRA)</field><field name="procedure_id" ref="proced_ps4_4_a2_p1_maintenir_le_p"/></record>
+        <record id="task_f_maintenir_le_plan_de_cont" model="workflow.task.formulation"><field name="name">Maintenir le plan de continuité des activités (PCA)</field><field name="procedure_id" ref="proced_ps4_4_a3_p1_maintenir_le_p"/></record>
+        <record id="task_f_assurer_la_gestion_des_inc" model="workflow.task.formulation"><field name="name">Assurer la gestion des incidents et des demandes de service SI</field><field name="procedure_id" ref="proced_ps4_10__a1_p1_assurer_la_g"/></record>
+        <record id="task_f_gerer_les_probl_mes_si" model="workflow.task.formulation"><field name="name">Gérer les problèmes SI</field><field name="procedure_id" ref="proced_ps4_10__a2_p1_tablir_les_"/></record>
+        <record id="task_f_gerer_la_configuration" model="workflow.task.formulation"><field name="name">Gérer la Configuration</field><field name="procedure_id" ref="proced_ps4_11__a1_p1_assurer_la_g"/></record>
+        <record id="task_f_gerer_les_changement" model="workflow.task.formulation"><field name="name">Gérer les Changement</field><field name="procedure_id" ref="proced_ps4_11__a2_p1_assurer_la_g"/></record>
+        <record id="task_f_gerer_les_tests_dacceptance" model="workflow.task.formulation"><field name="name">Gérer les tests d’acceptance</field><field name="procedure_id" ref="proced_ps4_11__a3_p1_assurer_la_g"/></record>
+        <record id="task_f_gerer_la_qualit_des_donn" model="workflow.task.formulation"><field name="name">Gérer la qualité des données</field><field name="procedure_id" ref="proced_ps4_11__a4_p1_tablir_les_"/></record>
+        <record id="task_f_gerer_la_documentation_des" model="workflow.task.formulation"><field name="name">Gérer la documentation des systèmes</field><field name="procedure_id" ref="proced_ps4_11__a5_p1_tablir_les_"/></record>
+        <record id="task_f_gerer_la_performance_des_" model="workflow.task.formulation"><field name="name">Gérer la performance des bases de données</field><field name="procedure_id" ref="proced_ps4_12__a1_p1_tablir_les_"/></record>
+        <record id="task_f_gerer_la_s_curit_des_bas" model="workflow.task.formulation"><field name="name">Gérer la sécurité des bases de données</field><field name="procedure_id" ref="proced_ps4_12__a2_p1_tablir_les_"/></record>
+        <record id="task_f_gerer_lint_grit_des_donn" model="workflow.task.formulation"><field name="name">Gérer l’intégrité des données</field><field name="procedure_id" ref="proced_ps4_12__a3_p1_tablir_les_"/></record>
+        <record id="task_f_gerer_la_sauvegarde_et_de" model="workflow.task.formulation"><field name="name">Gérer la sauvegarde et de la restauration des bases de données</field><field name="procedure_id" ref="proced_ps4_12__a4_p1_tablir_les_"/></record>
+
+        <!-- Nouvelles Tâches PR (Cadre Processus Opérationnels) -->
+        <record id="task_f_collecting_cvs" model="workflow.task.formulation"><field name="name">Collecting CVs</field><field name="procedure_id" ref="proced_pr1_1_a1_p1_cv_collection"/></record>
+        <record id="task_f_provide_instructions_for_updating_cv" model="workflow.task.formulation"><field name="name">Provide instructions for updating the CV book</field><field name="procedure_id" ref="proced_pr1_1_a1_p2_instructions_update"/></record>
+        <record id="task_f_update_cv_book" model="workflow.task.formulation"><field name="name">Update the CV Book (Insert, Edit, Delete)</field><field name="procedure_id" ref="proced_pr1_1_a1_p3_updating_cv_book"/></record>
+        <record id="task_f_review_and_validation_of_cv_book" model="workflow.task.formulation"><field name="name">Review and Validation of the CV Book</field><field name="procedure_id" ref="proced_pr1_1_a1_p4_review_validation_cv_book"/></record>
+        <record id="task_f_do_documents_research_on_service_sheet" model="workflow.task.formulation"><field name="name">Do documents research on Service/product Sheet</field><field name="procedure_id" ref="proced_pr8_2_a1_p1_prepare_service_sheet"/></record>
+        <record id="task_f_review_and_validate_service_sheet" model="workflow.task.formulation"><field name="name">Review and validate Service/product sheet</field><field name="procedure_id" ref="proced_pr8_2_a1_p2_review_validate_service_sheet"/></record>
+        <record id="task_f_prepare_supporting_documentation" model="workflow.task.formulation"><field name="name">Prepare the supporting documentation file for a given service/product</field><field name="procedure_id" ref="proced_pr8_2_a2_p1_preparation_methodology_sheet"/></record>
+
+    </data>
+</odoo>

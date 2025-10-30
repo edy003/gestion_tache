@@ -1,0 +1,43 @@
+<odoo>
+    <record id="dept_finance" model="hr.department">
+        <field name="name">Finance &amp; Comptabilité</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="dept_rh" model="hr.department">
+        <field name="name">Ressources Humaines</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="dept_commercial" model="hr.department">
+        <field name="name">Ventes &amp; Marketing</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="dept_logistique" model="hr.department">
+        <field name="name">Logistique &amp; Approvisionnement</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="dept_juridique" model="hr.department">
+        <field name="name">Affaires Juridiques</field>
+        <field name="dpt_type">internal</field>
+    </record>
+
+    <record id="dept_conseil_strat" model="hr.department">
+        <field name="name">Conseil en Stratégie</field>
+        <field name="dpt_type">external</field>
+    </record>
+    <record id="dept_dev_logiciel" model="hr.department">
+        <field name="name">Développement Logiciel</field>
+        <field name="dpt_type">external</field>
+    </record>
+    <record id="dept_infra_cloud" model="hr.department">
+        <field name="name">Infrastructure &amp; Cloud</field>
+        <field name="dpt_type">external</field>
+    </record>
+    <record id="dept_audit_conformite" model="hr.department">
+        <field name="name">Audit &amp; Conformité</field>
+        <field name="dpt_type">external</field>
+    </record>
+    <record id="dept_support_client" model="hr.department">
+        <field name="name">Support Technique</field>
+        <field name="dpt_type">external</field>
+    </record>
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Action pour ouvrir le dashboard -->
+        <record id="action_user_kpi_dashboard" model="ir.actions.client">
+            <field name="name">Dashboard Utilisateurs KPI</field>
+            <field name="tag">qc_dashboard.action_user_dashboard</field>
+            <field name="target">current</field>
+            <field name="context">{}</field>
+        </record>
+
+         <record id="action_employee_evaluation_dashboard" model="ir.actions.client">
+            <field name="name">Employee Evaluation Dashboard</field>
+            <field name="tag">qc_dashboard.action_employee_dashboard</field>
+            <field name="target">current</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Menu principal (optionnel) -->
+        <menuitem id="menu_qc_dashboard_root"
+                  name="QC Dashboard"
+                  sequence="10"/>
+
+        <!-- Sous-menu pour le dashboard -->
+        <menuitem id="menu_user_kpi_dashboard"
+                  name="WorkProgramm dashboard"
+                  parent="menu_qc_dashboard_root"
+                  action="action_user_kpi_dashboard"
+                  sequence="10"/>
+
+        <menuitem id="menu_employee_dashboard"
+          name="Evaluation Dashboard"
+          parent="menu_qc_dashboard_root"
+          action="action_employee_evaluation_dashboard"
+          sequence="20"/>
+
+
+       
+    </data>
+</odoo>

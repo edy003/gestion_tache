@@ -1,0 +1,95 @@
+<odoo>
+    <record id="view_work_program_search" model="ir.ui.view">
+        <field name="name">work.program.search</field>
+        <field name="model">work.program</field>
+        <field name="arch" type="xml">
+            <search string="Recherche Programme de Travail">
+                <!-- Champs pour la recherche rapide -->
+                <!-- Barre de recherche principale -->
+                <field name="name" string="Nom du programme"/>
+                <field name="project_id" string="Projet"/>
+                <field name="responsible_id" string="Responsable"/>
+                <field name="work_programm_department_id" string="Département"/>
+                <field name="my_week_of" string="Semaine"/>
+
+                  <!-- Ajout des champs de date pour la recherche par date (si l'utilisateur tape une date) -->
+                <field name="assignment_date" string="Date d'Assignation"/>
+                <field name="initial_deadline" string="Date Limite Initiale"/>
+
+                <!-- Filtres personnalisés -->
+                <!--filter name="department_filter" string="Mon Département"
+                        domain="[('work_programm_department_id','=',uid)]"/>
+                <filter name="project_filter" string="Projet Sélectionné" domain="[('project_id','!=',False)]"/>
+                <filter name="responsible_filter" string="Moi Responsable"
+                        domain="[('responsible_id.user_id','=',uid)]"/-->
+                <!--filter name="week_filter" string="Cette Semaine" domain="[('my_week_of','=','%s')]" context="{'my_week_of': '2025-10-20'}"/ -->
+                <!-- 🗓️ Nouveau filtre automatique : semaine en cours -->
+                <!--filter name="current_week"
+                        string="Semaine en cours"
+                        domain="[('my_week_of','=', context_today().strftime('%Y-%m-%d'))]"/-->
+
+                <!-- ================================== FILTRES PRÉDÉFINIS ================================== -->
+
+                <!-- Filtre Mon Responsable (correct) -->
+                <filter name="responsible_filter" string="Mes Tâches"
+                        domain="[('responsible_id.user_id','=', uid)]"
+                        help="Programme de travail dont je suis le responsable."/>
+
+
+                <!-- Filtre Mon Département (recherche l'employé de l'utilisateur et son département) -->
+                <!--filter name="department_filter_me" string="Mon Département"
+                        domain="[('work_programm_department_id', 'in', user.employee_ids.department_id.ids)]"
+                        help="Programme de travail associés au département de l'utilisateur connecté."/-->
+
+                   <filter name="department_filter_me" string="Mon Département"
+                        domain="[('work_programm_department_id', '=', context.get('my_department_id'))]"
+                        help="Programme de travail associés au département de l'utilisateur connecté."/>
+
+
+                <!-- 🗓️ Filtre Semaine en cours : Utilisation de context_today() pour le lundi de la semaine -->
+                <filter name="current_week_ongoing"
+                        string="Cette Semaine (En Cours)"
+                        domain="[('my_week_of','=', context_today().strftime('%Y-%m-%d')), ('state', 'in', ['ongoing', 'to_redo', 'to_validate'])]"
+                        help="Tâches en cours ou à finaliser pour le début de cette semaine."/>
+
+                 <separator/>
+
+
+
+                <!-- Filtres par état -->
+                <filter name="draft" string="Brouillon" domain="[('state','=','draft')]"/>
+                <filter name="ongoing" string="En cours" domain="[('state','=','ongoing')]"/>
+                <filter name="to_validate" string="À valider" domain="[('state','=','to_validate')]"/>
+                <filter name="validated" string="Validé" domain="[('state','=','validated')]"/>
+                <filter name="done" string="Terminé" domain="[('state','=','done')]"/>
+
+
+                <separator/>
+
+                 <!-- Filtres par relation -->
+                <!--filter name="by_responsible" string="Par Responsable" context="{'group_by':'responsible_id'}"/>
+                <filter name="by_project" string="Par Projet" context="{'group_by':'project_id'}"/>
+                <filter name="by_week" string="Par Semaine" context="{'group_by':'my_week_of'}"/>
+                <filter name="by_department" string="Par Département" context="{'group_by':'work_programm_department_id'}"/-->
+                <!-- ================================== REGROUPEMENTS (GROUP BY) ================================== -->
+
+                <filter name="by_responsible" string="Par Responsable" context="{'group_by':'responsible_id'}"/>
+                <filter name="by_project" string="Par Projet" context="{'group_by':'project_id'}"/>
+                <filter name="by_department" string="Par Département" context="{'group_by':'work_programm_department_id'}"/>
+                <filter name="by_week" string="Par Semaine de Début" context="{'group_by':'my_week_of'}"/>
+                <filter name="by_state" string="Par État" context="{'group_by':'state'}"/>
+
+                <separator/>
+
+                <!-- ================================== TRI (ORDRE) ================================== -->
+
+                <filter name="sort_by_deadline" string="Trier par Date Limite"
+                        context="{'orderby': 'initial_deadline desc'}"/>
+                <filter name="sort_by_week" string="Trier par Semaine"
+                        context="{'orderby': 'my_week_of asc, initial_deadline asc'}"/>
+
+
+            </search>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_work_program_tree" model="ir.ui.view">
+        <field name="name">work.program.tree</field>
+        <field name="model">work.program</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="user_id" string="Utilisateur associé" options="{'no_create_edit': True}" class="form-control"/>
+                <field name="work_programm_department_id" string="Départements autorisés" />
+                <field name="is_external_department" invisible="1"/>
+                <field name="name" string="Nom du programme" invisible="1"/>
+                <field name="my_month" widget="selection" string="Mois"/>
+                <field name="my_week_of" string="Semaine de" />
+                <field name="week_of" string="Semaine de" invisible="1"/>
+                <field name="project_id" string="Projet / Programme" widget="many2one"/>
+                <field name="activity_id" string="Activité" widget="many2one" domain="[('sub_process_id.process_id.domain_id', '=', project_id)]"/>
+                <field name="procedure_id" string="Procedure" widget="many2one" domain="[('activity_id', '=', activity_id)]"/>
+                <field name="task_description_id" string="Formulation Tâche" widget="many2one" domain="[('procedure_id', '=', procedure_id)]"/>
+                <field name="inputs_needed" string="Description Tâche"/>
+                <field name="deliverable_ids" string="Livrables de la tâche" widget="many2many_tags"/>
+                <field name="priority" widget="selection" string="Priorité"/>
+                <field name="complexity" widget="selection" string="Complexité"/>
+                <field name="assignment_date" string="Date d'assignation"/>
+                <field name="duration_effort" string="Durée / Effort (heures)"/>
+                <field name="initial_deadline" string="Date limite initiale"/>
+                <field name="nb_postpones" string="Nombre de reports"/>
+                <field name="actual_deadline" string="Date limite réelle"/>
+                <field name="responsible_id" string="Responsable" widget="many2one"/>
+                <field name="support_ids" string="Support" widget="many2many_tags"/>
+                <field name="completion_percentage" string="Pourcentage d'achèvement"/>
+                <field name="satisfaction_level" widget="selection" string="Niveau de satisfaction"/>
+                <field name="comments" string="Commentaires / Remarques"/>
+                <field name="champ1" string="Champ 1" attrs="{'invisible': [('is_external_department', '=', False)]}"/>
+                <field name="champ2" string="Champ 2" attrs="{'invisible': [('is_external_department', '=', False)]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_work_program_form" model="ir.ui.view">
+        <field name="name">work.program.form</field>
+        <field name="model">work.program</field>
+        <field name="arch" type="xml">
+            <form string="Programme de Travail">
+                <sheet>
+                    <group>
+                        <group string="Informations Générales">
+                            <field name="user_id" string="Utilisateur associé" options="{'no_create_edit': True}" class="form-control"/>
+                            <field name="work_programm_department_id" string="Départements autorisés" />
+                            <field name="is_external_department" invisible="1"/>
+                            <field name="name" string="Nom du programme" invisible="1"/>
+                            <field name="my_month" widget="selection" string="Mois" />
+                            <field name="my_week_of" string="Selection semaine en cours"/>
+                            <field name="week_of" string="Semaine de" invisible="1"/>
+                            <field name="project_id" string="Projet / Programme" widget="many2one"/>
+                        </group>
+                        <group string="Détails de la Tâche">
+                            <field name="activity_id" string="Activité" widget="many2one" domain="[('sub_process_id.process_id.domain_id', '=', project_id)]"/>
+                            <field name="procedure_id" string="Procedure" widget="many2one" domain="[('activity_id', '=', activity_id)]"/>
+                            <field name="task_description_id" string="Formulation Tâche" widget="many2one" domain="[('procedure_id', '=', procedure_id)]"/>
+                            <field name="inputs_needed" string="Description de la tâche"/>
+                            <field name="deliverable_ids" string="Livrables de la tâche" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Planification">
+                            <field name="priority" widget="selection" string="Priorité"/>
+                            <field name="complexity" widget="selection" string="Complexité"/>
+                            <field name="assignment_date" string="Date d'assignation"/>
+                            <field name="duration_effort" string="Durée / Effort (heures)"/>
+                            <field name="initial_deadline" string="Date limite initiale"/>
+                            <field name="nb_postpones" string="Nombre de reports"/>
+                            <field name="actual_deadline" string="Date limite réelle"/>
+                        </group>
+                        <group string="Responsabilités">
+                            <field name="responsible_id" string="Responsable" widget="many2one"/>
+                            <field name="support_ids" string="Support" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <group string="Suivi">
+                        <field name="completion_percentage" string="Pourcentage d'achèvement"/>
+                        <field name="satisfaction_level" widget="selection" string="Niveau de satisfaction"/>
+                        <field name="comments" string="Commentaires / Remarques" widget="text"/>
+                        <field name="champ1" string="Champ 1" attrs="{'invisible': [('is_external_department', '=', False)]}"/>
+                        <field name="champ2" string="Champ 2" attrs="{'invisible': [('is_external_department', '=', False)]}"/>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+</odoo>

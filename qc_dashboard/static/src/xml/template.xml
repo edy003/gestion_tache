@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+    <!-- Template principal du dashboard -->
+    <t t-name="qc_dashboard.UserKPIDashboard" owl="1">
+        <div class="o_dashboard_container">
+            <!-- Barre de filtres -->
+            <div class="o_dashboard_filters mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <!-- Filtres de dates -->
+                            <div class="col-md-3">
+                                <label class="form-label">Date de début</label>
+                                <input 
+                                    type="date" 
+                                    class="form-control"
+                                    t-ref="dateFrom"
+                                    
+                                    t-on-change="onDateFromChange"
+                                />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Date de fin</label>
+                                <input 
+                                    type="date" 
+                                    class="form-control"
+                                    t-ref="dateTo"
+                                    t-on-change="onDateToChange"
+                                />
+                            </div>
+                            
+                            <!-- Filtre département -->
+                            <div class="col-md-2">
+                                <label class="form-label">Département</label>
+                                <select 
+                                    class="form-select"
+                                    t-model="state.selectedDepartmentId"
+                                    t-on-change="onDepartmentChange"
+                                >
+                                    <option value="">Tous</option>
+                                    <option 
+                                        t-foreach="state.availableDepartments" 
+                                        t-as="dept"
+                                        t-key="dept.id"
+                                        t-att-value="dept.id"
+                                        t-esc="dept.name"
+                                    />
+                                </select>
+                            </div>
+                            
+                            <!-- Filtre responsable -->
+                            <div class="col-md-2">
+                                <label class="form-label">Responsable</label>
+                                <select 
+                                    class="form-select"
+                                    t-model="state.selectedResponsibleId"
+                                    t-on-change="onResponsibleChange"
+                                >
+                                    <option value="">Tous</option>
+                                    <option 
+                                        t-foreach="state.employeesForDepartment" 
+                                        t-as="emp"
+                                        t-key="emp.id"
+                                        t-att-value="emp.id"
+                                        t-esc="emp.name"
+                                    />
+                                </select>
+                            </div>
+                            
+                            <!-- Boutons d'action -->
+                            <div class="col-md-2">
+                                <label class="form-label">&amp;nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-primary btn-sm"
+                                        t-on-click="onApplyFilters"
+                                        t-att-disabled="state.loading"
+                                    >
+                                        <i class="fa fa-search"/> Appliquer
+                                    </button>
+                                    <button 
+                                        type="button" 
+                                        class="btn btn-secondary btn-sm"
+                                        t-on-click="onResetFilters"
+                                        t-att-disabled="state.loading"
+                                    >
+                                        <i class="fa fa-refresh"/> Reset
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicateur de chargement -->
+            <div t-if="state.loading" class="text-center my-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement...</span>
+                </div>
+            </div>
+
+            <!-- Affichage des erreurs -->
+            <div t-if="state.error" class="alert alert-danger" role="alert">
+                <i class="fa fa-exclamation-triangle"/> <t t-esc="state.error"/>
+            </div>
+
+            <!-- Contenu principal du dashboard -->
+            <div t-if="!state.loading" class="o_dashboard_content">
+                <!-- Ligne des KPIs -->
+                <div class="row mb-4">
+                    <!-- KPI 1: Respect des délais -->
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <i class="fa fa-clock-o"/> Respect des délais
+                                </h6>
+                                <h3 class="card-title mb-1">
+                                    <t t-if="state.deadlineCompliance === '--'">--</t>
+                                    <t t-else="">
+                                        <t t-esc="state.deadlineCompliance"/>%
+                                    </t>
+                                </h3>
+                                <div t-if="state.deadlineEvolution" class="small">
+                                    <span 
+                                        t-attf-class="badge {{state.deadlineEvolution.trend === 'up' ? 'bg-success' : state.deadlineEvolution.trend === 'down' ? 'bg-danger' : 'bg-secondary'}}"
+                                    >
+                                        <t t-esc="state.deadlineEvolution.display"/>
+                                    </span>
+                                    vs <t t-esc="state.deadlineEvolution.previous_period"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 2: Taux de satisfaction -->
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <i class="fa fa-smile-o"/> Satisfaction élevée
+                                </h6>
+                                <h3 class="card-title mb-1">
+                                    <t t-if="state.satisfactionRate === '--'">--</t>
+                                    <t t-else="">
+                                        <t t-esc="state.satisfactionRate"/>%
+                                    </t>
+                                </h3>
+                                <div t-if="state.satisfactionEvolution" class="small">
+                                    <span 
+                                        t-attf-class="badge {{state.satisfactionEvolution.trend === 'up' ? 'bg-success' : state.satisfactionEvolution.trend === 'down' ? 'bg-danger' : 'bg-secondary'}}"
+                                    >
+                                        <t t-esc="state.satisfactionEvolution.display"/>
+                                    </span>
+                                    vs <t t-esc="state.satisfactionEvolution.previous_period"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 3: Résolution complexe -->
+                    <div class="col-lg-3 col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <i class="fa fa-cogs"/> Tâches complexes
+                                </h6>
+                                <h3 class="card-title mb-1">
+                                    <t t-if="state.complexResolution === '--'">--</t>
+                                    <t t-else="">
+                                        <t t-esc="state.complexResolution"/>%
+                                    </t>
+                                </h3>
+                                <div t-if="state.complexEvolution" class="small">
+                                    <span 
+                                        t-attf-class="badge {{state.complexEvolution.trend === 'up' ? 'bg-success' : state.complexEvolution.trend === 'down' ? 'bg-danger' : 'bg-secondary'}}"
+                                    >
+                                        <t t-esc="state.complexEvolution.display"/>
+                                    </span>
+                                    vs <t t-esc="state.complexEvolution.previous_period"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 4: Résolution prioritaire -->
+                    <!-- KPI Card: Pourcentage moyen de complétion -->
+<div class="col-lg-3 col-md-6 mb-3">
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">
+                <i class="fa fa-tasks"></i> Complétion moyenne
+            </h6>
+            <h3 class="card-title mb-1">
+                <t t-if="state.completionMean === '--'">--</t>
+                <t t-else="">
+                    <t t-esc="state.completionMean"/>%
+                </t>
+            </h3>
+            <div t-if="state.completionEvolution" class="small">
+                <span 
+                    t-attf-class="badge {{state.completionEvolution.trend === 'up' ? 'bg-success' : state.completionEvolution.trend === 'down' ? 'bg-danger' : 'bg-secondary'}}"
+                >
+                    <t t-esc="state.completionEvolution.display"/>
+                </span>
+                vs période précédente
+            </div>
+        </div>
+    </div>
+</div>
+                </div>
+
+                <!-- Ligne des graphiques -->
+                <div class="row">
+                    <!-- Graphique priorité -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fa fa-pie-chart"/> Respect des délais par priorité
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div t-ref="priority-chart" style="height: 300px;">
+                                    <!-- Graphique généré par JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Graphique complexité -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">
+                                    <i class="fa fa-pie-chart"/> Respect des délais par complexité
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div t-ref="complexity-chart" style="height: 300px;">
+                                    <!-- Graphique généré par JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tableau des données -->
+                
+                
+                
+            </div>
+        </div>
+
+    
+    </t>
+</templates>

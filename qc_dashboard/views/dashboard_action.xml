@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Action pour le Dashboard Utilisateurs -->
+        <record id="action_user_dashboard" model="ir.actions.client">
+            <field name="name">Dashboard Utilisateurs</field>
+            <field name="tag">qc_dashboard.action_user_dashboard</field>
+            <field name="target">current</field>
+        </record>
+
+        <!-- Menu Item pour accéder au Dashboard -->
+        <menuitem
+            id="menu_user_dashboard"
+            name="Dashboard Utilisateurs"
+            action="action_user_dashboard"
+            parent="base.menu_administration"
+            sequence="10"/>
+    </data>
+</odoo>

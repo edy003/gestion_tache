@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_workflow_hierarchy" model="ir.actions.act_window">
+            <field name="name">Workflow Hiérarchique</field>
+            <field name="res_model">workflow.hierarchy</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_domain" model="ir.actions.act_window">
+            <field name="name">Domaines</field>
+            <field name="res_model">workflow.domain</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_process" model="ir.actions.act_window">
+            <field name="name">Processus</field>
+            <field name="res_model">workflow.process</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_subprocess" model="ir.actions.act_window">
+            <field name="name">Sous-processus</field>
+            <field name="res_model">workflow.subprocess</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_activity" model="ir.actions.act_window">
+            <field name="name">Activités</field>
+            <field name="res_model">workflow.activity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_procedure" model="ir.actions.act_window">
+            <field name="name">Procédures</field>
+            <field name="res_model">workflow.procedure</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_deliverable" model="ir.actions.act_window">
+            <field name="name">Livrables</field>
+            <field name="res_model">workflow.deliverable</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_workflow_task_formulation" model="ir.actions.act_window">
+            <field name="name">Formulations de Tâches</field>
+            <field name="res_model">workflow.task.formulation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <record id="view_workflow_hierarchy_form" model="ir.ui.view">
+            <field name="name">workflow.hierarchy.form</field>
+            <field name="model">workflow.hierarchy</field>
+            <field name="arch" type="xml">
+                <form string="Workflow Hierarchy (Many2many)">
+                    <sheet>
+                        <group name="main_info" string="Informations principales">
+                            <field name="name" placeholder="Ex: Entrée de workflow multi-domaines"/>
+
+                            <field name="domain_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': False}"
+                                   string="Domaines"/>
+
+                            <field name="project_id" string="Projet Associé"/>
+
+                            <!--
+                                department_id: Filtré par la liste des départements autorisés calculée en Python.
+                                Rendu visible (retrait de invisible="1").
+                            -->
+                            <field name="department_id"
+                                   domain="[('id', 'in', allowed_department_ids)]"
+                                   string="Département Principal"/>
+
+                            <!--
+                                allowed_department_ids: Filtré par lui-même pour restreindre
+                                les choix dans le sélecteur M2M.
+                            -->
+                            <field name="allowed_department_ids"
+                                   domain="[('id', 'in', allowed_department_ids)]"
+                                   widget="many2many_tags"
+                                   options="{'no_create': False}"
+                                   string="Départements autorisés"/>
+                        </group>
+
+                        <group name="processes" string="Processus et sous-éléments">
+
+                            <field name="process_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': False}"
+                                   string="Processus"
+                                   domain="[('id', 'in', filtered_process_ids)]"/>
+
+                            <field name="sub_process_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': False}"
+                                   string="Sous-processus"
+                                   domain="[('id', 'in', filtered_subprocess_ids)]"/>
+
+                            <field name="activity_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': False}"
+                                   string="Activités"
+                                   domain="[('id', 'in', filtered_activity_ids)]"/>
+
+                            <field name="procedure_ids"
+                                   widget="many2many_tags"
+                                   options="{'no_create': False}"
+                                   string="Procédures"
+                                   domain="[('id', 'in', filtered_procedure_ids)]"/>
+
+                            <field name="deliverable_ids" widget="many2many_tags" options="{'no_create': False}" string="Livrables"/>
+                            <field name="task_formulation_ids" widget="many2many_tags" options="{'no_create': False}" string="Formulations de tâches"/>
+                        </group>
+
+                        <group name="notes" string="Notes">
+                            <field name="notes" placeholder="Ajoutez des notes ici..."/>
+                            <field name="active" widget="boolean_toggle" invisible="1"/>
+                        </group>
+
+                        <group name="hidden_fields" invisible="1">
+                            <field name="filtered_process_ids"/>
+                            <field name="filtered_subprocess_ids"/>
+                            <field name="filtered_activity_ids"/>
+                            <field name="filtered_procedure_ids"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_workflow_hierarchy_tree" model="ir.ui.view">
+            <field name="name">workflow.hierarchy.tree</field>
+            <field name="model">workflow.hierarchy</field>
+            <field name="arch" type="xml">
+                <tree string="Workflow Hierarchy" decoration-info="active==False" class="o_tree_view_custom" default_order="domain_ids">
+                    <field name="name" string="Nom" width="20%"/>
+                    <field name="domain_ids" widget="many2many_tags" string="Domaines (SIC)" options="{'no_create': True, 'no_open': True, 'limit': 3}" width="20%"/>
+                    <field name="process_ids" widget="many2many_tags" string="Processus" options="{'no_create': True, 'no_open': True, 'limit': 3}" width="20%"/>
+                    <field name="sub_process_ids" widget="many2many_tags" string="Sous-processus" options="{'no_create': True, 'no_open': True, 'limit': 3}" width="20%"/>
+                    <field name="activity_ids" widget="many2many_tags" string="Activités" options="{'no_create': True, 'no_open': True, 'limit': 3}" width="20%"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_workflow_domain_form" model="ir.ui.view">
+            <field name="name">workflow.domain.form</field>
+            <field name="model">workflow.domain</field>
+            <field name="arch" type="xml">
+                <form string="Domaine">
+                    <sheet>
+                        <group name="domain_info" string="Détails du domaine">
+                            <field name="name" string="Nom"/>
+                            <field name="dpt_type" string="Type de département"/>
+                        </group>
+                        <group name="related_processes" string="Processus associés">
+                            <field name="process_ids" widget="many2many_tags" options="{'no_create': False}" string="Processus"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_workflow_domain_tree" model="ir.ui.view">
+            <field name="name">workflow.domain.tree</field>
+            <field name="model">workflow.domain</field>
+            <field name="arch" type="xml">
+                <tree string="Domaines">
+                    <field name="name" string="Nom"/>
+                    <field name="dpt_type" string="Type de département"/>
+                    <field name="process_ids" widget="many2many_tags" string="Processus"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_workflow_process_form" model="ir.ui.view">
+            <field name="name">workflow.process.form</field>
+            <field name="model">workflow.process</field>
+            <field name="arch" type="xml">
+                <form string="Processus">
+                    <sheet>
+                        <group name="process_info" string="Détails du processus">
+                            <field name="name" string="Nom"/>
+                            <field name="domain_id" string="Domaine" />
+                        </group>
+                        <group name="sub_processes" string="Sous-processus associés">
+                            <field name="sub_process_ids" widget="many2many_tags"  string="Sous-processus"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_workflow_process_tree" model="ir.ui.view">
+            <field name="name">workflow.process.tree</field>
+            <field name="model">workflow.process</field>
+            <field name="arch" type="xml">
+                <tree string="Processus">
+                    <field name="name" string="Nom"/>
+                    <field name="domain_id" string="Domaine" />
+                    <field name="sub_process_ids" widget="many2many_tags" string="Sous-processus"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_workflow_subprocess_form" model="ir.ui.view">
+            <field name="name">workflow.subprocess.form</field>
+            <field name="model">workflow.subprocess</field>
+            <field name="arch" type="xml">
+                <form string="Sous-processus">
+                    <sheet>
+                        <group name="subprocess_info" string="Détails du sous-processus">
+                            <field name="name" string="Nom"/>
+                            <field name="process_id" string="Processus" options="{'no_create': False}"/>
+                        </group>
+                        <group name="related_activities" string="Activités associées">
+                            <field name="activity_ids" widget="many2many_tags" options="{'no_create': False}" string="Activités"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_workflow_subprocess_tree" model="ir.ui.view">
+            <field name="name">workflow.subprocess.tree</field>
+            <field name="model">workflow.subprocess</field>
+            <field name="arch" type="xml">
+                <tree string="Sous-processus">
+                    <field name="name" string="Nom"/>
+                    <field name="process_id" string="Processus" options="{'no_create': False}"/>
+                    <field name="activity_ids" widget="many2many_tags" string="Activités"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_workflow_activity_form" model="ir.ui.view">
+            <field name="name">workflow.activity.form</field>
+            <field name="model">workflow.activity</field>
+            <field name="arch" type="xml">
+                <form string="Activité">
+                    <sheet>
+                        <group name="activity_info" string="Détails de l'activité">
+                            <field name="name" string="Nom"/>
+                            <field name="sub_process_id" string="Sous-processus" options="{'no_create': False}"/>
+                        </group>
+                        <group name="related_procedures" string="Procédures associées">
+                            <field name="procedure_ids" widget="many2many_tags" options="{'no_create': False}" string="Procédures"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_workflow_activity_tree" model="ir.ui.view">
+            <field name="name">workflow.activity.tree</field>
+            <field name="model">workflow.activity</field>
+            <field name="arch" type="xml">
+                <tree string="Activités">
+                    <field name="name" string="Nom"/>
+                    <field name="sub_process_id" string="Sous-processus" options="{'no_create': True}"/>
+                    <field name="procedure_ids" widget="many2many_tags" string="Procédures"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_workflow_procedure_form" model="ir.ui.view">
+        <field name="name">workflow.procedure.form</field>
+        <field name="model">workflow.procedure</field>
+        <field name="arch" type="xml">
+            <form string="Procédure">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="activity_id" string="Activité" />
+                        <field name="task_formulation_ids" widget="many2many_tags" string="Formulations des Tâches" />
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+            <record id="view_workflow_procedure_tree" model="ir.ui.view">
+        <field name="name">workflow.procedure.tree</field>
+        <field name="model">workflow.procedure</field>
+        <field name="arch" type="xml">
+            <tree string="Procédures">
+                <field name="name"/>
+                <field name="activity_id" string="Activité" />
+                <field name="task_formulation_ids" widget="many2many_tags" string="Formulations des Tâches" />
+            </tree>
+        </field>
+    </record>
+
+        <record id="view_workflow_deliverable_form" model="ir.ui.view">
+        <field name="name">workflow.deliverable.form</field>
+        <field name="model">workflow.deliverable</field>
+        <field name="arch" type="xml">
+            <form string="Livrable">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="activity_id" string="Activité"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+      <record id="view_workflow_deliverable_tree" model="ir.ui.view">
+        <field name="name">workflow.deliverable.tree</field>
+        <field name="model">workflow.deliverable</field>
+        <field name="arch" type="xml">
+            <tree string="Livrables">
+                <field name="name"/>
+                <field name="activity_id" string="Activité"/>
+            </tree>
+        </field>
+    </record>
+
+        <record id="view_workflow_task_formulation_form" model="ir.ui.view">
+            <field name="name">workflow.task.formulation.form</field>
+            <field name="model">workflow.task.formulation</field>
+            <field name="arch" type="xml">
+                <form string="Formulation de Tâches">
+                    <sheet>
+                        <group name="task_info" string="Détails de la formulation de tâches">
+                            <field name="name" string="Nom"/>
+                            <field name="procedure_id" string="Procedure"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+         <record id="view_workflow_task_formulation_tree" model="ir.ui.view">
+        <field name="name">workflow.task.formulation.tree</field>
+        <field name="model">workflow.task.formulation</field>
+        <field name="arch" type="xml">
+            <tree string="Formulations de Tâches">
+                <field name="name" string="Nom"/>
+                <field name="procedure_id" string="Procedure"/>
+            </tree>
+        </field>
+    </record>
+
+        <menuitem id="menu_workflow_root"
+                  name="Workflow"
+                  sequence="10"/>
+
+        <menuitem id="menu_workflow_config"
+                  name="Configuration"
+                  parent="menu_workflow_root"
+                  sequence="10"/>
+
+        <menuitem id="menu_workflow_hierarchy_access"
+                  name="Hiérarchie"
+                  parent="menu_workflow_root"
+                  action="action_workflow_hierarchy"
+                  sequence="1"/>
+
+        <menuitem id="menu_workflow_domain_access"
+                  name="Domaines"
+                  parent="menu_workflow_config"
+                  action="action_workflow_domain"
+                  sequence="10"/>
+
+        <menuitem id="menu_workflow_process_access"
+                  name="Processus"
+                  parent="menu_workflow_config"
+                  action="action_workflow_process"
+                  sequence="20"/>
+
+        <menuitem id="menu_workflow_subprocess_access"
+                  name="Sous-processus"
+                  parent="menu_workflow_config"
+                  action="action_workflow_subprocess"
+                  sequence="30"/>
+
+        <menuitem id="menu_workflow_activity_access"
+                  name="Activités"
+                  parent="menu_workflow_config"
+                  action="action_workflow_activity"
+                  sequence="40"/>
+
+        <menuitem id="menu_workflow_procedure_access"
+                  name="Procédures"
+                  parent="menu_workflow_config"
+                  action="action_workflow_procedure"
+                  sequence="50"/>
+
+        <menuitem id="menu_workflow_deliverable_access"
+                  name="Livrables"
+                  parent="menu_workflow_config"
+                  action="action_workflow_deliverable"
+                  sequence="60"/>
+
+        <menuitem id="menu_workflow_task_formulation_access"
+                  name="Formulations de Tâches"
+                  parent="menu_workflow_config"
+                  action="action_workflow_task_formulation"
+                  sequence="70"/>
+
+    </data>
+</odoo>

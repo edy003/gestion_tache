@@ -1,0 +1,184 @@
+/* Container principal */
+.qctracker_dashboard_container2 {
+    height: 100% !important;
+    overflow-y: auto !important;
+    background-color: #FFFFFF !important;
+    overflow-x: hidden !important;
+}
+
+/* Flex container */
+.qc_dashboard_flex {
+    /* flex: 1; */
+    height: 100vh !important;
+}
+
+/* Sidebar - Compact and fixed with animation */
+
+
+/* Dashboard content - MISE À JOUR */
+.qc_dashboard_content {
+    /* flex: 1 !important; */
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #ffffff !important;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important; /* Ajout de la transition */
+}
+
+
+
+/* Content header - MISE À JOUR */
+.qc_dashboard_header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+    background-color: #F7F8F8 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    top: var(--Navbar-height, 46px) !important;
+    left: 20px !important; /* Position par défaut */
+    right: 20px !important;
+    position: fixed !important;
+    z-index: 10 !important;
+ 
+}
+
+
+/* Content grid - MISE À JOUR */
+.qc_content_grid {
+    flex: 1;
+    display: grid !important;
+    background-color:  #F7F8F8 !important;
+    border-radius: 12px !important;
+    margin-top: 115px !important;
+    margin-left: 15px !important;
+    margin-right: 10px !important;
+    bottom: 15px;
+}
+
+
+
+/* Filter container */
+.qc_filter_container {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important; /* Aligne tous les selects en bas */
+    gap: 16px !important;
+    flex: 1 !important;
+}
+
+/* Filter section */
+.qc_filter_section {
+    display: flex !important;
+    flex-direction: column !important; /* Garde column pour label au-dessus du select */
+    gap: 5px !important;
+    min-width: 150px;
+    flex-shrink: 0; /* Empêche la réduction des sections */
+}
+
+/* Filter label */
+.qc_filter_label {
+    padding: 0 5px !important;
+    font-size: 11px !important;
+    color: #6B7280 !important;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+}
+
+/* Filter select */
+.qc_filter_select {
+    padding: 5px !important;
+    font-size: 13px !important;
+    color: #374151 !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 6px !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+/* Select hover and focus */
+.qc_filter_select:hover,
+.qc_filter_select:focus {
+    border-color: #9CA3AF !important;
+    box-shadow: 0 0 0 2px rgba(209, 213, 219, 0.2) !important;
+}
+
+/* Styles pour les boutons de filtres */
+.qc_button_group {
+    display: flex !important;
+    flex-direction: row !important; /* CHANGÉ de column à row */
+    gap: 10px !important;
+    align-items: center !important; /* Aligne les boutons verticalement */
+}
+
+.qc_apply_btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    background-color: #275939 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important; /* Empêche le texte de se casser */
+}
+
+.qc_apply_btn:hover {
+    background-color: #23402D !important;
+}
+
+.qc_apply_btn svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+
+.qc_reset_btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    background-color: #6b7280 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important;
+}
+
+.qc_reset_btn:hover {
+    background-color: #4b5563 !important;
+}
+        
+
+.header_left, .header_right {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.header_right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+
+
+
+.h-custom-90 {
+    height: 34rem; /* (90 * 4px) / 16 = 22.5rem */
+}
+

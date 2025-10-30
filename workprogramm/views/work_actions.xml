@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_workflow_hierarchy" model="ir.actions.act_window">
+        <field name="name">Gestion de Processus 📈</field>
+        <field name="res_model">workflow.hierarchy</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Cliquez pour créer une nouvelle entrée de Processus 📈
+            </p><p>
+                Gérez la structure Domaine > Processus > Sous-processus > Activité > Procédure > Livrable > Formulation de Tâche avec des liens Many2many.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_domain" model="ir.actions.act_window">
+        <field name="name">Domaines 🌐</field>
+        <field name="res_model">workflow.domain</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez un nouveau domaine de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_process" model="ir.actions.act_window">
+        <field name="name">Processus ⚙️</field>
+        <field name="res_model">workflow.process</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez un nouveau processus de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_subprocess" model="ir.actions.act_window">
+        <field name="name">Sous-processus 📝</field>
+        <field name="res_model">workflow.subprocess</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez un nouveau sous-processus de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_activity" model="ir.actions.act_window">
+        <field name="name">Activités 🧩</field>
+        <field name="res_model">workflow.activity</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez une nouvelle activité de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_procedure" model="ir.actions.act_window">
+        <field name="name">Procédures 📜</field>
+        <field name="res_model">workflow.procedure</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez une nouvelle procédure de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_deliverable" model="ir.actions.act_window">
+        <field name="name">Livrables ✅</field>
+        <field name="res_model">workflow.deliverable</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez un nouveau livrable de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_workflow_task_formulation" model="ir.actions.act_window">
+        <field name="name">Formulations de Tâches 📝</field>
+        <field name="res_model">workflow.task.formulation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez une nouvelle formulation de tâche de workflow.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_work_program" model="ir.actions.act_window">
+        <field name="name">Programmes de Travail 📅</field>
+        <field name="res_model">work.program</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="target">current</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Créez un nouveau programme de travail.
+            </p><p>
+                Gérez les programmes de travail associés aux projets, avec des responsables et des équipes de support.
+            </p>
+        </field>
+    </record>
+
+</odoo>

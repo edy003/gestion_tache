@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Définir des départements -->
+    <record id="department_finance" model="hr.department">
+        <field name="name">Finance Department</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="department_hr" model="hr.department">
+        <field name="name">HR Department</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="department_sales" model="hr.department">
+        <field name="name">Sales Department</field>
+        <field name="dpt_type">internal</field>
+    </record>
+    <record id="department_it" model="hr.department">
+        <field name="name">IT Department</field>
+        <field name="dpt_type">external</field>
+    </record>
+    <record id="department_support" model="hr.department">
+        <field name="name">Support Department</field>
+        <field name="dpt_type">external</field>
+    </record>
+
+    <!-- Domaines -->
+    <record id="workflow_domain_finance" model="workflow.domain">
+        <field name="name">Finance</field>
+    </record>
+    <record id="workflow_domain_hr" model="workflow.domain">
+        <field name="name">Human Resources</field>
+    </record>
+    <record id="workflow_domain_sales" model="workflow.domain">
+        <field name="name">Sales</field>
+    </record>
+    <record id="workflow_domain_it" model="workflow.domain">
+        <field name="name">Information Technology</field>
+    </record>
+    <record id="workflow_domain_support" model="workflow.domain">
+        <field name="name">PS: SUPPORT</field>
+    </record>
+
+    <!-- Processus -->
+    <record id="workflow_process_invoicing" model="workflow.process">
+        <field name="name">Invoicing</field>
+        <field name="domain_id" eval="ref('workflow_domain_finance')"/>
+    </record>
+    <record id="workflow_process_payroll" model="workflow.process">
+        <field name="name">Payroll Management</field>
+        <field name="domain_id" eval="ref('workflow_domain_finance')"/>
+    </record>
+    <record id="workflow_process_recruitment" model="workflow.process">
+        <field name="name">Recruitment</field>
+        <field name="domain_id" eval="ref('workflow_domain_hr')"/>
+    </record>
+    <record id="workflow_process_lead_management" model="workflow.process">
+        <field name="name">Lead Management</field>
+        <field name="domain_id" eval="ref('workflow_domain_sales')"/>
+    </record>
+    <record id="workflow_process_ps4" model="workflow.process">
+        <field name="name">PS4. Information system management</field>
+        <field name="domain_id" eval="ref('workflow_domain_it')"/>
+    </record>
+
+    <!-- Sous-processus -->
+    <record id="workflow_subprocess_customer_invoice" model="workflow.subprocess">
+        <field name="name">Customer Invoicing</field>
+        <field name="process_id" eval="ref('workflow_process_invoicing')"/>
+    </record>
+    <record id="workflow_subprocess_vendor_invoice" model="workflow.subprocess">
+        <field name="name">Vendor Invoicing</field>
+        <field name="process_id" eval="ref('workflow_process_invoicing')"/>
+    </record>
+    <record id="workflow_subprocess_salary_calculation" model="workflow.subprocess">
+        <field name="name">Salary Calculation</field>
+        <field name="process_id" eval="ref('workflow_process_payroll')"/>
+    </record>
+    <record id="workflow_subprocess_candidate_screening" model="workflow.subprocess">
+        <field name="name">Candidate Screening</field>
+        <field name="process_id" eval="ref('workflow_process_recruitment')"/>
+    </record>
+    <record id="workflow_subprocess_data_entry" model="workflow.subprocess">
+        <field name="name">Data Entry</field>
+        <field name="process_id" eval="ref('workflow_process_lead_management')"/>
+    </record>
+    <record id="workflow_subprocess_ps4_1" model="workflow.subprocess">
+        <field name="name">PS4.1: Manage IT and office equipment</field>
+        <field name="process_id" eval="ref('workflow_process_ps4')"/>
+    </record>
+    <record id="workflow_subprocess_ps4_2" model="workflow.subprocess">
+        <field name="name">PS4.2: Manage the Enterprise Management system</field>
+        <field name="process_id" eval="ref('workflow_process_ps4')"/>
+    </record>
+
+    <!-- Activités -->
+    <record id="workflow_activity_create_invoice" model="workflow.activity">
+        <field name="name">Create Invoice</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_customer_invoice')"/>
+    </record>
+    <record id="workflow_activity_send_invoice" model="workflow.activity">
+        <field name="name">Send Invoice</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_customer_invoice')"/>
+    </record>
+    <record id="workflow_activity_validate_invoice" model="workflow.activity">
+        <field name="name">Validate Vendor Invoice</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_vendor_invoice')"/>
+    </record>
+    <record id="workflow_activity_calculate_taxes" model="workflow.activity">
+        <field name="name">Calculate Taxes</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_salary_calculation')"/>
+    </record>
+    <record id="workflow_activity_review_cv" model="workflow.activity">
+        <field name="name">Review CV</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_candidate_screening')"/>
+    </record>
+    <record id="workflow_activity_enter_lead_details" model="workflow.activity">
+        <field name="name">Enter Lead Details</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_data_entry')"/>
+    </record>
+    <record id="workflow_activity_ps4_1_a1" model="workflow.activity">
+        <field name="name">PS4.1_A1: Manage IT equipment inputs/outputs</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_1')"/>
+    </record>
+    <record id="workflow_activity_ps4_1_a2" model="workflow.activity">
+        <field name="name">PS4.1_A2: Manage licenses and subscriptions</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_1')"/>
+    </record>
+    <record id="workflow_activity_ps4_1_a3" model="workflow.activity">
+        <field name="name">PS4.1_A3: Install equipment or software</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_1')"/>
+    </record>
+    <record id="workflow_activity_ps4_1_a4" model="workflow.activity">
+        <field name="name">PS4.1_A4: Manage office and production tools</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_1')"/>
+    </record>
+    <record id="workflow_activity_ps4_1_a5" model="workflow.activity">
+        <field name="name">PS4.1_A5: Ensure the maintenance of computer equipment</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_1')"/>
+    </record>
+    <record id="workflow_activity_ps4_2_a1" model="workflow.activity">
+        <field name="name">PS4.2_A1: Manage users and their rights</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_2')"/>
+    </record>
+    <record id="workflow_activity_ps4_2_a2" model="workflow.activity">
+        <field name="name">PS4.2_A2: Maintain the system (Corrective maintenance, Evolutionary maintenance)</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_2')"/>
+    </record>
+    <record id="workflow_activity_ps4_2_a3" model="workflow.activity">
+        <field name="name">PS4.2_A3: Manage specifications</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_2')"/>
+    </record>
+    <record id="workflow_activity_ps4_2_a4" model="workflow.activity">
+        <field name="name">PS4.2_A4: Manage changes</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_2')"/>
+    </record>
+    <record id="workflow_activity_ps4_2_a5" model="workflow.activity">
+        <field name="name">PS4.2_A5: Support users</field>
+        <field name="sub_process_id" eval="ref('workflow_subprocess_ps4_2')"/>
+    </record>
+
+    <!-- Procédures -->
+    <record id="workflow_procedure_invoice_creation_manual" model="workflow.procedure">
+        <field name="name">Manual Invoice Creation Procedure</field>
+        <field name="activity_id" eval="ref('workflow_activity_create_invoice')"/>
+    </record>
+    <record id="workflow_procedure_invoice_sending_email" model="workflow.procedure">
+        <field name="name">Email Invoice Sending Procedure</field>
+        <field name="activity_id" eval="ref('workflow_activity_send_invoice')"/>
+    </record>
+    <record id="workflow_procedure_ps4_1_proc_asset_mgmt" model="workflow.procedure">
+        <field name="name">PS4.1 Proc: IT Asset Management</field>
+        <field name="activity_id" eval="ref('workflow_activity_ps4_1_a1')"/>
+    </record>
+    <record id="workflow_procedure_ps4_2_proc_user_mgmt" model="workflow.procedure">
+        <field name="name">PS4.2 Proc: User Rights Management</field>
+        <field name="activity_id" eval="ref('workflow_activity_ps4_2_a1')"/>
+    </record>
+
+    <!-- Livrables -->
+    <record id="workflow_deliverable_customer_invoice_pdf" model="workflow.deliverable">
+        <field name="name">Customer Invoice (PDF)</field>
+        <field name="activity_id" eval="ref('workflow_activity_create_invoice')"/>
+    </record>
+    <record id="workflow_deliverable_asset_inventory_report" model="workflow.deliverable">
+        <field name="name">IT Asset Inventory Report</field>
+        <field name="activity_id" eval="ref('workflow_activity_ps4_1_a1')"/>
+    </record>
+    <record id="workflow_deliverable_user_rights_matrix" model="workflow.deliverable">
+        <field name="name">User Rights Matrix</field>
+        <field name="activity_id" eval="ref('workflow_activity_ps4_2_a1')"/>
+    </record>
+
+    <!-- Formulations de tâches -->
+    <record id="workflow_task_formulation_verify_data" model="workflow.task.formulation">
+        <field name="name">Verify all invoice data accuracy before printing.</field>
+        <field name="procedure_id" eval="ref('workflow_procedure_invoice_creation_manual')"/>
+    </record>
+    <record id="workflow_task_formulation_archive_report" model="workflow.task.formulation">
+        <field name="name">Archive the generated IT asset inventory report in shared drive.</field>
+        <field name="procedure_id" eval="ref('workflow_procedure_ps4_1_proc_asset_mgmt')"/>
+    </record>
+    <record id="workflow_task_formulation_update_user_db" model="workflow.task.formulation">
+        <field name="name">Update active directory based on user rights matrix.</field>
+        <field name="procedure_id" eval="ref('workflow_procedure_ps4_2_proc_user_mgmt')"/>
+    </record>
+
+    <!-- Hiérarchie avec department_id -->
+    <record id="workflow_hierarchy_entry_finance_invoicing" model="workflow.hierarchy">
+        <field name="name">Finance - Invoicing Entry (M2M)</field>
+        <field name="domain_ids" eval="[(6, 0, [ref('workflow_domain_finance')])]"/>
+        <field name="process_ids" eval="[(6, 0, [ref('workflow_process_invoicing')])]"/>
+        <field name="sub_process_ids" eval="[(6, 0, [ref('workflow_subprocess_customer_invoice'), ref('workflow_subprocess_vendor_invoice')])]"/>
+        <field name="activity_ids" eval="[(6, 0, [ref('workflow_activity_create_invoice'), ref('workflow_activity_send_invoice'), ref('workflow_activity_validate_invoice')])]"/>
+        <field name="procedure_ids" eval="[(6, 0, [ref('workflow_procedure_invoice_creation_manual'), ref('workflow_procedure_invoice_sending_email')])]"/>
+        <field name="deliverable_ids" eval="[(6, 0, [ref('workflow_deliverable_customer_invoice_pdf')])]"/>
+        <field name="task_formulation_ids" eval="[(6, 0, [ref('workflow_task_formulation_verify_data')])]"/>
+        <field name="active">1</field>
+        <field name="department_id" ref="department_finance"/>
+    </record>
+
+    <record id="workflow_hierarchy_entry_hr_recruitment" model="workflow.hierarchy">
+        <field name="name">HR - Recruitment Entry (M2M)</field>
+        <field name="domain_ids" eval="[(6, 0, [ref('workflow_domain_hr')])]"/>
+        <field name="process_ids" eval="[(6, 0, [ref('workflow_process_recruitment')])]"/>
+        <field name="sub_process_ids" eval="[(6, 0, [ref('workflow_subprocess_candidate_screening')])]"/>
+        <field name="activity_ids" eval="[(6, 0, [ref('workflow_activity_review_cv')])]"/>
+        <field name="active">1</field>
+        <field name="department_id" ref="department_hr"/>
+    </record>
+
+    <record id="workflow_hierarchy_entry_ps4_example" model="workflow.hierarchy">
+        <field name="name">PS4 - IT Management Example (M2M)</field>
+        <field name="domain_ids" eval="[(6, 0, [ref('workflow_domain_it')])]"/>
+        <field name="process_ids" eval="[(6, 0, [ref('workflow_process_ps4')])]"/>
+        <field name="sub_process_ids" eval="[(6, 0, [ref('workflow_subprocess_ps4_1'), ref('workflow_subprocess_ps4_2')])]"/>
+        <field name="activity_ids" eval="[(6, 0, [
+            ref('workflow_activity_ps4_1_a1'),
+            ref('workflow_activity_ps4_1_a2'),
+            ref('workflow_activity_ps4_2_a1'),
+            ref('workflow_activity_ps4_2_a2')
+        ])]"/>
+        <field name="procedure_ids" eval="[(6, 0, [ref('workflow_procedure_ps4_1_proc_asset_mgmt'), ref('workflow_procedure_ps4_2_proc_user_mgmt')])]"/>
+        <field name="deliverable_ids" eval="[(6, 0, [ref('workflow_deliverable_asset_inventory_report'), ref('workflow_deliverable_user_rights_matrix')])]"/>
+        <field name="task_formulation_ids" eval="[(6, 0, [ref('workflow_task_formulation_archive_report'), ref('workflow_task_formulation_update_user_db')])]"/>
+        <field name="notes">Exemple d'entrée liée à plusieurs domaines, sous-processus et activités de PS4.</field>
+        <field name="active">1</field>
+        <field name="department_id" ref="department_it"/>
+    </record>
+</odoo>

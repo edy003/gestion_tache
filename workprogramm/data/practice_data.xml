@@ -1,0 +1,63 @@
+<odoo>
+    <record id="prac_td" model="practice.practice">
+        <field name="name">Transformation Digitale</field>
+        <field name="type">consulting</field>
+        <field name="sic">TDG001</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_conseil_strat')])]"/>
+    </record>
+    <record id="prac_financiere" model="practice.practice">
+        <field name="name">Performance Financière</field>
+        <field name="type">consulting</field>
+        <field name="sic">PF002</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_audit_conformite')])]"/>
+    </record>
+    <record id="prac_changement" model="practice.practice">
+        <field name="name">Gestion du Changement</field>
+        <field name="type">consulting</field>
+        <field name="sic">GC003</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_conseil_strat'), ref('dept_rh')])]"/>
+    </record>
+    <record id="prac_juridique_ext" model="practice.practice">
+        <field name="name">Conseil Réglementaire</field>
+        <field name="type">consulting</field>
+        <field name="sic">JUR004</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_audit_conformite'), ref('dept_juridique')])]"/>
+    </record>
+    <record id="prac_rh_ext" model="practice.practice">
+        <field name="name">Stratégie RH</field>
+        <field name="type">consulting</field>
+        <field name="sic">SRH005</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_rh'), ref('dept_conseil_strat')])]"/>
+    </record>
+
+    <record id="prac_dev_mobile" model="practice.practice">
+        <field name="name">Développement Mobile</field>
+        <field name="type">technology</field>
+        <field name="sic">DM006</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_dev_logiciel')])]"/>
+    </record>
+    <record id="prac_cybersoc" model="practice.practice">
+        <field name="name">Cybersécurité &amp; SOC</field>
+        <field name="type">technology</field>
+        <field name="sic">CS911</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_infra_cloud'), ref('dept_dev_logiciel')])]"/>
+    </record>
+    <record id="prac_ia_ml" model="practice.practice">
+        <field name="name">IA et Machine Learning</field>
+        <field name="type">technology</field>
+        <field name="sic">IA008</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_dev_logiciel')])]"/>
+    </record>
+    <record id="prac_cloud_migration" model="practice.practice">
+        <field name="name">Migration Cloud</field>
+        <field name="type">technology</field>
+        <field name="sic">MC009</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_infra_cloud'), ref('dept_support_client')])]"/>
+    </record>
+    <record id="prac_data_analytics" model="practice.practice">
+        <field name="name">Data Analytics</field>
+        <field name="type">technology</field>
+        <field name="sic">DA010</field>
+        <field name="department_ids" eval="[(6, 0, [ref('dept_dev_logiciel'), ref('dept_audit_conformite')])]"/>
+    </record>
+</odoo>

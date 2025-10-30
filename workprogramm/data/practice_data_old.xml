@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Pratiques -->
+        <record id="practice_consulting" model="practice.practice">
+            <field name="name">Consulting</field>
+            <field name="sic">CONS001</field>
+            <field name="type">consulting</field>
+            <field name="department_ids" eval="[(4, ref('hr.dep_sales'))]"/>
+        </record>
+        <record id="practice_technology" model="practice.practice">
+            <field name="name">Technology</field>
+            <field name="sic">TECH001</field>
+            <field name="type">technology</field>
+            <field name="department_ids" eval="[(4, ref('hr.dep_rd'))]"/>
+        </record>
+        <!-- Sous-catégories pour Consulting -->
+        <record id="subcategory_consult_un" model="practice.subcategory">
+            <field name="name">Business Transformation</field>
+            <field name="practice_id" ref="practice_consulting"/>
+        </record>
+        <record id="subcategory_consult_2" model="practice.subcategory">
+            <field name="name">Digital and IT Tranformation</field>
+            <field name="practice_id" ref="practice_consulting"/>
+        </record>
+        <record id="subcategory_consult_3" model="practice.subcategory">
+            <field name="name">Audit, IT Risk and Information Security</field>
+            <field name="practice_id" ref="practice_consulting"/>
+        </record>
+
+        <record id="subcategory_consult_4" model="practice.subcategory">
+            <field name="name">Enterprise Agility &amp; Project Transformation</field>
+            <field name="practice_id" ref="practice_consulting"/>
+        </record>
+        <record id="subcategory_consult_5" model="practice.subcategory">
+            <field name="name">Data Analytics and AI</field>
+            <field name="practice_id" ref="practice_consulting"/>
+        </record>
+        <record id="subcategory_consult_6" model="practice.subcategory">
+            <field name="name">Consulting and Services in Digital Government</field>
+            <field name="practice_id" ref="practice_consulting"/>
+        </record>
+        <!-- Sous-catégories pour Technology -->
+        <record id="subcategory_techno_un" model="practice.subcategory">
+            <field name="name">Enterprise Application &amp; Digital Solutions</field>
+            <field name="practice_id" ref="practice_technology"/>
+        </record>
+        <record id="subcategory_techno_2" model="practice.subcategory">
+            <field name="name">Managed Services &amp; Infrastructure Management</field>
+            <field name="practice_id" ref="practice_technology"/>
+        </record>
+
+    </data>
+</odoo>

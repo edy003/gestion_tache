@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="hr_department_view_form" model="ir.ui.view">
+        <field name="name">workprogramm.hr.department.form</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[1]" position="inside">
+                <field name="dpt_type" string="Type"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <!--record id="hr_department_view_tree" model="ir.ui.view">
+        <field name="name">workprogramm.hr.department.tree</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_tree"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="/tree/field[@name='name']" position="after">
+                <field name="dpt_type" string="Type"/>
+            </xpath>
+        </field>
+    </record-->
+    <!-- Tree View -->
+    <record id="hr_department_view_tree" model="ir.ui.view">
+        <field name="name">workprogramm.hr.department.tree</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="dpt_type" string="Type"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

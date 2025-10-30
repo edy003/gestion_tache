@@ -1,0 +1,407 @@
+<templates id="employee_evaluation_dashboard_templates" xml:space="preserve">
+    <t t-name="qc_dashboard.EmployeeEvaluationDashboard" owl="1">
+        <div class="qctracker_dashboard_container2">
+            <div class="qc_dashboard_flex">
+                <!-- Sidebar -->
+             
+
+                <!-- Dashboard Content -->
+                <main class="qc_dashboard_content ">
+                   <header class="qc_dashboard_header">
+    <div class="qc_filter_container">
+        <!-- Section 1 : Dates -->
+        <div class="qc_filter_section">
+                <label class="qc_filter_label">Année</label>
+                <select
+                    class="qc_filter_select" 
+                    t-on-change="onYearChange"
+                >
+                    <option value="">Toutes les années</option>
+                     <t t-foreach="state.availableYears" t-as="year" t-key="year">
+                        <option t-att-value="year" t-att-selected="state.selectedYear === year">
+                            <t t-esc="year"/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+
+            <div class="qc_filter_section">
+                <label class="qc_filter_label">Mois</label>
+                <select 
+                    class="qc_filter_select"
+                    t-on-change="onMonthChange"
+                >
+                    <option value="">Tous les mois</option>
+                    <t t-foreach="state.monthsForYear" t-as="month" t-key="month">
+                        <option t-att-value="month" t-att-selected="state.selectedMonth === month">
+                            <t t-esc="month"/>
+                        </option>
+                    </t>
+                </select>
+            </div>
+       
+        <!-- Section 2 : Département (si manager/admin) -->
+        <t t-if="state.isManagerOrAdmin">
+            <div class="qc_filter_section">
+                <label class="qc_filter_label">Département</label>
+                <select 
+                    class="qc_filter_select"
+                    t-on-change="onDepartmentChange"  
+                >
+                    <option value="">Tous</option>
+                    <t t-foreach="state.availableDepartments" t-as="dept" t-key="dept.id">
+                <option t-att-value="dept.id" t-att-selected="state.selectedDepartmentId === dept.id">
+                    <t t-esc="dept.name"/>
+                </option>
+            </t>
+                </select>
+            </div>
+
+            <!-- Section 3 : Responsable -->
+            <div class="qc_filter_section">
+                <label class="qc_filter_label">Responsable</label>
+                <select 
+                    class="qc_filter_select"
+                    t-on-change="onResponsibleChange"
+                >
+                    <option value="">Tous</option>
+                      <t t-foreach="state.employeesForDepartment" t-as="employee" t-key="employee.id">
+                <option t-att-value="employee.id" t-att-selected="state.selectedResponsibleId === employee.id">
+                    <t t-esc="employee.name"/>
+                </option>
+            </t>
+                </select>
+            </div>
+        </t>
+        
+    </div>
+    
+    <!-- Profile utilisateur à droite -->
+    <div class="header_right">
+              <div class="qc_button_group">
+            <button class="qc_apply_btn" t-on-click="onApplyFilters" t-att-disabled="state.loading">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Apply
+            </button>
+            <button class="qc_reset_btn" t-on-click="onResetFilters" t-att-disabled="state.loading">
+                <i class="fa fa-refresh"></i>
+                Reset
+            </button>
+        </div>
+    </div>
+</header>
+                    <section class="qc_content_grid">
+                        <div class="p-6">
+                            <h1 class="text-3xl font-bold mb-2">Dashboard</h1>
+                            <p class="text-lg text-gray-600">Employee Performance Overview</p>
+                        </div> 
+                        <!-- Disposition en 2 colonnes avec ratio 1/3 - 2/3 -->
+                        <!-- Disposition en 2 colonnes avec ratio 1/3 - 2/3 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
+            <!-- Colonne 1 : Carte de l'employé (prend 1/3) -->
+            <div class="md:col-span-1 flex items-center">
+                <div class="max-w-64 mx-auto md:max-w-none bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-4 w-full h-full">
+                    <div class="flex flex-col items-center pb-6 h-full justify-center">
+                        <!-- Cercle pour le profil -->
+                         <div class="w-16 h-16 mb-3 rounded-full shadow-lg bg-gray-300 dark:bg-gray-600 overflow-hidden">
+                <t t-if="getProfileImageSrc()">
+                    <img t-att-src="getProfileImageSrc()" alt="Profile" class="w-full h-full object-cover"/>
+                </t>
+            </div>
+                        <!-- Nom et département dynamiques -->
+            <h5 class="mb-1 text-base font-medium text-gray-900 dark:text-white text-center">
+                <t t-esc="state.employeeDisplay.display_name"/>
+            </h5>
+            <span class="text-sm text-gray-500 dark:text-gray-400 text-center">
+                <t t-esc="state.employeeDisplay.department_name"/>
+            </span>
+            <div class="qc_score_value">
+                Score: <span t-esc="state.employeeDisplay.score || 0"/> / 100
+            </div>
+                        <!-- Bouton central -->
+                <!-- Bouton central avec catégorie dynamique -->
+            <div class="flex mt-4 md:mt-6">
+                <span t-att-class="'inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg ' + getCategoryColor(state.employeeDisplay.category)">
+                    <t t-esc="state.employeeDisplay.category"/>
+                </span>
+            </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colonne 2 : Quatre cartes de métriques (prend 2/3) -->
+            <div class="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Carte de métrique 1 -->
+                 <!-- Carte KPI 1 : Précision et respect des délais -->
+                <div class="overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-800">
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+                       Capacite a communiquer
+                    </h3>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        Taux de complétion à temps des tâches en tant que support
+                    </p>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-3xl font-bold text-gray-800 dark:text-white">
+                            <t t-if="state.deadlineCompliance !== '--'">
+                                <t t-esc="state.deadlineCompliance"/>%
+                            </t>
+                            <t t-else="">
+                                --
+                            </t>
+                        </h3>
+                        <div class="text-sm font-bold mt-1">
+                            <t t-if="state.deadlineEvolution and state.deadlineEvolution.display !== '--'">
+                                <p class="text-gray-500 dark:text-gray-400">
+                                    <span t-att-class="getEvolutionClass(state.deadlineEvolution)" class="mr-1 inline-block">
+                                        <t t-esc="getEvolutionIcon(state.deadlineEvolution)"/>
+                                        <t t-esc="state.deadlineEvolution.display"/>
+                                    </span>
+                                    vs. <t t-esc="state.deadlineEvolution.previous_period"/>
+                                </p>
+                            </t>
+                            <t t-elif="state.selectedMonth and state.selectedYear">
+                                <p class="text-gray-500 dark:text-gray-400">
+                                    <span class="text-gray-400 mr-1 inline-block">
+                                        --
+                                    </span>
+                                    vs. Mois précédent
+                                </p>
+                            </t>
+                            <t t-else="">
+                                <p class="text-gray-500 dark:text-gray-400 text-xs">
+                                    Sélectionnez année et mois pour voir l'évolution
+                                </p>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <!-- Carte KPI 2 : Capacité à résoudre des problèmes complexes -->
+                <!-- Carte KPI 2 : Taux de satisfaction élevé -->
+<div class="overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-800">
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+           Capacite a produire un travail de qualite
+        </h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Taux de complétion à temps des tâches à satisfaction elevee
+        </p>
+    </div>
+    <div class="flex justify-between items-center">
+        <div>
+            <h3 class="text-3xl font-bold text-gray-800 dark:text-white">
+                <t t-if="state.satisfactionRate !== '--'">
+                    <t t-esc="state.satisfactionRate"/>%
+                </t>
+                <t t-else="">
+                    --
+                </t>
+            </h3>
+            <div class="text-sm font-bold mt-1">
+                <t t-if="state.satisfactionEvolution and state.satisfactionEvolution.display !== '--'">
+                    <p class="text-gray-500 dark:text-gray-400">
+                        <span t-att-class="getEvolutionClass(state.satisfactionEvolution)" class="mr-1 inline-block">
+                            <t t-esc="getEvolutionIcon(state.satisfactionEvolution)"/>
+                            <t t-esc="state.satisfactionEvolution.display"/>
+                        </span>
+                        vs. <t t-esc="state.satisfactionEvolution.previous_period"/>
+                    </p>
+                </t>
+                <t t-elif="state.selectedMonth and state.selectedYear">
+                    <p class="text-gray-500 dark:text-gray-400">
+                        <span class="text-gray-400 mr-1 inline-block">
+                            --
+                        </span>
+                        vs. Mois précédent
+                    </p>
+                </t>
+                <t t-else="">
+                    <p class="text-gray-500 dark:text-gray-400 text-xs">
+                        Sélectionnez année et mois pour voir l'évolution
+                    </p>
+                </t>
+            </div>
+        </div>
+    </div>
+</div>
+                  <!-- Carte KPI 3 : Responsabilité et gestion -->
+                <div class="overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-800">
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+            Résolution des Problèmes Complexes
+        </h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Taux de complétion à temps des tâches à haute complexité
+        </p>
+    </div>
+    <div class="flex justify-between items-center">
+        <div>
+            <h3 class="text-3xl font-bold text-gray-800 dark:text-white">
+                <t t-if="state.complexResolution !== '--'">
+                    <t t-esc="state.complexResolution"/>%
+                </t>
+                <t t-else="">
+                    --
+                </t>
+            </h3>
+            <div class="text-sm font-bold mt-1">
+                <t t-if="state.complexEvolution and state.complexEvolution.display !== '--'">
+                    <p class="text-gray-500 dark:text-gray-400">
+                        <span t-att-class="getEvolutionClass(state.complexEvolution)" class="mr-1 inline-block">
+                            <t t-esc="getEvolutionIcon(state.complexEvolution)"/>
+                            <t t-esc="state.complexEvolution.display"/>
+                        </span>
+                        par rapport à <t t-esc="state.complexEvolution.previous_period"/>
+                    </p>
+                </t>
+                <t t-elif="state.selectedMonth and state.selectedYear">
+                    <p class="text-gray-500 dark:text-gray-400">
+                        <span class="text-gray-400 mr-1 inline-block">
+                            --
+                        </span>
+                        par rapport au Mois précédent
+                    </p>
+                </t>
+                <t t-else="">
+                    <p class="text-gray-500 dark:text-gray-400 text-xs">
+                        Sélectionnez année et mois pour voir l'évolution
+                    </p>
+                </t>
+            </div>
+        </div>
+    </div>
+</div>
+                  <!-- Carte KPI 4 : Capacité à collaborer et esprit d’équipe -->
+                <div class="overflow-hidden rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-800">
+    <div class="mb-6">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
+            Résolution des Tâches Prioritaires
+        </h3>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            Taux de complétion à temps des tâches à haute priorité
+        </p>
+    </div>
+    <div class="flex justify-between items-center">
+        <div>
+            <h3 class="text-3xl font-bold text-gray-800 dark:text-white">
+                <t t-if="state.priorityResolution !== '--'">
+                    <t t-esc="state.priorityResolution"/>%
+                </t>
+                <t t-else="">
+                    --
+                </t>
+            </h3>
+            <div class="text-sm font-bold mt-1">
+                <t t-if="state.priorityEvolution and state.priorityEvolution.display !== '--'">
+                    <p class="text-gray-500 dark:text-gray-400">
+                        <span t-att-class="getEvolutionClass(state.priorityEvolution)" class="mr-1 inline-block">
+                            <t t-esc="getEvolutionIcon(state.priorityEvolution)"/>
+                            <t t-esc="state.priorityEvolution.display"/>
+                        </span>
+                        par rapport à <t t-esc="state.priorityEvolution.previous_period"/>
+                    </p>
+                </t>
+                <t t-elif="state.selectedMonth and state.selectedYear">
+                    <p class="text-gray-500 dark:text-gray-400">
+                        <span class="text-gray-400 mr-1 inline-block">
+                            --
+                        </span>
+                        par rapport au Mois précédent
+                    </p>
+                </t>
+                <t t-else="">
+                    <p class="text-gray-500 dark:text-gray-400 text-xs">
+                        Sélectionnez année et mois pour voir l'évolution
+                    </p>
+                </t>
+            </div>
+        </div>
+    </div>
+</div>
+            </div>
+        </div>
+   
+        
+                        <!-- Section pour les deux cartes de graphiques côte à côte -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+            <!-- Première carte de graphique -->
+            <div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                    <!-- Titre de la carte de graphique -->
+                    <div class="flex items-center justify-between mb-5">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+                            Respect des delais par complexite
+                        </h3>
+                    </div>
+
+                    <!-- Espace réservé pour le graphique -->
+                    <div class="flex justify-center items-center h-64  rounded-lg mb-6 text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+                        <div t-ref="complexity-deadline-chart" class="h-full w-full"></div>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            <!-- Deuxième carte de graphique -->
+            <div>
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
+                    <!-- Titre de la carte de graphique -->
+                    <div class="flex items-center justify-between mb-5">
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+                            Respect des Délais par Priorité
+                        </h3>
+                    </div>
+
+                    <!-- Espace réservé pour le graphique -->
+                    <div class="flex justify-center items-center h-64  rounded-lg mb-6 text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+                         <div t-ref="priority-deadline-chart" class="h-full w-full"></div>
+
+                    </div>
+
+             
+                  
+                         
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="p-6">
+        <!-- <div class="col-span-12 xl:col-span-8"> -->
+    <div class="p-6 border-gray-200 rounded-lg shadow-sm bg-white px-5 pb-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
+        <div class="flex flex-col gap-5 mb-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white/90">
+                    Respect des délais par mois d\'assignation
+                </h3>
+                <p class="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
+                    Terminé à temps vs En retard / Non terminé
+                </p>
+            </div>
+
+            </div>
+
+        <div class="max-w-full overflow-x-auto custom-scrollbar">
+            <div id="chartElevenPlaceholder" class="h-custom-90 flex items-center justify-center text-gray-500 dark:text-gray-400 border border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-4">
+                <div t-ref="monthly-deadline-chart" class="w-full h-full"></div>
+            </div>
+        </div>
+    <!-- </div> -->
+    </div>
+        
+        </div>
+        
+                  
+                    </section>
+                </main>
+            </div>
+        </div>
+    </t>
+</templates>

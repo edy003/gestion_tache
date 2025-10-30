@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="dom_it" model="workflow.domain"><field name="name">Services Informatiques</field><field name="dpt_type">internal</field></record>
+        <record id="dom_finance" model="workflow.domain"><field name="name">Finance &amp; Comptabilité</field><field name="dpt_type">internal</field></record>
+        <record id="dom_hr" model="workflow.domain"><field name="name">Ressources Humaines</field><field name="dpt_type">internal</field></record>
+        <record id="dom_sales" model="workflow.domain"><field name="name">Ventes &amp; Marketing</field><field name="dpt_type">internal</field></record>
+        <record id="dom_prod" model="workflow.domain"><field name="name">Production &amp; Opérations</field><field name="dpt_type">internal</field></record>
+        <record id="dom_qual" model="workflow.domain"><field name="name">Qualité &amp; Conformité</field><field name="dpt_type">internal</field></record>
+        <record id="dom_logist" model="workflow.domain"><field name="name">Logistique &amp; Chaîne d'Approvisionnement</field><field name="dpt_type">internal</field></record>
+        <record id="dom_rd" model="workflow.domain"><field name="name">Recherche &amp; Développement</field><field name="dpt_type">internal</field></record>
+        <record id="dom_legal" model="workflow.domain"><field name="name">Affaires Juridiques</field><field name="dpt_type">internal</field></record>
+        <record id="dom_maint" model="workflow.domain"><field name="name">Maintenance des Équipements</field><field name="dpt_type">internal</field></record>
+
+        <record id="proc_helpdesk" model="workflow.process"><field name="name">Gestion du Helpdesk</field><field name="domain_id" ref="dom_it"/></record>
+        <record id="proc_infra" model="workflow.process"><field name="name">Gestion de l'Infrastructure</field><field name="domain_id" ref="dom_it"/></record>
+        <record id="proc_ap" model="workflow.process"><field name="name">Comptes Fournisseurs (AP)</field><field name="domain_id" ref="dom_finance"/></record>
+        <record id="proc_ar" model="workflow.process"><field name="name">Comptes Clients (AR)</field><field name="domain_id" ref="dom_finance"/></record>
+        <record id="proc_report" model="workflow.process"><field name="name">Reporting Financier</field><field name="domain_id" ref="dom_finance"/></record>
+        <record id="proc_recruit" model="workflow.process"><field name="name">Recrutement</field><field name="domain_id" ref="dom_hr"/></record>
+        <record id="proc_paie" model="workflow.process"><field name="name">Gestion de la Paie</field><field name="domain_id" ref="dom_hr"/></record>
+        <record id="proc_order" model="workflow.process"><field name="name">Traitement des Commandes</field><field name="domain_id" ref="dom_sales"/></record>
+        <record id="proc_fab" model="workflow.process"><field name="name">Fabrication du Produit X</field><field name="domain_id" ref="dom_prod"/></record>
+        <record id="proc_shipping" model="workflow.process"><field name="name">Expédition des Marchandises</field><field name="domain_id" ref="dom_logist"/></record>
+        <record id="proc_audit" model="workflow.process"><field name="name">Audit Interne Annuel</field><field name="domain_id" ref="dom_qual"/></record>
+        <record id="proc_patent" model="workflow.process"><field name="name">Dépôt de Brevet</field><field name="domain_id" ref="dom_rd"/></record>
+
+        <record id="sub_ticket" model="workflow.subprocess"><field name="name">Ouverture du Ticket</field><field name="process_id" ref="proc_helpdesk"/></record>
+        <record id="sub_triage" model="workflow.subprocess"><field name="name">Triage des Requêtes</field><field name="process_id" ref="proc_helpdesk"/></record>
+        <record id="sub_serveur" model="workflow.subprocess"><field name="name">Surveillance Serveur</field><field name="process_id" ref="proc_infra"/></record>
+        <record id="sub_facture" model="workflow.subprocess"><field name="name">Saisie des Factures Fournisseurs</field><field name="process_id" ref="proc_ap"/></record>
+        <record id="sub_paiement" model="workflow.subprocess"><field name="name">Traitement des Paiements</field><field name="process_id" ref="proc_ap"/></record>
+        <record id="sub_cv" model="workflow.subprocess"><field name="name">Filtrage des CV</field><field name="process_id" ref="proc_recruit"/></record>
+        <record id="sub_interview" model="workflow.subprocess"><field name="name">Planification des Entretiens</field><field name="process_id" ref="proc_recruit"/></record>
+        <record id="sub_devis" model="workflow.subprocess"><field name="name">Création du Devis</field><field name="process_id" ref="proc_order"/></record>
+        <record id="sub_ligne" model="workflow.subprocess"><field name="name">Assemblage sur Ligne</field><field name="process_id" ref="proc_fab"/></record>
+        <record id="sub_pick" model="workflow.subprocess"><field name="name">Picking en Entrepôt</field><field name="process_id" ref="proc_shipping"/></record>
+        <record id="sub_check" model="workflow.subprocess"><field name="name">Vérification de Conformité</field><field name="process_id" ref="proc_audit"/></record>
+        <record id="sub_cloture" model="workflow.subprocess"><field name="name">Clôture Mensuelle</field><field name="process_id" ref="proc_report"/></record>
+
+
+        <record id="act_log" model="workflow.activity"><field name="name">Logging de l'Incident</field><field name="sub_process_id" ref="sub_ticket"/></record>
+        <record id="act_assign" model="workflow.activity"><field name="name">Assignation à un Spécialiste</field><field name="sub_process_id" ref="sub_triage"/></record>
+        <record id="act_reso" model="workflow.activity"><field name="name">Résolution de 1er niveau</field><field name="sub_process_id" ref="sub_triage"/></record>
+
+        <record id="act_alert" model="workflow.activity"><field name="name">Traitement des Alertes</field><field name="sub_process_id" ref="sub_serveur"/></record>
+        <record id="act_scan" model="workflow.activity"><field name="name">Scanning et OCR</field><field name="sub_process_id" ref="sub_facture"/></record>
+        <record id="act_approuv" model="workflow.activity"><field name="name">Approbation Managériale</field><field name="sub_process_id" ref="sub_paiement"/></record>
+        <record id="act_call" model="workflow.activity"><field name="name">Entretien Téléphonique</field><field name="sub_process_id" ref="sub_interview"/></record>
+        <record id="act_negoc" model="workflow.activity"><field name="name">Négociation des Prix</field><field name="sub_process_id" ref="sub_devis"/></record>
+        <record id="act_weld" model="workflow.activity"><field name="name">Soudage des Composants</field><field name="sub_process_id" ref="sub_ligne"/></record>
+        <record id="act_label" model="workflow.activity"><field name="name">Étiquetage</field><field name="sub_process_id" ref="sub_pick"/></record>
+        <record id="act_legal_review" model="workflow.activity"><field name="name">Examen Légal</field><field name="sub_process_id" ref="sub_check"/></record>
+        <record id="act_consol" model="workflow.activity"><field name="name">Consolidation des Comptes</field><field name="sub_process_id" ref="sub_cloture"/></record>
+
+        <record id="proc_p1" model="workflow.procedure"><field name="name">P1 : Vérification de l'ID utilisateur</field><field name="activity_id" ref="act_log"/></record>
+        <record id="proc_p2" model="workflow.procedure"><field name="name">P2 : Escalade N2 si non résolu</field><field name="activity_id" ref="act_assign"/></record>
+        <record id="proc_p3" model="workflow.procedure"><field name="name">P3 : Redémarrage à Distance</field><field name="activity_id" ref="act_reso"/></record>
+        <record id="proc_p4" model="workflow.procedure"><field name="name">P4 : Mise à jour du patch critique</field><field name="activity_id" ref="act_alert"/></record>
+        <record id="proc_p5" model="workflow.procedure"><field name="name">P5 : Rapprochement bancaire</field><field name="activity_id" ref="act_consol"/></record>
+        <record id="proc_p6" model="workflow.procedure"><field name="name">P6 : Collecte des documents</field><field name="activity_id" ref="act_scan"/></record>
+        <record id="proc_p7" model="workflow.procedure"><field name="name">P7 : Validation des fonds</field><field name="activity_id" ref="act_approuv"/></record>
+        <record id="proc_p8" model="workflow.procedure"><field name="name">P8 : Questions comportementales</field><field name="activity_id" ref="act_call"/></record>
+        <record id="proc_p9" model="workflow.procedure"><field name="name">P9 : Grille tarifaire B2B</field><field name="activity_id" ref="act_negoc"/></record>
+        <record id="proc_p10" model="workflow.procedure"><field name="name">P10 : Contrôle qualité soudure</field><field name="activity_id" ref="act_weld"/></record>
+        <record id="proc_p11" model="workflow.procedure"><field name="name">P11 : Emballage standard</field><field name="activity_id" ref="act_label"/></record>
+        <record id="proc_p12" model="workflow.procedure"><field name="name">P12 : Dépôt du dossier au greffe</field><field name="activity_id" ref="act_legal_review"/></record>
+
+        <record id="del_d1" model="workflow.deliverable"><field name="name">Ticket JIRA créé</field><field name="activity_id" ref="act_log"/></record>
+        <record id="del_d2" model="workflow.deliverable"><field name="name">Rapport d'Escalade</field><field name="activity_id" ref="act_assign"/></record>
+        <record id="del_d3" model="workflow.deliverable"><field name="name">Log de résolution</field><field name="activity_id" ref="act_reso"/></record>
+        <record id="del_d4" model="workflow.deliverable"><field name="name">Alerte de sécurité Fermée</field><field name="activity_id" ref="act_alert"/></record>
+        <record id="del_d5" model="workflow.deliverable"><field name="name">Fichier comptable consolidé</field><field name="activity_id" ref="act_consol"/></record>
+        <record id="del_d6" model="workflow.deliverable"><field name="name">Facture Numérisée</field><field name="activity_id" ref="act_scan"/></record>
+        <record id="del_d7" model="workflow.deliverable"><field name="name">Bon à Payer (BAP)</field><field name="activity_id" ref="act_approuv"/></record>
+        <record id="del_d8" model="workflow.deliverable"><field name="name">Grille d'évaluation RH</field><field name="activity_id" ref="act_call"/></record>
+        <record id="del_d9" model="workflow.deliverable"><field name="name">Proposition Commerciale Finale</field><field name="activity_id" ref="act_negoc"/></record>
+        <record id="del_d10" model="workflow.deliverable"><field name="name">Rapport de Contrôle Qualité</field><field name="activity_id" ref="act_weld"/></record>
+        <record id="del_d11" model="workflow.deliverable"><field name="name">Bordereau d'Expédition</field><field name="activity_id" ref="act_label"/></record>
+        <record id="del_d12" model="workflow.deliverable"><field name="name">Certificat de Dépôt</field><field name="activity_id" ref="act_legal_review"/></record>
+
+        <record id="task_t1" model="workflow.task.formulation"><field name="name">Vérifier l'état de la connexion réseau de l'utilisateur.</field><field name="procedure_id" ref="proc_p1"/></record>
+        <record id="task_t2" model="workflow.task.formulation"><field name="name">Contacter le responsable d'équipe N2 par chat.</field><field name="procedure_id" ref="proc_p2"/></record>
+        <record id="task_t3" model="workflow.task.formulation"><field name="name">Exécuter la commande 'shutdown -r' sur le poste distant.</field><field name="procedure_id" ref="proc_p3"/></record>
+        <record id="task_t4" model="workflow.task.formulation"><field name="name">Déployer le patch KB40321 sur le serveur critique.</field><field name="procedure_id" ref="proc_p4"/></record>
+        <record id="task_t5" model="workflow.task.formulation"><field name="name">Vérifier les écarts entre la comptabilité et les relevés.</field><field name="procedure_id" ref="proc_p5"/></record>
+        <record id="task_t6" model="workflow.task.formulation"><field name="name">Scanner la facture et la nommer selon la convention [FOURNISSEUR]-[DATE].</field><field name="procedure_id" ref="proc_p6"/></record>
+        <record id="task_t7" model="workflow.task.formulation"><field name="name">Saisir le montant dans le système et l'envoyer pour signature.</field><field name="procedure_id" ref="proc_p7"/></record>
+        <record id="task_t8" model="workflow.task.formulation"><field name="name">Demander au candidat de décrire un conflit professionnel passé.</field><field name="procedure_id" ref="proc_p8"/></record>
+        <record id="task_t9" model="workflow.task.formulation"><field name="name">Utiliser la remise maximale de 5% pour les clients Gold.</field><field name="procedure_id" ref="proc_p9"/></record>
+        <record id="task_t10" model="workflow.task.formulation"><field name="name">Contrôler la résistance de la soudure par test destructif.</field><field name="procedure_id" ref="proc_p10"/></record>
+        <record id="task_t11" model="workflow.task.formulation"><field name="name">Fixer l'étiquette d'adresse et le logo 'Fragile' sur le carton.</field><field name="procedure_id" ref="proc_p11"/></record>
+        <record id="task_t12" model="workflow.task.formulation"><field name="name">Vérifier que tous les documents sont datés et signés par le PDG.</field><field name="procedure_id" ref="proc_p12"/></record>
+
+
+        <record id="hierarchy_it_full" model="workflow.hierarchy">
+            <field name="name">Chaine Complète : Support IT (Ticket)</field>
+            <field name="domain_ids" eval="[(6, 0, [ref('dom_it')])]"/>
+            <field name="process_ids" eval="[(6, 0, [ref('proc_helpdesk')])]"/>
+            <field name="sub_process_ids" eval="[(6, 0, [ref('sub_ticket'), ref('sub_triage')])]"/>
+            <field name="activity_ids" eval="[(6, 0, [ref('act_log'), ref('act_assign'), ref('act_reso')])]"/>
+            <field name="procedure_ids" eval="[(6, 0, [ref('proc_p1'), ref('proc_p2'), ref('proc_p3')])]"/>
+            <field name="deliverable_ids" eval="[(6, 0, [ref('del_d1'), ref('del_d2'), ref('del_d3')])]"/>
+            <field name="task_formulation_ids" eval="[(6, 0, [ref('task_t1'), ref('task_t2'), ref('task_t3')])]"/>
+        </record>
+
+        <record id="hierarchy_multi_dpt_finance_rh" model="workflow.hierarchy">
+            <field name="name">Hiérarchie Mixte : Finance &amp; RH</field>
+            <field name="domain_ids" eval="[(6, 0, [ref('dom_finance'), ref('dom_hr')])]"/>
+            <field name="process_ids" eval="[(6, 0, [ref('proc_ap'), ref('proc_recruit')])]"/>
+            <field name="sub_process_ids" eval="[(6, 0, [ref('sub_facture'), ref('sub_cv')])]"/>
+            <field name="notes">Cette entrée associe des processus de gestion des factures et du recrutement.</field>
+        </record>
+
+        <record id="hierarchy_prod_qual" model="workflow.hierarchy">
+            <field name="name">Contrôle Qualité Fabrication</field>
+            <field name="domain_ids" eval="[(6, 0, [ref('dom_prod'), ref('dom_qual')])]"/>
+            <field name="process_ids" eval="[(6, 0, [ref('proc_fab'), ref('proc_audit')])]"/>
+            <field name="sub_process_ids" eval="[(6, 0, [ref('sub_ligne'), ref('sub_check')])]"/>
+            <field name="activity_ids" eval="[(6, 0, [ref('act_weld'), ref('act_legal_review')])]"/>
+        </record>
+
+    </data>
+</odoo>

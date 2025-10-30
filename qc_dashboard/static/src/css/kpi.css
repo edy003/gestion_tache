@@ -1,0 +1,280 @@
+/* Container principal */
+.qctracker_dashboard_container1 {
+    height: 100% !important;
+    overflow-y: auto !important;
+    background-color: #FFFFFF !important;
+    overflow-x: hidden !important;
+}
+
+/* Flex container */
+.qc_dashboard_flex {
+    /* flex: 1; */
+    height: 100vh !important;
+}
+
+
+
+/* Dashboard content - MISE À JOUR */
+.qc_dashboard_content {
+    /* flex: 1 !important; */
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #ffffff !important;
+
+}
+
+
+
+/* Content header - MISE À JOUR */
+.qc_dashboard_header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+    background-color: #F7F8F8 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    top: var(--Navbar-height, 46px) !important;
+    left: 20px !important; /* Position par défaut */
+    right: 20px !important;
+    position: fixed !important;
+    z-index: 10 !important;
+ 
+}
+
+
+
+/* Content grid - MISE À JOUR */
+.qc_content_grid {
+    flex: 1;
+    display: grid !important;
+    background-color:  #F7F8F8 !important;
+    border-radius: 12px !important;
+    margin-top: 115px !important;
+    margin-left: 15px !important;
+    margin-right: 10px !important;
+    bottom: 15px;
+}
+
+
+
+
+
+
+/* Filter container */
+/* .qc_filter_container {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 16px !important;
+    flex: 1 !important;;
+} */
+
+.qc_filter_container {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end !important; /* Aligne tous les selects en bas */
+    gap: 16px !important;
+    flex: 1 !important;
+}
+
+.qc_date_filter_group {
+    display: flex;
+    align-items: center; /* Aligne les éléments verticalement au centre */
+    justify-content: space-between; /* Distribue l'espace également entre les éléments */
+    gap: 0px; /* Espace entre les champs de date et le séparateur */
+}
+
+.qc_date_filter_group input {
+    flex-grow: 1; /* Permet aux inputs de prendre une largeur égale et de s'étendre */
+    min-width: 0; /* Assure que les inputs peuvent se réduire pour éviter le débordement */
+}
+
+.qc_date_separator_container {
+    /* background-color: #e0e0e0; Fond gris */
+    padding: 0px 0px; /* Espacement intérieur */
+    
+    white-space: nowrap; /* Empêche le texte "au" de se casser en plusieurs lignes */
+}
+
+.qc_date_separator {
+    color: #555;
+    font-weight: bold;
+    font-size: 10px;
+}
+
+
+
+/* Filter section */
+/* .qc_filter_section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    min-width: 150px;
+} */
+
+.qc_filter_section {
+    display: flex !important;
+    flex-direction: column !important; /* Garde column pour label au-dessus du select */
+    gap: 5px !important;
+    min-width: 150px;
+    flex-shrink: 0; /* Empêche la réduction des sections */
+}
+
+/* Filter label */
+.qc_filter_label {
+    padding: 0 5px !important;
+    font-size: 11px !important;
+    color: #6B7280 !important;
+    text-transform: uppercase !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+}
+
+/* Filter select */
+.qc_filter_select {
+    padding: 5px !important;
+    font-size: 13px !important;
+    color: #374151 !important;
+    background-color: #FFFFFF !important;
+    border: 1px solid #D1D5DB !important;
+    border-radius: 6px !important;
+    outline: none !important;
+    transition: all 0.2s ease !important;
+    cursor: pointer !important;
+}
+
+/* Select hover and focus */
+.qc_filter_select:hover,
+.qc_filter_select:focus {
+    border-color: #9CA3AF !important;
+    box-shadow: 0 0 0 2px rgba(209, 213, 219, 0.2) !important;
+}
+
+/* Styles pour les boutons de filtres */
+.qc_button_group {
+    display: flex !important;
+    flex-direction: row !important; /* CHANGÉ de column à row */
+    gap: 10px !important;
+    align-items: center !important; /* Aligne les boutons verticalement */
+}
+
+.qc_apply_btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    background-color: #275939 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important; /* Empêche le texte de se casser */
+}
+
+.qc_apply_btn:hover {
+    background-color: #23402D !important;
+}
+
+.qc_apply_btn svg {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.qc_reset_btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    background-color: #6b7280 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+    white-space: nowrap !important;
+}
+
+.qc_reset_btn:hover {
+    background-color: #4b5563 !important;
+}
+
+.header_left, .header_right {
+    display: flex !important;
+    align-items: center !important;
+}
+
+.header_right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+
+
+
+.flatpickr-calendar {
+    z-index: 2000 !important;
+}
+
+/* Dropdown mois/année */
+.flatpickr-months .flatpickr-month .flatpickr-monthDropdown-month,
+.flatpickr-months .flatpickr-year {
+    color: #000 !important;      /* Texte noir */
+    background-color: #fff !important; /* Fond blanc */
+}
+
+/* Input courant */
+.flatpickr-current-month .numInputWrapper {
+    width: 6ch;           /* largeur de 6 caractères */
+    display: inline-block; /* affichage en ligne bloc */
+    position: absolute;    /* position absolue */
+    top: 6px;             /* position depuis le haut */
+    right: 18px;          /* position depuis la droite */
+}
+
+
+/* Sélection actuelle */
+.flatpickr-monthDropdown-month.selected,
+.flatpickr-year:focus {
+    background-color: #2563eb !important; /* bleu Tailwind */
+    color: #fff !important;
+}
+
+/* 1. Base : Transition pour une animation douce */
+.kpi-card {
+    /* Assurez-vous que l'article a une position relative si vous voulez des éléments internes qui s'animent */
+    position: relative; 
+    /* Appliquer la transition sur toutes les propriétés pour un mouvement fluide */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Optionnel : assurez-vous que les coins sont arrondis */
+    /* border-radius: 1rem; 16px */
+}
+
+/* 2. Effet au survol (Hover) */
+.kpi-card:hover {
+    /* Léger déplacement vers le haut (-4px) */
+    transform: translateY(-4px); 
+    
+    /* Ombre plus prononcée pour simuler l'élévation (effet 3D) */
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+                0 10px 10px rgba(0,0,0,0.22);
+    
+    /* Optionnel : changer légèrement la couleur de la bordure */
+    border-color: #A62424; /* Utiliser la couleur de l'icône pour l'harmonie */
+}
+
+.h-custom-2 {
+    height: 300px; /* (90 * 4px) / 16 = 22.5rem */
+}
+
+.qc_table_height {
+    height: 460px;
+}

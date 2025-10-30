@@ -1,0 +1,598 @@
+<odoo>
+    <data noupdate="1">
+        <template id="work_program_form_template" name="Programme de Travail">
+            <t t-call="website.layout">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
+                <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+                <style>
+                    :root {
+                        --primary-color: #3b82f6;
+                        --primary-dark: #2563eb;
+                        --primary-light: #60a5fa;
+                        --success-color: #10b981;
+                        --success-dark: #059669;
+                        --text-primary: #1f2937;
+                        --text-secondary: #6b7280;
+                        --border-color: #e5e7eb;
+                        --bg-light: #f9fafb;
+                        --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+                        --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+                        --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+                        --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+                    }
+
+                    * {
+                        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                    }
+
+                    body {
+                        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                        min-height: 100vh;
+                    }
+
+                    .o_website_page {
+                        padding: 3rem 0;
+                    }
+
+                    .form-card {
+                        background: white;
+                        border-radius: 1.5rem;
+                        box-shadow: var(--shadow-xl);
+                        overflow: hidden;
+                        animation: slideIn 0.5s ease-out;
+                    }
+
+                    @keyframes slideIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(30px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    .card-header {
+                        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+                        padding: 3rem 2rem;
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    .card-header::before {
+                        content: '';
+                        position: absolute;
+                        top: -50%;
+                        right: -10%;
+                        width: 300px;
+                        height: 300px;
+                        background: rgba(255, 255, 255, 0.1);
+                        border-radius: 50%;
+                    }
+
+                    .card-header h1 {
+                        font-size: 2rem;
+                        font-weight: 700;
+                        margin-bottom: 0.5rem;
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .card-header p {
+                        font-size: 1rem;
+                        opacity: 0.9;
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .card-body {
+                        padding: 3rem;
+                    }
+
+                    .form-section-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        margin-bottom: 2rem;
+                        padding-bottom: 1rem;
+                        border-bottom: 3px solid var(--bg-light);
+                    }
+
+                    .form-section-header i {
+                        width: 48px;
+                        height: 48px;
+                        background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+                        color: white;
+                        border-radius: 12px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 1.25rem;
+                        box-shadow: var(--shadow-md);
+                    }
+
+                    .form-section-header h3 {
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        color: var(--text-primary);
+                        margin: 0;
+                    }
+
+                    .form-label {
+                        font-weight: 600;
+                        color: var(--text-primary);
+                        margin-bottom: 0.5rem;
+                        font-size: 0.875rem;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                    }
+
+                    .form-control, .form-select {
+                        border: 2px solid var(--border-color);
+                        border-radius: 0.75rem;
+                        padding: 0.875rem 1rem;
+                        font-size: 1rem;
+                        transition: all 0.3s ease;
+                        background-color: white;
+                    }
+
+                    .form-control:focus, .form-select:focus {
+                        border-color: var(--primary-color);
+                        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+                        outline: none;
+                    }
+
+                    .form-control:hover, .form-select:hover {
+                        border-color: var(--primary-light);
+                    }
+
+                    textarea.form-control {
+                        resize: vertical;
+                        min-height: 100px;
+                    }
+
+                    /* Styles pour Choices.js */
+                    .choices__inner {
+                        border: 2px solid var(--border-color) !important;
+                        border-radius: 0.75rem !important;
+                        padding: 0.5rem 1rem !important;
+                        min-height: 48px !important;
+                        transition: all 0.3s ease !important;
+                    }
+
+                    .choices__inner:hover {
+                        border-color: var(--primary-light) !important;
+                    }
+
+                    .choices[data-type*=select-one] .choices__inner {
+                        padding-bottom: 0.5rem !important;
+                    }
+
+                    .is-focused .choices__inner {
+                        border-color: var(--primary-color) !important;
+                        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1) !important;
+                    }
+
+                    .choices__list--multiple .choices__item {
+                        background-color: var(--primary-color) !important;
+                        border: none !important;
+                        border-radius: 0.5rem !important;
+                        padding: 0.375rem 0.75rem !important;
+                        font-size: 0.875rem !important;
+                    }
+
+                    hr {
+                        border: none;
+                        height: 2px;
+                        background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+                        margin: 3rem 0;
+                    }
+
+                    .btn-submit {
+                        background: linear-gradient(135deg, var(--success-color), var(--success-dark));
+                        border: none;
+                        padding: 1rem 3rem;
+                        font-size: 1.125rem;
+                        font-weight: 600;
+                        border-radius: 1rem;
+                        color: white;
+                        transition: all 0.3s ease;
+                        box-shadow: var(--shadow-lg);
+                        position: relative;
+                        overflow: hidden;
+                    }
+
+                    .btn-submit::before {
+                        content: '';
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: 0;
+                        height: 0;
+                        border-radius: 50%;
+                        background: rgba(255, 255, 255, 0.2);
+                        transform: translate(-50%, -50%);
+                        transition: width 0.6s, height 0.6s;
+                    }
+
+                    .btn-submit:hover::before {
+                        width: 300px;
+                        height: 300px;
+                    }
+
+                    .btn-submit:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 25px 30px -5px rgb(0 0 0 / 0.2);
+                    }
+
+                    .btn-submit:active {
+                        transform: translateY(0);
+                    }
+
+                    .btn-submit i {
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    .btn-submit span {
+                        position: relative;
+                        z-index: 1;
+                    }
+
+                    /* Champs conditionnels */
+                    #external_department_fields {
+                        background: var(--bg-light);
+                        padding: 2rem;
+                        border-radius: 1rem;
+                        border: 2px dashed var(--border-color);
+                        transition: all 0.3s ease;
+                    }
+
+                    #external_department_fields:not(.d-none) {
+                        animation: fadeIn 0.5s ease-out;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-10px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+
+                    /* Responsive */
+                    @media (max-width: 768px) {
+                        .card-body {
+                            padding: 2rem 1.5rem;
+                        }
+
+                        .card-header {
+                            padding: 2rem 1.5rem;
+                        }
+
+                        .card-header h1 {
+                            font-size: 1.5rem;
+                        }
+
+                        .form-section-header h3 {
+                            font-size: 1.25rem;
+                        }
+
+                        .btn-submit {
+                            padding: 0.875rem 2rem;
+                        }
+                    }
+
+                    /* Indicateur de champ requis */
+                    .form-label.required::after {
+                        content: '*';
+                        color: #ef4444;
+                        margin-left: 0.25rem;
+                    }
+                </style>
+                <div id="wrap">
+                    <div class="container o_website_page my-5">
+                        <div class="form-card">
+                            <div class="card-header text-white text-center">
+                                <h1>
+                                    <i class="fa fa-cogs me-2"></i> Créer un Programme de Travail
+                                </h1>
+                                <p class="mb-0">Remplissez les informations ci-dessous pour planifier et suivre votre tâche.</p>
+                            </div>
+                            <div class="card-body">
+                                <div class="o_portal_wrap">
+                                    <form action="/work_program/submit" method="POST" class="needs-validation" novalidate="novalidate">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-info-circle"></i>
+                                            <h3>Informations Générales</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="project_id" class="form-label required">Projet / Programme</label>
+                                                <select name="project_id" id="project_id" class="form-select" required="required">
+                                                    <option value="">Sélectionnez un projet...</option>
+                                                    <t t-foreach="projects" t-as="project">
+                                                        <option t-att-value="project.id"><t t-esc="project.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="work_programm_department_id" class="form-label">Département autorisé</label>
+                                                <select name="work_programm_department_id" id="work_programm_department_id" class="form-select">
+                                                    <option value="">Sélectionnez un département...</option>
+                                                    <t t-foreach="departments" t-as="department">
+                                                        <option t-att-value="department.id" t-att-data-is-external="department.dpt_type == 'external'"><t t-esc="department.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="my_month" class="form-label">Mois</label>
+                                                <select name="my_month" id="my_month" class="form-select">
+                                                    <option value="">Sélectionnez un mois...</option>
+                                                    <t t-foreach="env['work.program']._get_default_current_month_selection()" t-as="month">
+                                                        <option t-att-value="month[0]"><t t-esc="month[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="my_week_of" class="form-label">Semaine de</label>
+                                                <select name="my_week_of" id="my_week_of" class="form-select">
+                                                    <option value="">Sélectionnez une semaine...</option>
+                                                    <t t-foreach="env['work.program']._get_week_selection()" t-as="week">
+                                                        <option t-att-value="week[0]"><t t-esc="week[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <hr/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-tasks"></i>
+                                            <h3>Détails de la Tâche</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="activity_id" class="form-label required">Activité</label>
+                                                <select name="activity_id" id="activity_id" class="form-select" required="required">
+                                                    <option value="">Sélectionnez une activité...</option>
+                                                    <t t-foreach="activities" t-as="activity">
+                                                        <option t-att-value="activity.id"><t t-esc="activity.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="procedure_id" class="form-label">Type de Tâche (Procédure)</label>
+                                                <select name="procedure_id" id="procedure_id" class="form-select">
+                                                    <option value="">Sélectionnez une procédure...</option>
+                                                    <t t-foreach="procedures" t-as="procedure">
+                                                        <option t-att-value="procedure.id"><t t-esc="procedure.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="task_description_id" class="form-label">Formulation Tâche</label>
+                                                <select name="task_description_id" id="task_description_id" class="form-select">
+                                                    <option value="">Sélectionnez une description...</option>
+                                                    <t t-foreach="task_descriptions" t-as="task_description">
+                                                        <option t-att-value="task_description.id"><t t-esc="task_description.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="deliverable_ids" class="form-label">Livrables de la tâche</label>
+                                                <select name="deliverable_ids" id="deliverable_ids" class="form-select" multiple="multiple">
+                                                    <t t-foreach="deliverables" t-as="deliverable">
+                                                        <option t-att-value="deliverable.id"><t t-esc="deliverable.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="inputs_needed" class="form-label">Entrées nécessaires</label>
+                                            <textarea name="inputs_needed" id="inputs_needed" class="form-control" rows="3" placeholder="Décrivez les informations ou les ressources nécessaires pour commencer la tâche."></textarea>
+                                        </div>
+
+                                        <hr/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-calendar-alt"></i>
+                                            <h3>Planification</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="priority" class="form-label">Priorité</label>
+                                                <select name="priority" id="priority" class="form-select">
+                                                    <t t-foreach="priorities" t-as="p">
+                                                        <option t-att-value="p[0]"><t t-esc="p[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="complexity" class="form-label">Complexité</label>
+                                                <select name="complexity" id="complexity" class="form-select">
+                                                    <t t-foreach="complexities" t-as="c">
+                                                        <option t-att-value="c[0]"><t t-esc="c[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="assignment_date" class="form-label">Date d'assignation</label>
+                                                <input type="date" name="assignment_date" id="assignment_date" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="duration_effort" class="form-label">Durée / Effort (heures)</label>
+                                                <input type="number" name="duration_effort" id="duration_effort" class="form-control" step="0.01" placeholder="Ex: 8.5"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="initial_deadline" class="form-label">Date limite initiale</label>
+                                                <input type="date" name="initial_deadline" id="initial_deadline" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="nb_postpones" class="form-label">Nombre de reports</label>
+                                                <input type="number" name="nb_postpones" id="nb_postpones" class="form-control" placeholder="0"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="actual_deadline" class="form-label">Date limite réelle</label>
+                                                <input type="date" name="actual_deadline" id="actual_deadline" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="completion_percentage" class="form-label">Pourcentage d'achèvement</label>
+                                                <input type="number" name="completion_percentage" id="completion_percentage" class="form-control" step="0.01" placeholder="Ex: 75.5"/>
+                                            </div>
+                                        </div>
+
+                                        <hr/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-users"></i>
+                                            <h3>Responsabilités et Suivi</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="responsible_id" class="form-label">Responsable</label>
+                                                <select name="responsible_id" id="responsible_id" class="form-select">
+                                                    <option value="">Sélectionnez un responsable...</option>
+                                                    <t t-foreach="employees" t-as="employee">
+                                                        <option t-att-value="employee.id"><t t-esc="employee.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="support_ids" class="form-label">Support</label>
+                                                <select name="support_ids" id="support_ids" class="form-select" multiple="multiple">
+                                                    <t t-foreach="employees" t-as="employee">
+                                                        <option t-att-value="employee.id"><t t-esc="employee.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="task_notes" class="form-label">Notes détaillées sur la tâche</label>
+                                            <textarea name="task_notes" id="task_notes" class="form-control" rows="5" placeholder="Ajoutez ici une description complète, les contraintes et les spécifications de la tâche."></textarea>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="partner_id" class="form-label">Partenaire associé</label>
+                                                <select name="partner_id" id="partner_id" class="form-select">
+                                                    <option value="">Sélectionnez un partenaire...</option>
+                                                    <t t-foreach="partners" t-as="partner">
+                                                        <option t-att-value="partner.id"><t t-esc="partner.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="satisfaction_level" class="form-label">Niveau de satisfaction</label>
+                                                <select name="satisfaction_level" id="satisfaction_level" class="form-select">
+                                                    <t t-foreach="satisfaction_levels" t-as="sl">
+                                                        <option t-att-value="sl[0]"><t t-esc="sl[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="comments" class="form-label">Commentaires / Remarques</label>
+                                            <textarea name="comments" id="comments" class="form-control" rows="3" placeholder="Ajoutez des commentaires ou des remarques supplémentaires."></textarea>
+                                        </div>
+
+                                        <hr/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h3>Informations Complémentaires</h3>
+                                        </div>
+                                        <div class="d-none" id="external_department_fields">
+                                            <div class="row g-4 mb-4">
+                                                <div class="col-md-6">
+                                                    <label for="champ1" class="form-label">Champ 1</label>
+                                                    <input type="text" name="champ1" id="champ1" class="form-control"/>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="champ2" class="form-label">Champ 2</label>
+                                                    <textarea name="champ2" id="champ2" class="form-control" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid mt-5">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-submit">
+                                                <i class="fa fa-paper-plane me-2"></i>
+                                                <span>Soumettre le Programme</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var choicesConfig = {
+                        removeItemButton: true,
+                        searchEnabled: true,
+                        placeholder: true,
+                        itemSelectText: '',
+                    };
+
+                    var workDeptElement = document.getElementById('work_programm_department_id');
+                    if (workDeptElement) {
+                        new Choices(workDeptElement, {
+                            ...choicesConfig,
+                            placeholderValue: 'Sélectionnez un département',
+                        });
+                    }
+
+                    var deliverableElement = document.getElementById('deliverable_ids');
+                    if (deliverableElement) {
+                        new Choices(deliverableElement, {
+                            ...choicesConfig,
+                            placeholderValue: 'Sélectionnez un ou plusieurs livrables',
+                        });
+                    }
+
+                    var supportElement = document.getElementById('support_ids');
+                    if (supportElement) {
+                        new Choices(supportElement, {
+                            ...choicesConfig,
+                            placeholderValue: 'Sélectionnez un ou plusieurs employés',
+                        });
+                    }
+
+                    function toggleExternalDepartmentFields() {
+                        var departmentSelect = document.getElementById('work_programm_department_id');
+                        var externalFieldsDiv = document.getElementById('external_department_fields');
+
+                        if (departmentSelect) {
+                            var selectedOption = departmentSelect.options[departmentSelect.selectedIndex];
+                            var isExternal = selectedOption ? selectedOption.getAttribute('data-is-external') === 'True' : false;
+
+                            if (externalFieldsDiv) {
+                                if (isExternal) {
+                                    externalFieldsDiv.classList.remove('d-none');
+                                } else {
+                                    externalFieldsDiv.classList.add('d-none');
+                                }
+                            }
+                        }
+                    }
+
+                    var departmentSelect = document.getElementById('work_programm_department_id');
+                    if (departmentSelect) {
+                        departmentSelect.addEventListener('change', toggleExternalDepartmentFields);
+                    }
+
+                    toggleExternalDepartmentFields();
+                });
+            </script>
+        </template>
+    </data>
+</odoo>

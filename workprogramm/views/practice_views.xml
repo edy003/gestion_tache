@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_practice_config_root"
+              name="Configuration Pratique"
+              parent="base.menu_administration"
+              sequence="20"
+              groups="workprogramm.workprogramm_group_manager"/>
+
+    <record id="action_practice_practice" model="ir.actions.act_window">
+        <field name="name">Practices</field>
+        <field name="res_model">practice.practice</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez une nouvelle Pratique (Consulting ou Technology).
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_practice_practice"
+              name="Practices"
+              parent="menu_practice_config_root"
+              action="action_practice_practice"
+              sequence="1"/>
+
+    <record id="action_practice_subcategory" model="ir.actions.act_window">
+        <field name="name">Sous-catégories de Pratique</field>
+        <field name="res_model">practice.subcategory</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez une nouvelle sous-catégorie pour une pratique existante.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_practice_subcategory"
+              name="Sous-catégories"
+              parent="menu_practice_config_root"
+              action="action_practice_subcategory"
+              sequence="2"/>
+
+    <record id="practice_view_form" model="ir.ui.view">
+        <field name="name">practice.practice.form</field>
+        <field name="model">practice.practice</field>
+        <field name="arch" type="xml">
+            <form string="Practice">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom de la Pratique"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type" string="Type de Pratique"/>
+                            <field name="sic" string="Code SIC"/>
+                        </group>
+                        <group>
+                            <field name="department_ids"
+                                   widget="many2many_tags"
+                                   string="Départements Associés"
+                            />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Sous-catégories">
+                            <field name="subcategory_ids" context="{'default_practice_id': active_id}">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="practice_view_tree" model="ir.ui.view">
+        <field name="name">practice.practice.tree</field>
+        <field name="model">practice.practice</field>
+        <field name="arch" type="xml">
+            <tree string="Practices">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="sic"/>
+                <field name="department_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="subcategory_view_form" model="ir.ui.view">
+        <field name="name">practice.subcategory.form</field>
+        <field name="model">practice.subcategory</field>
+        <field name="arch" type="xml">
+            <form string="Sous-catégorie de Pratique">
+                <sheet>
+                    <group>
+                        <field name="name" string="Nom de la Sous-catégorie"/>
+                        <field name="practice_id" string="Pratique Associée"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="subcategory_view_tree" model="ir.ui.view">
+        <field name="name">practice.subcategory.tree</field>
+        <field name="model">practice.subcategory</field>
+        <field name="arch" type="xml">
+            <tree string="Sous-catégories">
+                <field name="name"/>
+                <field name="practice_id"/>
+            </tree>
+        </field>
+    </record>
+
+</odoo>

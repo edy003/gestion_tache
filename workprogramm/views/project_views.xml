@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_inherit" model="ir.ui.view">
+        <field name="name">project.project.form.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <!--xpath expr="//field[@name='name']" position="after"-->
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="project_assistant_id" string="Project Assistant" widget="many2one_button"/>
+                <field name="test_department_ids" widget="many2many_tags"/>
+            </xpath>
+            <xpath expr="//field[@name='label_tasks']" position="before">
+                <field name="project_type"/>
+                <field name="practice_id" attrs="{'invisible': [('project_type', '!=', 'external')]}"/>
+                <field name="subcategory_ids" widget="many2many_tags" attrs="{'invisible': [('practice_id', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

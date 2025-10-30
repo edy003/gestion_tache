@@ -1,0 +1,273 @@
+/* .o_action_manager {
+    overflow: hidden !important;
+    height: 100% !important;
+} */
+
+/* Container principal */
+.qctracker_dashboard_container1 {
+    height: 100% !important;
+    overflow: hidden !important;
+    background-color:#F5F5F5 !important;
+}
+
+.qc_dashboard_flex {
+    display: flex !important;
+    height: 100% !important;
+    overflow: hidden !important;
+}
+
+/* SIDEBAR - Position fixe avec animation */
+.qc_dashboard_sidebar {
+    position: fixed !important;
+    top: var(--Navbar-height, 46px) !important;
+    left: 0 !important;
+    width: 256px !important;
+    height: calc(100vh - var(--Navbar-height, 46px)) !important;
+    padding: 32px 20px !important;
+    background-color: white !important;
+    border-right: 1px solid #e5e7eb !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    z-index: 10 !important;
+    transform: translateX(0) !important;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* État sidebar fermée */
+.qc_dashboard_sidebar.collapsed {
+    transform: translateX(-256px) !important;
+}
+
+.qc_logo_container {
+    display: flex !important;
+    margin-bottom: 24px !important;
+    justify-content: center !important; 
+     align-items: center !important; 
+}
+
+.my-logo {
+    width: auto !important;
+    height: 40px !important;
+    object-fit: contain !important;
+    transform: scale(2.1);     /* zoom léger */
+    transform-origin: center;
+}
+
+.qc_nav_container {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 !important;
+}
+
+.qc_nav {
+    margin: 0 -12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    padding-bottom: 20px !important;
+}
+
+.qc_nav_section {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.qc_nav_label {
+    padding: 0 12px !important;
+    font-size: 12px !important;
+    color: #6b7280 !important;
+    text-transform: uppercase !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.05em !important;
+}
+
+.qc_nav_link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 8px 12px !important;
+    color: #4b5563 !important;
+    text-decoration: none !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+}
+
+.qc_nav_link:hover {
+    background-color: #f3f4f6 !important;
+    color: #374151 !important;
+    text-decoration: none !important;
+}
+
+.qc_nav_icon {
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0 !important;
+}
+
+.qc_nav_text {
+    margin-left: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* ZONE PRINCIPALE - Contient header sticky + contenu scrollable */
+.qc_main_area {
+    flex: 1 !important;
+    margin-left: 256px !important;
+    height: calc(100vh - var(--Navbar-height, 46px)) !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* État main area étendue quand sidebar fermée */
+.qc_main_area.expanded {
+    margin-left: 0 !important;
+}
+
+/* HEADER STICKY - Reste en haut lors du scroll */
+.qc_header {
+    position: sticky !important;
+    top: 0 !important;
+    height: 80px !important;
+    background-color: white !important;
+    padding: 16px 24px !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    z-index: 9 !important;
+    display: flex !important;
+    align-items: center !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    flex-shrink: 0 !important;
+}
+
+.qc_header_content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    width: 100% !important;
+}
+
+.qc_header_text {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+/* TOGGLE BUTTON */
+.qc_toggle_btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    background-color: #275939 !important;   /* couleur par défaut */
+    /* border: 1px solid #275939 !important;   bordure assortie */
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    color: #ffffff !important;              /* icône en blanc pour contraste */
+}
+
+.qc_toggle_btn:hover {
+    background-color: #275939  !important;   /* vert un peu plus foncé */
+    /* border-color: #1f4630 !important; */
+    color: #ffffff !important;
+}
+
+.qc_toggle_btn:active {
+    transform: scale(0.95) !important;
+    background-color: #275939  !important;   /* encore plus foncé quand cliqué */
+}
+
+
+.qc_toggle_icon {
+    width: 20px !important;
+    height: 20px !important;
+    transition: transform 0.2s ease !important;
+}
+
+.qc_toggle_btn:hover .qc_toggle_icon {
+    transform: scale(1.1) !important;
+}
+
+/* CONTENU PRINCIPAL - Scroll libre sous le header sticky */
+.qc_main_content {
+    flex: 1 !important;
+    padding: 24px !important;
+    overflow-y: visible !important;
+}
+
+.qc_main_title {
+    font-size: 28px !important;
+    font-weight: 400 !important;
+    color: #A62424 !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.qc_main_text {
+    color: #4b5563 !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+}
+
+/* Styles pour les sections de contenu */
+.qc_content_section {
+    margin-bottom: 32px !important;
+}
+
+.qc_content_section h2 {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    margin-bottom: 12px !important;
+}
+
+.qc_content_section p {
+    color: #4b5563 !important;
+    line-height: 1.6 !important;
+}
+
+/* Responsive - optionnel pour mobile */
+@media (max-width: 768px) {
+    .qc_dashboard_sidebar {
+        transform: translateX(-256px) !important;
+    }
+    
+    .qc_main_area {
+        margin-left: 0 !important;
+    }
+}
+
+/* Flatpickr dropdown corrections */
+/* Assure que le calendrier s'affiche au-dessus */
+.flatpickr-calendar {
+    z-index: 2000 !important;
+}
+
+/* Dropdown mois/année */
+.flatpickr-months .flatpickr-month .flatpickr-monthDropdown-month,
+.flatpickr-months .flatpickr-year {
+    color: #000 !important;      /* Texte noir */
+    background-color: #fff !important; /* Fond blanc */
+}
+
+/* Input courant */
+.flatpickr-current-month .numInputWrapper {
+    width: 6ch;           /* largeur de 6 caractères */
+    display: inline-block; /* affichage en ligne bloc */
+    position: absolute;    /* position absolue */
+    top: 6px;             /* position depuis le haut */
+    right: 18px;          /* position depuis la droite */
+}
+
+
+/* Sélection actuelle */
+.flatpickr-monthDropdown-month.selected,
+.flatpickr-year:focus {
+    background-color: #2563eb !important; /* bleu Tailwind */
+    color: #fff !important;
+}
+

@@ -1,0 +1,42 @@
+<odoo>
+    <record id="sub_opt_proc" model="practice.subcategory">
+        <field name="name">Optimisation des Processus</field>
+        <field name="practice_id" ref="prac_td"/>
+    </record>
+    <record id="sub_reporting" model="practice.subcategory">
+        <field name="name">Reporting IFRS</field>
+        <field name="practice_id" ref="prac_financiere"/>
+    </record>
+    <record id="sub_upskilling" model="practice.subcategory">
+        <field name="name">Upskilling &amp; Recrutement</field>
+        <field name="practice_id" ref="prac_changement"/>
+    </record>
+    <record id="sub_rgpd" model="practice.subcategory">
+        <field name="name">Conformité RGPD</field>
+        <field name="practice_id" ref="prac_juridique_ext"/>
+    </record>
+    <record id="sub_evaluation" model="practice.subcategory">
+        <field name="name">Évaluation des Postes</field>
+        <field name="practice_id" ref="prac_rh_ext"/>
+    </record>
+    <record id="sub_ios_android" model="practice.subcategory">
+        <field name="name">Développement iOS/Android</field>
+        <field name="practice_id" ref="prac_dev_mobile"/>
+    </record>
+    <record id="sub_pentest" model="practice.subcategory">
+        <field name="name">Tests d'Intrusion Avancés</field>
+        <field name="practice_id" ref="prac_cybersoc"/>
+    </record>
+    <record id="sub_predictive" model="practice.subcategory">
+        <field name="name">Modèles Prédictifs</field>
+        <field name="practice_id" ref="prac_ia_ml"/>
+    </record>
+    <record id="sub_aws_azure" model="practice.subcategory">
+        <field name="name">Architecture AWS/Azure</field>
+        <field name="practice_id" ref="prac_cloud_migration"/>
+    </record>
+    <record id="sub_bi" model="practice.subcategory">
+        <field name="name">Solutions de BI</field>
+        <field name="practice_id" ref="prac_data_analytics"/>
+    </record>
+</odoo>

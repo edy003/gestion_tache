@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="workprogramm_module_category" model="ir.module.category">
+        <field name="name">Workflow Management</field>
+        <field name="description">Module for managing workflow hierarchy and work programs</field>
+    </record>
+
+    <record id="workprogramm_group_user" model="res.groups">
+        <field name="name">Workflow User</field>
+        <field name="category_id" ref="workprogramm_module_category"/>
+        <field name="comment">Grants basic access to workflow data</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="workprogramm_group_manager" model="res.groups">
+        <field name="name">Workflow Manager</field>
+        <field name="category_id" ref="workprogramm_module_category"/>
+        <field name="comment">Grants permissions to manage workflow data</field>
+        <field name="implied_ids" eval="[(4, ref('workprogramm_group_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+
+    <record id="workprogramm_group_admin" model="res.groups">
+        <field name="name">Workflow Administrator</field>
+        <field name="category_id" ref="workprogramm_module_category"/>
+        <field name="comment">Grants full access to workflow data</field>
+        <field name="implied_ids" eval="[(4, ref('workprogramm_group_manager'))]"/>
+    </record>
+
+    <record id="workprogramm_access_hierarchy_user" model="ir.model.access">
+        <field name="name">Workflow Hierarchy User</field>
+        <field name="model_id" ref="model_workflow_hierarchy"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_hierarchy_manager" model="ir.model.access">
+        <field name="name">Workflow Hierarchy Manager</field>
+        <field name="model_id" ref="model_workflow_hierarchy"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_hierarchy_admin" model="ir.model.access">
+        <field name="name">Workflow Hierarchy Admin</field>
+        <field name="model_id" ref="model_workflow_hierarchy"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_domain_user" model="ir.model.access">
+        <field name="name">Workflow Domain User</field>
+        <field name="model_id" ref="model_workflow_domain"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_domain_manager" model="ir.model.access">
+        <field name="name">Workflow Domain Manager</field>
+        <field name="model_id" ref="model_workflow_domain"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_domain_admin" model="ir.model.access">
+        <field name="name">Workflow Domain Admin</field>
+        <field name="model_id" ref="model_workflow_domain"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_process_user" model="ir.model.access">
+        <field name="name">Workflow Process User</field>
+        <field name="model_id" ref="model_workflow_process"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_process_manager" model="ir.model.access">
+        <field name="name">Workflow Process Manager</field>
+        <field name="model_id" ref="model_workflow_process"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_process_admin" model="ir.model.access">
+        <field name="name">Workflow Process Admin</field>
+        <field name="model_id" ref="model_workflow_process"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_subprocess_user" model="ir.model.access">
+        <field name="name">Workflow Subprocess User</field>
+        <field name="model_id" ref="model_workflow_subprocess"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_subprocess_manager" model="ir.model.access">
+        <field name="name">Workflow Subprocess Manager</field>
+        <field name="model_id" ref="model_workflow_subprocess"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_subprocess_admin" model="ir.model.access">
+        <field name="name">Workflow Subprocess Admin</field>
+        <field name="model_id" ref="model_workflow_subprocess"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_activity_user" model="ir.model.access">
+        <field name="name">Workflow Activity User</field>
+        <field name="model_id" ref="model_workflow_activity"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_activity_manager" model="ir.model.access">
+        <field name="name">Workflow Activity Manager</field>
+        <field name="model_id" ref="model_workflow_activity"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_activity_admin" model="ir.model.access">
+        <field name="name">Workflow Activity Admin</field>
+        <field name="model_id" ref="model_workflow_activity"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_procedure_user" model="ir.model.access">
+        <field name="name">Workflow Procedure User</field>
+        <field name="model_id" ref="model_workflow_procedure"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_procedure_manager" model="ir.model.access">
+        <field name="name">Workflow Procedure Manager</field>
+        <field name="model_id" ref="model_workflow_procedure"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_procedure_admin" model="ir.model.access">
+        <field name="name">Workflow Procedure Admin</field>
+        <field name="model_id" ref="model_workflow_procedure"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_deliverable_user" model="ir.model.access">
+        <field name="name">Workflow Deliverable User</field>
+        <field name="model_id" ref="model_workflow_deliverable"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_deliverable_manager" model="ir.model.access">
+        <field name="name">Workflow Deliverable Manager</field>
+        <field name="model_id" ref="model_workflow_deliverable"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_deliverable_admin" model="ir.model.access">
+        <field name="name">Workflow Deliverable Admin</field>
+        <field name="model_id" ref="model_workflow_deliverable"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_task_formulation_user" model="ir.model.access">
+        <field name="name">Workflow Task Formulation User</field>
+        <field name="model_id" ref="model_workflow_task_formulation"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_task_formulation_manager" model="ir.model.access">
+        <field name="name">Workflow Task Formulation Manager</field>
+        <field name="model_id" ref="model_workflow_task_formulation"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_task_formulation_admin" model="ir.model.access">
+        <field name="name">Workflow Task Formulation Admin</field>
+        <field name="model_id" ref="model_workflow_task_formulation"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_work_program_user" model="ir.model.access">
+        <field name="name">Work Program User</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_work_program_manager" model="ir.model.access">
+        <field name="name">Work Program Manager</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_work_program_admin" model="ir.model.access">
+        <field name="name">Work Program Admin</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_access_hr_department_user" model="ir.model.access">
+        <field name="name">HR Department User</field>
+        <field name="model_id" ref="hr.model_hr_department"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_hr_department_manager" model="ir.model.access">
+        <field name="name">HR Department Manager</field>
+        <field name="model_id" ref="hr.model_hr_department"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_hr_department_admin" model="ir.model.access">
+        <field name="name">HR Department Admin</field>
+        <field name="model_id" ref="hr.model_hr_department"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_hierarchy_own_department" model="ir.rule">
+        <field name="name">Workflow Hierarchy: Own Department Records</field>
+        <field name="model_id" ref="model_workflow_hierarchy"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_user'))]"/>
+        <field name="domain_force">[('department_id', 'in', user.employee_id.department_id.ids)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_hierarchy_all_records" model="ir.rule">
+        <field name="name">Workflow Hierarchy: All Records</field>
+        <field name="model_id" ref="model_workflow_hierarchy"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_work_program_own_department" model="ir.rule">
+        <field name="name">Work Program: Own Department or Assigned Records</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_user'))]"/>
+        <field name="domain_force">['|', ('work_programm_department_id', 'in', user.employee_id.department_id.ids), '|',
+            ('responsible_id.user_id', '=', user.id), ('support_ids.user_id', 'in', [user.id])]
+        </field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+    <record id="workprogramm_work_program_user_create" model="ir.rule">
+        <field name="name">Work Program: User Creation Access</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_user'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="0"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_work_program_all_records" model="ir.rule">
+        <field name="name">Work Program: All Records</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_domain_all_records" model="ir.rule">
+        <field name="name">Workflow Domain: All Records</field>
+        <field name="model_id" ref="model_workflow_domain"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_domain_manager_admin" model="ir.rule">
+        <field name="name">Workflow Domain: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_domain"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_process_all_records" model="ir.rule">
+        <field name="name">Workflow Process: All Records</field>
+        <field name="model_id" ref="model_workflow_process"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_process_manager_admin" model="ir.rule">
+        <field name="name">Workflow Process: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_process"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_subprocess_all_records" model="ir.rule">
+        <field name="name">Workflow Subprocess: All Records</field>
+        <field name="model_id" ref="model_workflow_subprocess"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_subprocess_manager_admin" model="ir.rule">
+        <field name="name">Workflow Subprocess: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_subprocess"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_activity_all_records" model="ir.rule">
+        <field name="name">Workflow Activity: All Records</field>
+        <field name="model_id" ref="model_workflow_activity"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_activity_manager_admin" model="ir.rule">
+        <field name="name">Workflow Activity: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_activity"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_procedure_all_records" model="ir.rule">
+        <field name="name">Workflow Procedure: All Records</field>
+        <field name="model_id" ref="model_workflow_procedure"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_procedure_manager_admin" model="ir.rule">
+        <field name="name">Workflow Procedure: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_procedure"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_deliverable_all_records" model="ir.rule">
+        <field name="name">Workflow Deliverable: All Records</field>
+        <field name="model_id" ref="model_workflow_deliverable"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_deliverable_manager_admin" model="ir.rule">
+        <field name="name">Workflow Deliverable: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_deliverable"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="workprogramm_workflow_task_formulation_all_records" model="ir.rule">
+        <field name="name">Workflow Task Formulation: All Records</field>
+        <field name="model_id" ref="model_workflow_task_formulation"/>
+        <field name="groups"
+               eval="[(4, ref('workprogramm_group_user')), (4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_workflow_task_formulation_manager_admin" model="ir.rule">
+        <field name="name">Workflow Task Formulation: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_workflow_task_formulation"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+    <record id="workprogramm_access_practice_user" model="ir.model.access">
+        <field name="name">Practice User Read</field>
+        <field name="model_id" ref="model_practice_practice"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_practice_manager" model="ir.model.access">
+        <field name="name">Practice Manager CRUD</field>
+        <field name="model_id" ref="model_practice_practice"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_practice_admin" model="ir.model.access">
+        <field name="name">Practice Admin Full</field>
+        <field name="model_id" ref="model_practice_practice"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+
+    <record id="workprogramm_access_subcategory_user" model="ir.model.access">
+        <field name="name">Subcategory User Read</field>
+        <field name="model_id" ref="model_practice_subcategory"/>
+        <field name="group_id" ref="workprogramm_group_user"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_subcategory_manager" model="ir.model.access">
+        <field name="name">Subcategory Manager CRUD</field>
+        <field name="model_id" ref="model_practice_subcategory"/>
+        <field name="group_id" ref="workprogramm_group_manager"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+    <record id="workprogramm_access_subcategory_admin" model="ir.model.access">
+        <field name="name">Subcategory Admin Full</field>
+        <field name="model_id" ref="model_practice_subcategory"/>
+        <field name="group_id" ref="workprogramm_group_admin"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+
+    <!-- ACCESS GRANT FOR OWN RECORDS-->
+    <!-- Nouveau groupe pour les utilisateurs restreints -->
+    <record id="workprogramm_group_user_limited" model="res.groups">
+        <field name="name">Workflow User Limited</field>
+        <field name="category_id" ref="workprogramm_module_category"/>
+        <field name="comment">Grants access only to user's own records</field>
+        <field name="implied_ids" eval="[(4, ref('workprogramm_group_user'))]"/>
+    </record>
+
+    <!-- Droits d'accès pour le groupe restreint sur le modèle work_program -->
+    <record id="workprogramm_access_work_program_user_limited" model="ir.model.access">
+        <field name="name">Work Program User Limited</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="group_id" ref="workprogramm_group_user_limited"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+    <!-- Règle pour limiter l'accès aux enregistrements de l'utilisateur -->
+    <record id="workprogramm_work_program_own_records_limited" model="ir.rule">
+        <field name="name">Work Program: Own Records Only</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_user_limited'))]"/>
+        <field name="domain_force">[('responsible_id.user_id', '=', user.id)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+    <!-- Manager et Admin continuent de voir tout -->
+    <record id="workprogramm_work_program_manager_admin_all" model="ir.rule">
+        <field name="name">Work Program: Manager/Admin All Records</field>
+        <field name="model_id" ref="model_work_program"/>
+        <field name="groups" eval="[(4, ref('workprogramm_group_manager')), (4, ref('workprogramm_group_admin'))]"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+</odoo>

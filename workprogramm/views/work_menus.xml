@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu principal avec icône -->
+    <menuitem id="menu_workprogramm_root"
+              name="Work Program 📊"
+              sequence="10"
+              groups="workprogramm.workprogramm_group_user,workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+              web_icon="workprogramm,static/description/icon.png"/>
+
+    <!-- Section Gestion des Programmes de Travail -->
+    <menuitem id="menu_workprogramm_task_management"
+              name="Gestion Work Program 📋"
+              parent="menu_workprogramm_root"
+              sequence="30"
+              groups="workprogramm.workprogramm_group_user,workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_work_program"
+              name="Work Program 📅"
+              parent="menu_workprogramm_task_management"
+              action="workprogramm.action_work_program"
+              sequence="40"
+              groups="workprogramm.workprogramm_group_user,workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <!-- Section Gestion des Cadres de références -->
+    <menuitem id="menu_workflow_management"
+              name="Gestion Cadres de référence 🌐"
+              parent="menu_workprogramm_root"
+              sequence="50"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_hierarchy"
+              name="Cadres de référence 📈"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_hierarchy"
+              sequence="10"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_domain"
+              name="Domaines 🌐"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_domain"
+              sequence="20"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_process"
+              name="Processus ⚙️"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_process"
+              sequence="30"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_subprocess"
+              name="Sous-processus 📝"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_subprocess"
+              sequence="40"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_activity"
+              name="Activités 🧩"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_activity"
+              sequence="50"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_procedure"
+              name="Procédures 📜"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_procedure"
+              sequence="60"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_deliverable"
+              name="Livrables ✅"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_deliverable"
+              sequence="70"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+
+    <menuitem id="menu_workflow_task_formulation"
+              name="Formulations de Tâches 📝"
+              parent="menu_workflow_management"
+              action="workprogramm.action_workflow_task_formulation"
+              sequence="80"
+              groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"/>
+</odoo>

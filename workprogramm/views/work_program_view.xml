@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vue Liste (Tree) : Améliorée avec des décorations de statut -->
+    <record id="view_work_program_tree" model="ir.ui.view">
+        <field name="name">work.program.tree</field>
+        <field name="model">work.program</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom"
+                  decoration-info="state in ('draft', 'to_redo')"
+                  decoration-warning="state in ('ongoing', 'incomplete', 'to_validate')"
+                  decoration-success="state in ('validated', 'done')"
+                  decoration-danger="state in ('refused', 'cancelled')">
+
+                <!-- Champ invisible utilisé pour les attrs -->
+                <field name="state_readonly" invisible="1"/>
+
+                <field name="state" string="État" attrs="{'readonly': [('state_readonly', '=', True)]}" />
+                <field name="user_id" string="Utilisateur associé" options="{'no_create_edit': True}"/>
+                <field name="work_programm_department_id" string="Département autorisé" />
+                <field name="is_external_department" invisible="1"/>
+                <field name="name" string="Nom du programme" invisible="1"/>
+
+                <!-- Champs de date/période -->
+                <field name="my_month" widget="selection" string="Mois"/>
+                <field name="my_week_of" string="Début de Semaine" />
+                <field name="week_of" string="Semaine n°" invisible="1"/>
+
+                <!-- Liens fonctionnels avec domaines de filtrage en cascade -->
+                <field name="project_id" string="Projet / Programme" widget="many2one"/>
+
+                <!-- Ajout de widget="many2one" et vérification des domaines -->
+                <field name="activity_id" string="Activité" widget="many2one" domain="[('sub_process_id.process_id.domain_id', '=', project_id)]"/>
+                <field name="procedure_id" string="Procédure" widget="many2one" domain="[('activity_id', '=', activity_id)]"/>
+                <field name="task_description_id" string="Formulation Tâche" widget="many2one" domain="[('procedure_id', '=', procedure_id)]"/>
+
+                <!-- Détails et Responsables -->
+                <field name="inputs_needed" string="Description Tâche" optional="hide"/>
+                <field name="deliverable_ids" string="Livrables" widget="many2many_tags" optional="hide"/>
+                <field name="priority" widget="selection" string="Priorité"/>
+                <field name="complexity" widget="selection" string="Complexité"/>
+                <field name="assignment_date" string="Date d'assignation"/>
+                <field name="initial_deadline" string="Date limite initiale"/>
+                <field name="actual_deadline" string="Date limite réelle"/>
+                <field name="responsible_id" string="Responsable"/>
+                <field name="support_ids" string="Support" widget="many2many_tags" optional="hide"/>
+
+                <!-- Suivi et Champs conditionnels -->
+                <field name="duration_effort" string="Durée / Effort (h)"/>
+                <field name="completion_percentage" string="% Achèvement"/>
+                <field name="nb_postpones" string="Nbre reports" optional="hide"/>
+                <field name="satisfaction_level" widget="selection" string="Satisfaction" optional="hide"/>
+                <field name="comments" string="Commentaires" optional="hide"/>
+                <field name="champ1" string="Champ 1" attrs="{'invisible': [('is_external_department', '=', False)]}"/>
+                <field name="champ2" string="Champ 2" attrs="{'invisible': [('is_external_department', '=', False)]}"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vue Formulaire -->
+    <record id="view_work_program_form" model="ir.ui.view">
+        <field name="name">work.program.form</field>
+        <field name="model">work.program</field>
+        <field name="arch" type="xml">
+            <form string="Programme de Travail">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,ongoing,to_validate,validated,done"/>
+
+                    <!-- Boutons de Workflow -->
+                    <button name="action_start" type="object" string="Démarrer" states="draft" class="oe_highlight"/>
+                    <button name="action_submit_for_validation" type="object" string="Soumettre à Valider" states="ongoing" class="oe_highlight"
+                     attrs="{'invisible': [('state', '!=', 'ongoing')]}"
+                    />
+
+                    <button name="action_validate" type="object" string="Valider" states="to_validate" class="oe_highlight"
+                            groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+                    />
+                    <button name="action_refuse" type="object" string="Refuser" states="to_validate"
+                            groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+                            confirm="Êtes-vous sûr de vouloir Refuser ?"
+                    />
+                    <button name="action_done" type="object" string="Terminer" states="ongoing,to_redo,validated"
+                            groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+                    />
+
+                    <button name="action_to_redo" type="object" string="À Refaire" states="validated,refused,incomplete,done"
+                            groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+                    />
+                    <button name="action_mark_incomplete" type="object" string="Marquer Inachevé" states="draft,ongoing,to_redo"
+                            groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+                    />
+
+                    <button name="action_reset_to_draft" type="object" string="Remettre à Brouillon" states="refused,incomplete,cancelled"
+                            groups="workprogramm.workprogramm_group_manager,workprogramm.workprogramm_group_admin"
+                            confirm="Êtes-vous sûr de vouloir Remettre à Brouillon ?"
+                    />
+                    <button name="action_cancel" type="object" string="Annuler" states="draft,ongoing,to_validate,to_redo,incomplete" confirm="Êtes-vous sûr de vouloir annuler ce programme ?"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <group string="Informations Générales">
+                            <field name="user_id" string="Utilisateur associé" options="{'no_create_edit': True}"/>
+                            <field name="work_programm_department_id" string="Département autorisé" />
+                            <field name="is_external_department" invisible="1"/>
+                            <field name="name" string="Nom du programme" readonly="1" force_save="1" />
+                            <field name="my_month" widget="selection" string="Mois" />
+                            <field name="my_week_of" string="Selection semaine en cours"/>
+                            <field name="week_of" string="Semaine de" invisible="1"/>
+                            <field name="project_id" string="Projet / Programme"/>
+                        </group>
+                        <group string="Responsabilités">
+                            <field name="responsible_id" string="Responsable"/>
+                            <field name="support_ids" string="Support" widget="many2many_tags"/>
+                        </group>
+                        <group string="Description">
+                                <field name="inputs_needed" string="Description de la tâche" widget="text"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Détails de la Tâche (Activité/Procédure/Livrables)">
+                            <group>
+                                <!-- Domaine corrigé utilisant la traversée Many2one -->
+                                <field name="activity_id" string="Activité" domain="[('sub_process_id.process_id.domain_id', '=', project_id)]"/>
+                                <field name="procedure_id" string="Procédure" domain="[('activity_id', '=', activity_id)]"/>
+                                <field name="task_description_id" string="Formulation Tâche" domain="[('procedure_id', '=', procedure_id)]"/>
+                                <field name="deliverable_ids" string="Livrables de la tâche" widget="many2many_tags"/>
+                            </group>
+                        </page>
+
+                        <page string="Planification et Suivi">
+                            <group>
+                                <group string="Planification">
+                                    <field name="priority" widget="selection" string="Priorité"/>
+                                    <field name="complexity" widget="selection" string="Complexité"/>
+                                    <field name="assignment_date" string="Date d'assignation" default="context_today()"/>
+                                    <field name="duration_effort" string="Durée / Effort (heures)"/>
+                                    <field name="initial_deadline" string="Date limite initiale" default="context_today()"/>
+                                    <field name="nb_postpones" string="Nombre de reports"/>
+                                    <field name="actual_deadline" string="Date limite réelle"/>
+                                </group>
+                                <group string="Suivi">
+                                    <field name="completion_percentage" string="Pourcentage d'achèvement"/>
+                                    <field name="satisfaction_level" widget="selection" string="Niveau de satisfaction"/>
+                                </group>
+                            </group>
+                            <group string="Commentaires">
+                                <!--field name="inputs_needed" string="Description de la tâche" widget="text"/-->
+                                <field name="comments" string="Commentaires / Remarques" widget="text"/>
+                            </group>
+                            <!-- Groupe conditionnel pour les champs externes -->
+                            <group string="Champs Départements Externes" attrs="{'invisible': [('is_external_department', '=', False)]}">
+                                <field name="champ1" string="Champ 1"/>
+                                <field name="champ2" string="Champ 2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+
+</odoo>

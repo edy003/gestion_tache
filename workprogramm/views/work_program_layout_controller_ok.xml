@@ -1,0 +1,362 @@
+<odoo>
+    <data noupdate="1">
+        <template id="work_program_form_template" name="Programme de Travail">
+            <t t-call="website.layout">
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
+                <style>
+                    /* Style personnalisé pour un design plus épuré et moderne */
+                    .form-section-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        color: #007bff; /* Couleur primaire pour les titres */
+                        border-bottom: 2px solid #e9ecef;
+                        padding-bottom: 10px;
+                        margin-bottom: 25px;
+                    }
+
+                    .form-section-header i {
+                        font-size: 1.5rem;
+                    }
+
+                    .form-label {
+                        font-weight: 600;
+                        color: #343a40;
+                    }
+
+                    .form-control, .form-select {
+                        border-radius: .5rem;
+                        border-color: #ced4da;
+                        padding: .75rem 1rem;
+                    }
+
+                    .card-header {
+                        border-top-left-radius: 1rem !important;
+                        border-top-right-radius: 1rem !important;
+                        background-image: linear-gradient(to right, #007bff, #0056b3);
+                    }
+
+                    .btn-submit {
+                        background-image: linear-gradient(to right, #28a745, #1e7e34);
+                        border: none;
+                        padding: .75rem 2rem;
+                        font-size: 1.25rem;
+                        transition: all 0.3s ease;
+                    }
+
+                    .btn-submit:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    }
+                </style>
+                <div id="wrap">
+                    <div class="container o_website_page my-5">
+                        <div class="card shadow-lg rounded-3">
+                            <div class="card-header bg-primary text-white text-center py-4 rounded-top">
+                                <h1 class="card-title mb-0">
+                                    <i class="fa fa-cogs me-2"></i> Créer un Programme de Travail
+                                </h1>
+                                <p class="mb-0">Remplissez les informations ci-dessous pour planifier et suivre votre tâche.</p>
+                            </div>
+                            <div class="card-body p-5">
+                                <div class="o_portal_wrap">
+                                    <form action="/work_program/submit" method="POST" class="needs-validation" novalidate="novalidate">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-info-circle"></i>
+                                            <h3 class="mb-0">Informations Générales</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="project_id" class="form-label">Projet / Programme</label>
+                                                <select name="project_id" id="project_id" class="form-select" required="required">
+                                                    <option value="">Sélectionnez un projet...</option>
+                                                    <t t-foreach="projects" t-as="project">
+                                                        <option t-att-value="project.id"><t t-esc="project.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <!-- L'attribut multiple a été retiré, car il s'agit d'un Many2one. -->
+                                                <label for="work_programm_department_id" class="form-label">Département autorisé</label>
+                                                <select name="work_programm_department_id" id="work_programm_department_id" class="form-select">
+                                                    <option value="">Sélectionnez un département...</option>
+                                                    <t t-foreach="departments" t-as="department">
+                                                        <!-- L'attribut data-is-external est utilisé pour la logique JavaScript -->
+                                                        <option t-att-value="department.id" t-att-data-is-external="department.dpt_type == 'external'"><t t-esc="department.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="my_month" class="form-label">Mois</label>
+                                                <select name="my_month" id="my_month" class="form-select">
+                                                    <option value="">Sélectionnez un mois...</option>
+                                                    <t t-foreach="env['work.program']._get_default_current_month_selection()" t-as="month">
+                                                        <option t-att-value="month[0]"><t t-esc="month[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="my_week_of" class="form-label">Semaine de</label>
+                                                <select name="my_week_of" id="my_week_of" class="form-select">
+                                                    <option value="">Sélectionnez une semaine...</option>
+                                                    <t t-foreach="env['work.program']._get_week_selection()" t-as="week">
+                                                        <option t-att-value="week[0]"><t t-esc="week[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <hr class="my-5"/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-search"></i>
+                                            <h3 class="mb-0">Détails de la Tâche</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="activity_id" class="form-label">Activité</label>
+                                                <select name="activity_id" id="activity_id" class="form-select" required="required">
+                                                    <option value="">Sélectionnez une activité...</option>
+                                                    <t t-foreach="activities" t-as="activity">
+                                                        <option t-att-value="activity.id"><t t-esc="activity.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="procedure_id" class="form-label">Type de Tâche (Procédure)</label>
+                                                <select name="procedure_id" id="procedure_id" class="form-select">
+                                                    <option value="">Sélectionnez une procédure...</option>
+                                                    <t t-foreach="procedures" t-as="procedure">
+                                                        <option t-att-value="procedure.id"><t t-esc="procedure.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="task_description_id" class="form-label">Formulation Tâche</label>
+                                                <select name="task_description_id" id="task_description_id" class="form-select">
+                                                    <option value="">Sélectionnez une description...</option>
+                                                    <t t-foreach="task_descriptions" t-as="task_description">
+                                                        <option t-att-value="task_description.id"><t t-esc="task_description.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="deliverable_ids" class="form-label">Livrables de la tâche</label>
+                                                <select name="deliverable_ids" id="deliverable_ids" class="form-select" multiple="multiple">
+                                                    <t t-foreach="deliverables" t-as="deliverable">
+                                                        <option t-att-value="deliverable.id"><t t-esc="deliverable.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="inputs_needed" class="form-label">Entrées nécessaires</label>
+                                            <textarea name="inputs_needed" id="inputs_needed" class="form-control" rows="3" placeholder="Décrivez les informations ou les ressources nécessaires pour commencer la tâche."></textarea>
+                                        </div>
+
+                                        <hr class="my-5"/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-calendar-alt"></i>
+                                            <h3 class="mb-0">Planification</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="priority" class="form-label">Priorité</label>
+                                                <select name="priority" id="priority" class="form-select">
+                                                    <t t-foreach="priorities" t-as="p">
+                                                        <option t-att-value="p[0]"><t t-esc="p[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="complexity" class="form-label">Complexité</label>
+                                                <select name="complexity" id="complexity" class="form-select">
+                                                    <t t-foreach="complexities" t-as="c">
+                                                        <option t-att-value="c[0]"><t t-esc="c[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="assignment_date" class="form-label">Date d'assignation</label>
+                                                <input type="date" name="assignment_date" id="assignment_date" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="duration_effort" class="form-label">Durée / Effort (heures)</label>
+                                                <input type="number" name="duration_effort" id="duration_effort" class="form-control" step="0.01" placeholder="Ex: 8.5"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="initial_deadline" class="form-label">Date limite initiale</label>
+                                                <input type="date" name="initial_deadline" id="initial_deadline" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="nb_postpones" class="form-label">Nombre de reports</label>
+                                                <input type="number" name="nb_postpones" id="nb_postpones" class="form-control" placeholder="0"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="actual_deadline" class="form-label">Date limite réelle</label>
+                                                <input type="date" name="actual_deadline" id="actual_deadline" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="completion_percentage" class="form-label">Pourcentage d'achèvement</label>
+                                                <input type="number" name="completion_percentage" id="completion_percentage" class="form-control" step="0.01" placeholder="Ex: 75.5"/>
+                                            </div>
+                                        </div>
+
+                                        <hr class="my-5"/>
+
+                                        <div class="form-section-header">
+                                            <i class="fa fa-users"></i>
+                                            <h3 class="mb-0">Responsabilités et Suivi</h3>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="responsible_id" class="form-label">Responsable</label>
+                                                <select name="responsible_id" id="responsible_id" class="form-select">
+                                                    <option value="">Sélectionnez un responsable...</option>
+                                                    <t t-foreach="employees" t-as="employee">
+                                                        <option t-att-value="employee.id"><t t-esc="employee.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="support_ids" class="form-label">Support</label>
+                                                <select name="support_ids" id="support_ids" class="form-select" multiple="multiple">
+                                                    <t t-foreach="employees" t-as="employee">
+                                                        <option t-att-value="employee.id"><t t-esc="employee.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="task_notes" class="form-label">Notes détaillées sur la tâche</label>
+                                            <textarea name="task_notes" id="task_notes" class="form-control" rows="5" placeholder="Ajoutez ici une description complète, les contraintes et les spécifications de la tâche."></textarea>
+                                        </div>
+                                        <div class="row g-4 mb-4">
+                                            <div class="col-md-6">
+                                                <label for="partner_id" class="form-label">Partenaire associé</label>
+                                                <select name="partner_id" id="partner_id" class="form-select">
+                                                    <option value="">Sélectionnez un partenaire...</option>
+                                                    <t t-foreach="partners" t-as="partner">
+                                                        <option t-att-value="partner.id"><t t-esc="partner.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="satisfaction_level" class="form-label">Niveau de satisfaction</label>
+                                                <select name="satisfaction_level" id="satisfaction_level" class="form-select">
+                                                    <t t-foreach="satisfaction_levels" t-as="sl">
+                                                        <option t-att-value="sl[0]"><t t-esc="sl[1]"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="comments" class="form-label">Commentaires / Remarques</label>
+                                            <textarea name="comments" id="comments" class="form-control" rows="3" placeholder="Ajoutez des commentaires ou des remarques supplémentaires."></textarea>
+                                        </div>
+
+                                        <hr class="my-5"/>
+                                        <div class="form-section-header">
+                                            <i class="fa fa-plus-circle"></i>
+                                            <h3 class="mb-0">Informations Complémentaires</h3>
+                                        </div>
+                                        <!-- Conteneur pour les champs conditionnels, caché par défaut -->
+                                        <div class="row g-4 mb-4 d-none" id="external_department_fields">
+                                            <div class="col-md-6">
+                                                <label for="champ1" class="form-label">Champ 1</label>
+                                                <input type="text" name="champ1" id="champ1" class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="champ2" class="form-label">Champ 2</label>
+                                                <textarea name="champ2" id="champ2" class="form-control" rows="3"></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-grid mt-5">
+                                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm btn-submit">
+                                                <i class="fa fa-paper-plane me-2"></i> Soumettre le Programme
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Initialisation des champs Choices.js
+                    var choicesConfig = {
+                        removeItemButton: true,
+                        searchEnabled: true,
+                        placeholder: true,
+                        itemSelectText: '',
+                    };
+
+                    // Initialisation de Choices.js pour le champ Many2one
+                    var workDeptElement = document.getElementById('work_programm_department_id');
+                    if (workDeptElement) {
+                        new Choices(workDeptElement, {
+                            ...choicesConfig,
+                            placeholderValue: 'Sélectionnez un département',
+                            // Pas de "multiple: true" ici car c'est un Many2one
+                        });
+                    }
+
+                    // Initialisation de Choices.js pour les champs Many2many
+                    var deliverableElement = document.getElementById('deliverable_ids');
+                    if (deliverableElement) {
+                        new Choices(deliverableElement, {
+                            ...choicesConfig,
+                            placeholderValue: 'Sélectionnez un ou plusieurs livrables',
+                        });
+                    }
+
+                    var supportElement = document.getElementById('support_ids');
+                    if (supportElement) {
+                        new Choices(supportElement, {
+                            ...choicesConfig,
+                            placeholderValue: 'Sélectionnez un ou plusieurs employés',
+                        });
+                    }
+
+                    // Logique JavaScript pour afficher/masquer les champs conditionnels
+                    function toggleExternalDepartmentFields() {
+                        var departmentSelect = document.getElementById('work_programm_department_id');
+                        var externalFieldsDiv = document.getElementById('external_department_fields');
+
+                        if (departmentSelect) {
+                            var selectedOption = departmentSelect.options[departmentSelect.selectedIndex];
+                            // Vérifie l'attribut de données t-att-data-is-external
+                            // J'ai mis à jour le code de la vue pour que l'attribut retourne la valeur booléenne 'True' ou 'False'
+                            var isExternal = selectedOption ? selectedOption.getAttribute('data-is-external') === 'True' : false;
+
+                            if (externalFieldsDiv) {
+                                if (isExternal) {
+                                    externalFieldsDiv.classList.remove('d-none');
+                                } else {
+                                    externalFieldsDiv.classList.add('d-none');
+                                }
+                            }
+                        }
+                    }
+
+                    // Écoute les changements sur le sélecteur de département
+                    var departmentSelect = document.getElementById('work_programm_department_id');
+                    if (departmentSelect) {
+                        departmentSelect.addEventListener('change', toggleExternalDepartmentFields);
+                    }
+
+                    // Appelle la fonction une fois au chargement pour gérer le cas d'un rechargement de page
+                    toggleExternalDepartmentFields();
+
+                });
+            </script>
+        </template>
+    </data>
+</odoo>

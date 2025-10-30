@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Template pour la page de succès -->
+        <template id="work_program_success_template" name="Programme de travail soumis avec succès">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="oe_structure">
+                        <section class="oe_container pt-5 pb-5">
+                            <div class="alert alert-success" role="alert">
+                                <h4 class="alert-heading">Soumission réussie ! 🎉</h4>
+                                <p>Ton programme de travail a été soumis avec succès.</p>
+                            </div>
+                            <div class="text-center mt-4">
+                                <a href="/work_program/form" class="btn btn-primary">Créer un autre programme</a>
+                                <a href="/" class="btn btn-secondary">Retour à l'accueil</a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Template pour la page d'erreur -->
+        <template id="work_program_error_template" name="Erreur de soumission du programme de travail">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="oe_structure">
+                        <section class="oe_container pt-5 pb-5">
+                            <div class="alert alert-danger" role="alert">
+                                <h4 class="alert-heading">Erreur de soumission ! 😩</h4>
+                                <p>Une erreur est survenue lors de la soumission de ton programme de travail.</p>
+                                <t t-if="error_message">
+                                    <hr/>
+                                    <p class="mb-0">Détails de l'erreur : <br/> <strong t-esc="error_message"/></p>
+                                </t>
+                            </div>
+                            <div class="text-center mt-4">
+                                <a href="/work_program/form" class="btn btn-warning">Retourner au formulaire</a>
+                                <a href="/" class="btn btn-secondary">Retour à l'accueil</a>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
