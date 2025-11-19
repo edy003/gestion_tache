@@ -70,4 +70,6 @@ Assess employees based on precise and measurable criteria.
 - **Frontend**: owl + Tailwind CSS + aggrid  
 - **Backend**: odoo  
 - **Database**: PostgreSQL  
-- **Charts**: plotly  
+- **Charts**: plotly
+  
+**my email**:edydongmo@gmail.com
