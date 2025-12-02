@@ -1,75 +1,84 @@
-# WorkProgramm – Task Tracking & Team Management
-
-*A modern web application for task management with multiple views, an analytical dashboard, and a performance evaluation module.*
+Voici la traduction complète en français du README, en conservant tous les liens et images tels quels :
 
 ---
 
-## 📋 Project Overview
+# WorkProgramm – Suivi des Tâches & Gestion d'Équipe
 
-**WorkProgramm** is a complete solution for **task tracking and team management**.  
-It combines **flexibility**, **visibility and control**, along with an **objective evaluation system**, allowing managers to **supervise, analyze, and improve the productivity** of their team members.
+*Une application web moderne pour la gestion des tâches avec plusieurs vues, un tableau de bord analytique et un module d’évaluation de la performance.*
 
 ---
 
-## ✨ Main Features
+## 📋 Présentation du Projet
 
-### 1. **WorkProgramm Module** – Task Management  
-Create, assign, and track your tasks simply and efficiently.
+**WorkProgramm** est une solution complète pour le **suivi des tâches et la gestion d’équipe**.
+Elle combine **flexibilité**, **visibilité et contrôle**, ainsi qu’un **système d’évaluation objectif**, permettant aux managers de **superviser, analyser et améliorer la productivité** de leurs collaborateurs.
 
-| View | Description |
-|------|-------------|
-| 📝 **Form View** | Intuitive creation and editing of tasks with customizable fields (priority, deadlines, assignment, comments). |
-| 🗂️ **Kanban** | Drag-and-drop column view (To Do, In Progress, Done) offering a clear visualization of progress. |
+---
 
-> *Form & Kanban Example*  
-> ![Exemple Kanban](workprogramm/w1.png)  
+## ✨ Fonctionnalités Principales
+
+### 1. **Module WorkProgramm** – Gestion des Tâches
+
+Créez, assignez et suivez vos tâches simplement et efficacement.
+
+| Vue                   | Description                                                                                                               |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 📝 **Vue Formulaire** | Création et édition intuitives des tâches avec des champs personnalisables (priorité, délais, affectation, commentaires). |
+| 🗂️ **Kanban**        | Vue en colonnes glisser-déposer (À Faire, En Cours, Terminé) offrant une visualisation claire de l’avancement.            |
+
+> *Exemple Formulaire & Kanban*
+> ![Exemple Kanban](workprogramm/w1.png)
 > ![Exemple Formulaire](workprogramm/w2.png)
 
 ---
 
-### 2. **Manager Dashboard** – Real-Time Monitoring  
-A powerful dashboard to supervise all team activity.
+### 2. **Tableau de Bord Manager** – Suivi en Temps Réel
 
-- 📊 **Overview**: Number of tasks by status, project, or employee.  
-- ⏱️ **Deadline Tracking**: Alerts for overdue or upcoming tasks.  
-- 👥 **Workload**: Balanced distribution of tasks per team member.  
-- 📈 **Key Indicators**: Productivity, completion rate, average time per task.
+Un tableau de bord puissant pour superviser toute l’activité de l’équipe.
 
-> ![Dashboard Preview](workprogramm/d1.png)  
-> > ![Dashboard Preview](workprogramm/d3.png)  
+* 📊 **Vue d’ensemble** : Nombre de tâches par statut, projet ou employé.
+* ⏱️ **Suivi des Délais** : Alertes pour les tâches en retard ou à venir.
+* 👥 **Charge de Travail** : Répartition équilibrée des tâches par membre de l’équipe.
+* 📈 **Indicateurs Clés** : Productivité, taux de complétion, temps moyen par tâche.
+
+> ![Dashboard Preview](workprogramm/d1.png)
+>
+> > ![Dashboard Preview](workprogramm/d3.png)
 > > ![Dashboard Preview](workprogramm/d2.png)
 
 ---
 
-### 3. **Evaluation Dashboard** – Objective Performance  
-Assess employees based on precise and measurable criteria.
+### 3. **Tableau de Bord Évaluation** – Performance Objectif
 
-- ✅ **Task Score**: Completion, on-time delivery, and quality via feedback.  
-- 🌟 **Overall Evaluation**: Automatic monthly rating + qualitative comments.  
-- 🏆 **Team Ranking**: Comparative view (anonymized or named).  
-- 📅 **Performance History**: Track evolution over time.
+Évaluez les employés selon des critères précis et mesurables.
 
-> *Ideal for reviews, bonuses, or development plans.*  
-> > ![Dashboard Preview](workprogramm/d4.png)  
+* ✅ **Score Tâches** : Achèvement, respect des délais et qualité via feedback.
+* 🌟 **Évaluation Globale** : Note mensuelle automatique + commentaires qualitatifs.
+* 🏆 **Classement de l’Équipe** : Vue comparative (anonymisée ou nominative).
+* 📅 **Historique de Performance** : Suivi de l’évolution dans le temps.
+
+> *Idéal pour les revues, primes ou plans de développement.*
+>
+> > ![Dashboard Preview](workprogramm/d4.png)
 > > ![Dashboard Preview](workprogramm/d5.png)
 
 ---
 
-## 🎯 Target Audience
+## 🎯 Public Cible
 
-| User | Benefits |
-|------|----------|
-| **Managers** | Clear visibility, accurate tracking, and easier supervision |
-| **Teams** | Intuitive and collaborative interface |
-| **HR** | Reliable data for evaluation and skill development |
+| Utilisateur  | Avantages                                                             |
+| ------------ | --------------------------------------------------------------------- |
+| **Managers** | Visibilité claire, suivi précis et supervision facilitée              |
+| **Équipes**  | Interface intuitive et collaborative                                  |
+| **RH**       | Données fiables pour l’évaluation et le développement des compétences |
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Technologies Utilisées
 
-- **Frontend**: owl + Tailwind CSS + aggrid  
-- **Backend**: odoo  
-- **Database**: PostgreSQL  
-- **Charts**: plotly
-  
-**my email**:edydongmo@gmail.com
+* **Frontend** : owl + Tailwind CSS + aggrid
+* **Backend** : odoo
+* **Base de données** : PostgreSQL
+* **Graphiques** : plotly
+
+**Mon email** : [edydongmo@gmail.com](mailto:edydongmo@gmail.com)
